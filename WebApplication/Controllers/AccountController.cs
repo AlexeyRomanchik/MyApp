@@ -57,30 +57,28 @@ namespace WebApplication.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
-            if (!ModelState.IsValid) return View(model);
-
-            var result = await _signInManager.PasswordSignInAsync(
-                model.Email,
-                model.Password,
-                model.RememberMe,
-                false
-                );
-
-            if (result.Succeeded)
+            if (ModelState.IsValid)
             {
-    
-                if (!string.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl))
+                var user = await _userManager.FindByNameAsync(model.Email);
+                if (user != null)
                 {
-                    return Redirect(model.ReturnUrl);
+                    // проверяем, подтвержден ли email
+                    //if (!await _userManager.IsEmailConfirmedAsync(user))
+                    //{
+                    //    ModelState.AddModelError(string.Empty, "Вы не подтвердили свой email");
+                    //    return View(model);
+                    //}
                 }
-                else
+
+                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
+                if (result.Succeeded)
                 {
                     return RedirectToAction("Index", "Home");
                 }
-            }
-            else
-            {
-                ModelState.AddModelError("", "Неправильный логин и (или) пароль");
+                else
+                {
+                    ModelState.AddModelError("", "Неправильный логин и (или) пароль");
+                }
             }
             return View(model);
         }
