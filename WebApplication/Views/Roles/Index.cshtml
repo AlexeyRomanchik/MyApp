@@ -20,11 +20,14 @@
             <td>@role.Id</td>
             <td>@role.Name</td>
             <td>
-                <form asp-action="Delete" asp-controller="Roles" asp-route-id="@role.Id" method="post">
-                    <button type="submit" class="btn btn-danger">
-                        Удалить
-                    </button>
-                </form>
+                @if (role.Name != "admin")
+                {
+                    <form asp-action="Delete" asp-controller="Roles" asp-route-id="@role.Id" method="post">
+                        <button type="submit" class="btn btn-danger">
+                            Удалить
+                        </button>
+                    </form>
+                }
             </td>
         </tr>
     }
