@@ -17,6 +17,10 @@ namespace WebApplication.Data.Configurations
             builder.HasOne(x => x.User)
                 .WithMany(y => y.Reviews)
                 .HasForeignKey(t => t.UserId);
+
+            builder.HasOne(x => x.Product)
+                .WithMany(y => y.Reviews)
+                .HasForeignKey(t => t.ProductId);
         }
     }
 }

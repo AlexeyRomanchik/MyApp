@@ -15,7 +15,9 @@ namespace WebApplication.Models
         public DateTime PublicationDate { get; set; }
         public bool ReviewVerified { get; set; }
         public string UserId { get; set; }
+        public Guid ProductId { get; set; }
 
         public User User { get; set; }
+        public Product Product { get; set; }
     }
 }

@@ -16,8 +16,8 @@ namespace WebApplication.Repository
         {
             return RepositoryContext.Set<Ram>().
                 Include(x => x.Product).
-                ThenInclude(x => x.Manufacturer)
-                .AsNoTracking();
+                ThenInclude(x => x.Manufacturer).
+                AsNoTracking();
         }
     }
 }

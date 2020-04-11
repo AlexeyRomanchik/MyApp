@@ -29,8 +29,10 @@ namespace WebApplication.Models
         public string ImageUrl { get; set; }
         public int ManufacturerId { get; set; }
 
+        public Ram Ram { get; set; }
         public Manufacturer Manufacturer { get; set; }
         public List<Rating> Ratings { get; set; }
+        public List<Review> Reviews { get; set; }
 
         public bool IsAvailable() => 0 < QuantityInStock;
 
