@@ -21,13 +21,9 @@ namespace WebApplication.Repository
             set => throw new System.NotImplementedException();
         }
 
-        public RepositoryWrapper(ApplicationContext applicationContext, 
-            IProductRepository productRepository, 
-            IRamRepository ramRepository)
+        public RepositoryWrapper(ApplicationContext applicationContext)
         {
             _applicationContext = applicationContext;
-            _productRepository = productRepository;
-            _ramRepository = ramRepository;
         }
 
         public void Save()

@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using WebApplication.Models;
 
 namespace WebApplication.Contracts
 {
-    public interface IRamRepository
+    public interface IRamRepository : IRepositoryBase<Ram>
     {
     }
 }
