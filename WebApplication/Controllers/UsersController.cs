@@ -1,8 +1,8 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using WebApplication.Contracts;
 using WebApplication.Models;
 using WebApplication.ViewModels;
 
@@ -11,10 +11,12 @@ namespace WebApplication.Controllers
     public class UsersController : Controller
     {
         private readonly UserManager<User> _userManager;
+        private readonly IEmailService _emailService;
 
-        public UsersController(UserManager<User> userManager)
+        public UsersController(UserManager<User> userManager, IEmailService emailService)
         {
             _userManager = userManager;
+            _emailService = emailService;
         }
 
         public IActionResult Index() => View(_userManager.Users.ToList());
@@ -29,6 +31,14 @@ namespace WebApplication.Controllers
             var user = new User { Email = model.Email, UserName = model.Email };
 
             var result = await _userManager.CreateAsync(user, model.Password);
+
+            var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            var callbackUrl = Url.Action($"ConfirmEmail",
+                $"Account",
+                new { userId = user.Id, code },
+                protocol: HttpContext.Request.Scheme);
+            await _emailService.SendEmailAsync(model.Email, "Confirm your account",
+                $"Подтвердите регистрацию, перейдя по ссылке: <a href='{callbackUrl}'>link</a>");
 
             if (result.Succeeded)
             {
