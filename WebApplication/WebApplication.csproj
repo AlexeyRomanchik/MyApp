@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Repository\Configurations\" />
+    <Folder Include="Repository\" />
   </ItemGroup>
 
 
