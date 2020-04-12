@@ -31,7 +31,9 @@ namespace WebApplication.Controllers
             var ramViewModel = new RamViewModel
             {
                 Rams = items,
-                PageViewModel = pageViewModel
+                PageViewModel = pageViewModel,
+                NewItems = ramProducts.ToList()
+
             };
 
             return View(ramViewModel);
