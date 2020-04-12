@@ -17,6 +17,7 @@ namespace WebApplication.Repository
             return RepositoryContext.Set<Ram>().
                 Include(x => x.Product).
                 ThenInclude(x => x.Manufacturer).
+                Include(x => x.MemoryType).
                 AsNoTracking();
         }
     }

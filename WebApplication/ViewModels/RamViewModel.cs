@@ -1,10 +1,13 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using WebApplication.Models;
+using WebApplication.ViewModels;
 
 namespace WebApplication.ViewModels
 {
     public class RamViewModel
     {
-        public IQueryable<Ram> Rams { get; set; } 
+        public List<Ram> Rams { get; set; } 
+        public PageViewModel PageViewModel { get; set; }
     }
 }
