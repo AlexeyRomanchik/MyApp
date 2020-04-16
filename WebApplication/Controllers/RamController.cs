@@ -32,8 +32,9 @@ namespace WebApplication.Controllers
             {
                 Rams = items,
                 PageViewModel = pageViewModel,
-                NewItems = ramProducts.ToList()
-
+                NewItems = ramProducts
+                    .OrderByDescending(x => x.Product.DateAdded)
+                    .Take(20).ToList()
             };
 
             return View(ramViewModel);

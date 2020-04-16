@@ -15,10 +15,12 @@ namespace WebApplication.Repository
         public override IQueryable<Ram> FindAll()
         {
             return RepositoryContext.Set<Ram>().
-                Include(x => x.Product).
-                ThenInclude(x => x.Manufacturer).
-                Include(x => x.MemoryType).
-                AsNoTracking();
+                Include(x => x.Product)
+                .ThenInclude(y => y.Category)
+                .Include(x => x.Product)
+                .ThenInclude(x => x.Manufacturer)
+                .Include(x => x.MemoryType)
+                .AsNoTracking();
         }
     }
 }

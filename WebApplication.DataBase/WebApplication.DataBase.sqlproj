@@ -60,6 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Scripts\InitialData.sql" />
+    <None Include="WebApplication.DataBase.publish.xml" />
   </ItemGroup>
   <ItemGroup>
     <PreDeploy Include="Scripts\Script.PreDeployment1.sql" />
