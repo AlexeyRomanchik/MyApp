@@ -6,19 +6,12 @@
 }
 
 <div class="card text-white bg-danger mb-3" style="width: 100%">
-    <div class="card-header">Новинки</div>
-    <div class="card-body">
+    <div class="card-header"><h3>Новинки</h3></div>
+    <div class="card-body text-center align-content-center">
         <!--Carousel Wrapper-->
         <div id="multi-item-example" class="carousel slide carousel-multi-item" data-ride="carousel">
 
             <!--Indicators-->
-            <ol class="carousel-indicators">
-                <li data-target="#multi-item-example" data-slide-to="0" class="active"></li>
-                @for (var i = 1; i < Model.NewItems.Count / 4; i++)
-                {
-                    <li data-target="#multi-item-example" data-slide-to="@i"></li>
-                }
-            </ol>
             <!--/.Indicators-->
             <!--Slides-->
             <div class="carousel-inner" role="listbox">
@@ -26,72 +19,79 @@
                     <div class="d-flex align-items-center">
                         <div class="justify-content-center">
                             @for (var i = 0; i < 4 && i < Model.NewItems.Count; i++)
+                            {
+                                <div class="card h-100" style="width: 20%">
+
+                                    <!-- Card image -->
+                                    <img class="card-img-top" src="@Model.NewItems[i].Product.ImageUrl" alt="Card image cap">
+
+                                    <!-- Card content -->
+                                    <div class="card-body">
+
+                                        <!-- Title -->
+                                        <h6 class="card-title"><a style="color: black">@Model.NewItems[i].Product.Name</a></h6>
+
+                                        <!-- Text -->
+                                        <p class="card-text">
+                                            @Model.NewItems[i].MemoryType.Type, @Model.NewItems[i].TotalMemory, @Model.NewItems[i].Product.Manufacturer.Name
+                                        </p>
+                                        <!-- Button -->
+                                        <a href="#" class="btn btn-primary">Подробнее...</a>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+
+                @for (var i = 4; i < Model.NewItems.Count; i += 4)
+                {
+                    <div class="carousel-item">
+                        <div class="d-flex align-items-center">
+                            <div class=" justify-content-center">
+                                @for (var j = i; j < i + 4 && j < Model.NewItems.Count; j++)
                                 {
                                     <div class="card h-100" style="width: 20%">
 
                                         <!-- Card image -->
-                                        <img class="card-img-top" src="@Model.NewItems[i].Product.ImageUrl" alt="Card image cap">
+                                        <img class="card-img-top" src="@Model.NewItems[j].Product.ImageUrl" alt="Card image cap">
 
                                         <!-- Card content -->
                                         <div class="card-body">
 
                                             <!-- Title -->
-                                            <h6 class="card-title"><a>@Model.NewItems[i].Product.Name</a></h6>
+                                            <h6 class="card-title"><a style="color: black">@Model.NewItems[j].Product.Name</a></h6>
 
                                             <!-- Text -->
                                             <p class="card-text">
-                                                @Model.NewItems[i].MemoryType.Type, @Model.NewItems[i].TotalMemory, @Model.NewItems[i].Product.Manufacturer.Name
+                                                @Model.NewItems[j].MemoryType.Type, @Model.NewItems[j].TotalMemory, @Model.NewItems[j].Product.Manufacturer.Name
                                             </p>
                                             <!-- Button -->
                                             <a href="#" class="btn btn-primary">Подробнее...</a>
                                         </div>
                                     </div>
                                 }
+                            </div>
                         </div>
                     </div>
-                </div>
 
+                }
 
-                            @for (var i = 4; i < Model.NewItems.Count; i += 4)
-                            {
-            <div class="carousel-item">
-                <div class="d-flex align-items-center">
-                    <div class=" justify-content-center">
-                        @for (var j = i; j < i + 4 && j < Model.NewItems.Count; j++)
-                        {
-                            <div class="card h-100" style="width: 20%">
-
-                                <!-- Card image -->
-                                <img class="card-img-top"  src="@Model.NewItems[j].Product.ImageUrl" alt="Card image cap">
-
-                                <!-- Card content -->
-                                <div class="card-body">
-
-                                    <!-- Title -->
-                                    <h6 class="card-title"><a>@Model.NewItems[j].Product.Name</a></h6>
-
-                                    <!-- Text -->
-                                    <p class="card-text">
-                                        @Model.NewItems[j].MemoryType.Type, @Model.NewItems[j].TotalMemory, @Model.NewItems[j].Product.Manufacturer.Name
-                                    </p>
-                                    <!-- Button -->
-                                    <a href="#" class="btn btn-primary">Подробнее...</a>
-                                </div>
-                            </div>
-                        }
-                    </div>
-                    </div>
-                    </div>
-
-                    }
-
-
-                </div>
-                <!--/.Slides-->
 
             </div>
-                    <!--/.Carousel Wrapper-->
-                </div>
+            <!--/.Slides-->
+            <div style="padding: 40px">
+                <ol class="carousel-indicators" style="padding: 40px">
+                    <li data-target="#multi-item-example" data-slide-to="0" class="active"></li>
+                    @for (var i = 1; i < Model.NewItems.Count / 4; i++)
+                    {
+                        <li data-target="#multi-item-example" data-slide-to="@i"></li>
+                    }
+                </ol>
+            </div>
+        </div>
+    </div>
 </div>
 <section class="text-center mb-4">
     @foreach (var product in Model.Rams)
@@ -126,6 +126,7 @@
         }
 
 </section>
+
 <nav class="d-flex justify-content-center wow fadeIn">
     <ul class="pagination pg-blue">
         @if (Model.PageViewModel.HasPreviousPage)
@@ -212,3 +213,93 @@
         }
     </ul>
 </nav>
+
+<div class="ard text-white bg-dark" style="width: 100%">
+    <div class="card-header"><h3>Рекомендуемые товары</h3></div>
+    <div class="card-body text-center align-content-center">
+        <!--Carousel Wrapper-->
+        <div id="multi-item-example2" class="carousel slide carousel-multi-item" data-ride="carousel">
+
+            <!--Indicators-->
+            <!--/.Indicators-->
+            <!--Slides-->
+            <div class="carousel-inner" role="listbox">
+                <div class="carousel-item active">
+                    <div class="d-flex align-items-center">
+                        <div class="justify-content-center">
+                            @for (var i = 0; i < 4 && i < Model.NewItems.Count; i++)
+                            {
+                                <div class="card h-100" style="width: 20%">
+
+                                    <!-- Card image -->
+                                    <img class="card-img-top" src="@Model.NewItems[i].Product.ImageUrl" alt="Card image cap">
+
+                                    <!-- Card content -->
+                                    <div class="card-body">
+
+                                        <!-- Title -->
+                                        <h6 class="card-title"><a style="color: black">@Model.NewItems[i].Product.Name</a></h6>
+
+                                        <!-- Text -->
+                                        <p class="card-text">
+                                            @Model.NewItems[i].MemoryType.Type, @Model.NewItems[i].TotalMemory, @Model.NewItems[i].Product.Manufacturer.Name
+                                        </p>
+                                        <!-- Button -->
+                                        <a href="#" class="btn btn-primary">Подробнее...</a>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+
+                @for (var i = 4; i < Model.NewItems.Count; i += 4)
+                {
+                    <div class="carousel-item">
+                        <div class="d-flex align-items-center">
+                            <div class=" justify-content-center">
+                                @for (var j = i; j < i + 4 && j < Model.NewItems.Count; j++)
+                                {
+                                    <div class="card h-100" style="width: 20%">
+
+                                        <!-- Card image -->
+                                        <img class="card-img-top" src="@Model.NewItems[j].Product.ImageUrl" alt="Card image cap">
+
+                                        <!-- Card content -->
+                                        <div class="card-body">
+
+                                            <!-- Title -->
+                                            <h6 class="card-title"><a style="color: black">@Model.NewItems[j].Product.Name</a></h6>
+
+                                            <!-- Text -->
+                                            <p class="card-text">
+                                                @Model.NewItems[j].MemoryType.Type, @Model.NewItems[j].TotalMemory, @Model.NewItems[j].Product.Manufacturer.Name
+                                            </p>
+                                            <!-- Button -->
+                                            <a href="#" class="btn btn-primary">Подробнее...</a>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                }
+
+
+            </div>
+            <!--/.Slides-->
+            <div style="padding: 40px">
+                <ol class="carousel-indicators" style="padding: 40px">
+                    <li data-target="#multi-item-example2" data-slide-to="0" class="active"></li>
+                    @for (var i = 1; i < Model.NewItems.Count / 4; i++)
+                    {
+                        <li data-target="#multi-item-example2" data-slide-to="@i"></li>
+                    }
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+

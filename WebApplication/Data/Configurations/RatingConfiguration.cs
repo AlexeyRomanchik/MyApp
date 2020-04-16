@@ -11,9 +11,9 @@ namespace WebApplication.Data.Configurations
             builder.ToTable("Rating");
             builder.HasKey(x => x.Id);
 
-            builder.HasOne(x => x.User).
-                WithMany(y => y.Ratings).
-                HasForeignKey(t => t.UserId);
+            builder.HasOne(x => x.User)
+                .WithMany(y => y.Ratings)
+                .HasForeignKey(t => t.UserId);
         }
     }
 }

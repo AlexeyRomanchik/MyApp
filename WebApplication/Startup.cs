@@ -28,7 +28,6 @@ namespace WebApplication
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.ConfigureEmailService();
 
             services.ConfigureMsSqlServerContext(Configuration);
@@ -40,6 +39,8 @@ namespace WebApplication
             services.ConfigureRepositoryWrapper();
 
             services.AddControllersWithViews();
+            services.AddSession();
+            services.AddDistributedMemoryCache();
 
         }
 
@@ -57,6 +58,8 @@ namespace WebApplication
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
+            app.UseSession();
 
             app.UseRouting();
 

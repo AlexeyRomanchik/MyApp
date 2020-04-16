@@ -22,6 +22,9 @@ namespace WebApplication.Data
             builder.ApplyConfiguration(new ProductConfiguration());
             builder.ApplyConfiguration(new RatingConfiguration());
             builder.ApplyConfiguration(new ReviewConfiguration());
+            builder.ApplyConfiguration(new CartConfiguration());
+            builder.ApplyConfiguration(new CartItemConfiguration());
+            builder.ApplyConfiguration(new CategoryConfiguration());
         }
     }
 }

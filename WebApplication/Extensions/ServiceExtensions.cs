@@ -27,5 +27,10 @@ namespace WebApplication.Extensions
         {
             services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
         }
+
+        public static void ConfigureShoppingCartService(this IServiceCollection services)
+        {
+            services.AddScoped<IShoppingCartService, ShoppingCartService>();
+        }
     }
 }

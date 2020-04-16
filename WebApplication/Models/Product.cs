@@ -27,9 +27,15 @@ namespace WebApplication.Models
         [Range(0, int.MaxValue)]
         public int QuantityInStock { get; set; }
         public string ImageUrl { get; set; }
+
+        [Display(Name = "Дата добавления")]
+        [Required(ErrorMessage = "Не указана дата добавления товара")]
+        public DateTime DateAdded { get; set; }
         public int ManufacturerId { get; set; }
+        public int CategoryId { get; set; }
 
         public Ram Ram { get; set; }
+        public Category Category { get; set; }
         public Manufacturer Manufacturer { get; set; }
         public List<Rating> Ratings { get; set; }
         public List<Review> Reviews { get; set; }

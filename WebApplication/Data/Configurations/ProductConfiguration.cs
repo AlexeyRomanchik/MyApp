@@ -13,9 +13,13 @@ namespace WebApplication.Data.Configurations
 
             builder.Property(x => x.Name).HasMaxLength(300).IsRequired();
 
-            builder.HasMany(x => x.Ratings).
-                WithOne(t => t.Product).
-                HasForeignKey(y => y.ProductId);
+            builder.HasMany(x => x.Ratings)
+                .WithOne(t => t.Product)
+                .HasForeignKey(y => y.ProductId);
+
+            builder.HasOne(x => x.Category)
+                .WithMany(t => t.Products)
+                .HasForeignKey(y => y.CategoryId);
 
         }
     }
