@@ -78,10 +78,20 @@
                         <a class="nav-link" href="https://mdbootstrap.com/education/bootstrap/" target="_blank">Контакты</a>
                     </li>
                 </ul>
-
                 <!-- Right -->
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <partial name="_LoginPartial" />
+                    <ul class="navbar-nav nav-flex-icons">
+                        <li class="nav-item">
+                            <a class="nav-link waves-effect">
+                                <span class="badge red z-depth-1 mr-1" id="cartItemsCount">0</span>
+                                <i class="fas fa-shopping-cart"></i>
+                                <span class="clearfix d-none d-sm-inline-block"> Cart </span>
+                            </a>
+                        </li>
+                        <li>
+                            <partial name="_LoginPartial" />
+                        </li>
+                    </ul>
                 </div>
                 
 
@@ -334,6 +344,17 @@
     <script type="text/javascript">
         // Animations initialization
         new WOW().init();
+
+        $(function() {
+            $('.tocart').bind('click', function () {
+                var id = $(this)[0].id;
+                alert("request");
+                $.post("/ShoppingCart/AddToCart?id=" + id, null, function (data) {
+                    alert("sucsess");
+                    $('#cartItemsCount').html(data);
+                }, "json");
+            });
+        });
 
     </script>
 </body>

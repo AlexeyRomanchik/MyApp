@@ -9,14 +9,8 @@ namespace WebApplication.Services
 {
     public class ShoppingCartService : IShoppingCartService
     {
-        private const string CartSessionKey = "CartSessionKey";
-        public Cart Cart { get; }
+        public Cart Cart { get; set; }
         public IEnumerable<CartItem> Items => Cart.CartItems;
-
-        public ShoppingCartService(HttpContext context)
-        {
-            Cart = GetCart(context);
-        }
 
         public void AddItem(Product product, int quantity)
         {
@@ -48,15 +42,5 @@ namespace WebApplication.Services
             Cart.CartItems.RemoveAll(x => x.ProductId == product.Id);
         }
 
-        public Cart GetCart(HttpContext context)
-        {
-            var cart = context.Session.Get<Cart>(CartSessionKey);
-            if (cart != null) return cart;
-
-            cart = new Cart();
-            context.Session.Set(CartSessionKey, cart);
-
-            return cart;
-        }
     }
 }

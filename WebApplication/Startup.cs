@@ -29,6 +29,7 @@ namespace WebApplication
         public void ConfigureServices(IServiceCollection services)
         {
             services.ConfigureEmailService();
+            services.ConfigureShoppingCartService();
 
             services.ConfigureMsSqlServerContext(Configuration);
 
@@ -37,6 +38,8 @@ namespace WebApplication
                 .AddDefaultTokenProviders();
 
             services.ConfigureRepositoryWrapper();
+
+            services.AddHttpContextAccessor();
 
             services.AddControllersWithViews();
             services.AddSession();

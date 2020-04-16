@@ -15,6 +15,12 @@ namespace WebApplication.Models
         [Required(ErrorMessage = "Не указана итоговая цена")]
         public double FinalPrice { get; set; }
 
+        public Cart()
+        {
+            CartItems = new List<CartItem>();
+            FinalPrice = 0;
+        }
+
         public double GetFinalPrice()
         {
             double finalPrice = 0;
