@@ -170,6 +170,74 @@ WHILE @number > 0
     END;
 	GO
 
+DECLARE @number INT
+SET @number = 5000;
+
+WHILE @number > 0
+    BEGIN
+        INSERT INTO [WebApplication].[dbo].[Product]
+           ([Id], [Name], [Price], [QuantityInStock], [ImageUrl], [DateAdded], [ManufacturerId], [CategoryId])
+		 VALUES
+			   (NEWID()
+			   ,'Видеокарта AFOX GeForce GT210'
+			   , 200 +(RAND(@number) * 1000)
+			   ,100 + (RAND(@number) * 1000)
+			   ,'/productsImages/VideoCards/vc1.jpg'
+			   , SYSDATETIME()
+			   ,1
+			   ,1),
+			   (NEWID()
+			   ,'Видеокарта MSI GeForce GT 710'
+			   , 200 + (RAND(@number) * 1000)
+			   ,100 + (RAND(@number) * 1000)
+			   ,'/productsImages/VideoCards/vc2.jpg'
+			   , SYSDATETIME()
+			   ,2
+			   ,1),
+			   (NEWID()
+			   ,'Видеокарта Gigabyte GeForce GT'
+			   , 200 + (RAND(@number) * 1000)
+			   ,100 + (RAND(@number) * 1000)
+			   ,'/productsImages/VideoCards/vc3.jpg'
+			   , SYSDATETIME()
+			   ,3
+			   ,1),
+			   (NEWID()
+			   ,'Видеокарта Inno3D GeForce GT 710'
+			   , 200 + (RAND(@number) * 1000)
+			   ,100 + (RAND(@number) * 1000)
+			   ,'/productsImages/VideoCards/vc4.jpg'
+			   , SYSDATETIME()
+			   ,4
+			   ,1),
+			   (NEWID()
+			   ,'Видеокарта Sapphire R5 230 '
+			   , 200 + (RAND(@number) * 1000)
+			   ,100 + (RAND(@number) * 1000)
+			   ,'/productsImages/VideoCards/vc5.jpg'
+			   , SYSDATETIME()
+			   ,5
+			   ,1),
+			   (NEWID()
+			   ,'Видеокарта Gigabyte GeForce 210'
+			   , 200 + (RAND(@number) * 1000)
+			   ,100 + (RAND(@number) * 1000)
+			   ,'/productsImages/VideoCards/vc6.jpg'
+			   , SYSDATETIME()
+			   ,6
+			   ,1),
+			   (NEWID()
+			   ,'Видеокарта Colorful GeForce GT710'
+			   , 200 + (RAND(@number) * 1000)
+			   ,100 + (RAND(@number) * 1000)
+			   ,'/productsImages/VideoCards/vc7.jpg'
+			   , SYSDATETIME()
+			   ,6
+			   ,1)
+        SET @number = @number - 5
+    END;
+	GO
+
 DELETE FROM [WebApplication].[dbo].[Ram]
 GO
 
@@ -210,6 +278,30 @@ BEGIN
            ([Id], [Power], [Standard], [NumberIndividualLines], [MaxLineCurrent], [PowerFactorCorrection], [ActiveEfficiency],[FanSize],[FansNumber])
 		 VALUES
 			(@productId, 600, N'ATX12V 2.4', 12, 12, 1.5, 86, 120, 1)
+	FETCH NEXT FROM Product_Cursor INTO @productId
+END
+
+CLOSE Product_Cursor
+DEALLOCATE Product_Cursor
+GO
+
+
+DELETE FROM [WebApplication].[dbo].[GraphicsCard]
+GO
+
+DECLARE Product_Cursor CURSOR
+FOR
+  SELECT [Id] FROM [WebApplication].[dbo].[Product] WHERE [CategoryId] = 1
+
+OPEN Product_Cursor 
+DECLARE  @productId UNIQUEIDENTIFIER
+FETCH NEXT FROM Product_Cursor INTO @productId
+WHILE @@FETCH_STATUS = 0
+BEGIN
+	INSERT INTO [WebApplication].[dbo].[GraphicsCard]
+           ([Id], [GpuFrequency], [GpuTurboFrequency], [StreamProcessorsNumber], [VideoMemory], [MemoryFrequency], [MemoryBusWidth],[DirectXSupport],[RecommendedPowerSupply],[FansNumber])
+		 VALUES
+			(@productId, 1500, 1860, 1408, 6, 3500, 192, 12, 450, 2)
 	FETCH NEXT FROM Product_Cursor INTO @productId
 END
 

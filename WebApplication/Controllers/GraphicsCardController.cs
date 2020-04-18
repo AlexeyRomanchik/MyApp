@@ -20,11 +20,11 @@ namespace WebApplication.Controllers
 
         public async Task<IActionResult> Index(int page = 1)
         {
-            var powerSupplies = _graphicsCardRepository.FindAll();
+            var graphicsCards = _graphicsCardRepository.FindAll();
 
-            var count = await powerSupplies.CountAsync();
+            var count = await graphicsCards.CountAsync();
 
-            var items = await powerSupplies.Skip((page - 1) * PageSize).Take(PageSize).ToListAsync();
+            var items = await graphicsCards.Skip((page - 1) * PageSize).Take(PageSize).ToListAsync();
 
             var pageViewModel = new PageViewModel(count, page, PageSize);
 
@@ -32,7 +32,7 @@ namespace WebApplication.Controllers
             {
                 GraphicsCards = items,
                 PageViewModel = pageViewModel,
-                NewItems = powerSupplies
+                NewItems = graphicsCards
                     .OrderByDescending(x => x.Product.DateAdded)
                     .Take(20).ToList()
             };
