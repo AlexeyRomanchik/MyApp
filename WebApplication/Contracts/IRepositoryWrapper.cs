@@ -6,6 +6,7 @@ namespace WebApplication.Contracts
         IProductRepository ProductRepository { get; set; }
         IRamRepository RamRepository { get; set; }
         IPowerSupplyRepository PowerSupplyRepository { get; set; }
+        IGraphicsCardRepository GraphicsCardRepository  { get; set; }
         void Save();
     }
 }

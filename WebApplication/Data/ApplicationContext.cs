@@ -26,6 +26,7 @@ namespace WebApplication.Data
             builder.ApplyConfiguration(new CartItemConfiguration());
             builder.ApplyConfiguration(new CategoryConfiguration());
             builder.ApplyConfiguration(new PowerSupplyConfiguration());
+            builder.ApplyConfiguration(new GraphicsCardConfiguration());
         }
     }
 }
