@@ -10,7 +10,6 @@ namespace WebApplication.Data
         public ApplicationContext(DbContextOptions options)
             : base(options)
         {
-            Database.EnsureDeleted();
             Database.EnsureCreated();
         }
 
