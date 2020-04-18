@@ -5,6 +5,7 @@ namespace WebApplication.Contracts
     {
         IProductRepository ProductRepository { get; set; }
         IRamRepository RamRepository { get; set; }
+        IPowerSupplyRepository PowerSupplyRepository { get; set; }
         void Save();
     }
 }

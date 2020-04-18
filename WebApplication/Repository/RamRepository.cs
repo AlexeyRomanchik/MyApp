@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using WebApplication.Contracts;
 using WebApplication.Data;
@@ -16,10 +18,20 @@ namespace WebApplication.Repository
         {
             return RepositoryContext.Set<Ram>().
                 Include(x => x.Product)
-                .ThenInclude(y => y.Category)
+                .Include("Product.Manufacturer")
+                .Include("Product.Category")
+                .Include("MemoryType")
+                .AsNoTracking();
+        }
+
+        public override IQueryable<Ram> FindByCondition(Expression<Func<Ram, bool>> expression)
+        {
+            return RepositoryContext.Set<Ram>()
+                .Where(expression)
                 .Include(x => x.Product)
-                .ThenInclude(x => x.Manufacturer)
-                .Include(x => x.MemoryType)
+                .Include("Product.Manufacturer")
+                .Include("Product.Category")
+                .Include("MemoryType")
                 .AsNoTracking();
         }
     }

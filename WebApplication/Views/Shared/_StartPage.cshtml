@@ -82,7 +82,7 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <ul class="navbar-nav nav-flex-icons">
                         <li class="nav-item">
-                            <a class="nav-link waves-effect">
+                            <a href="/ShoppingCart/Index" class="nav-link waves-effect">
                                 <span class="badge red z-depth-1 mr-1" id="cartItemsCount">0</span>
                                 <i class="fas fa-shopping-cart"></i>
                                 <span class="clearfix d-none d-sm-inline-block"> Cart </span>
@@ -344,16 +344,21 @@
     <script type="text/javascript">
         // Animations initialization
         new WOW().init();
+        
 
         $(function() {
             $('.tocart').bind('click', function () {
                 var id = $(this)[0].id;
-                alert("request");
                 $.post("/ShoppingCart/AddToCart?id=" + id, null, function (data) {
-                    alert("sucsess");
                     $('#cartItemsCount').html(data);
                 }, "json");
             });
+        });
+
+        $(document).ready ( function(){
+            $.post("/ShoppingCart/GetCountItems", null, function (data) {
+                $('#cartItemsCount').html(data);
+            }, "json");
         });
 
     </script>

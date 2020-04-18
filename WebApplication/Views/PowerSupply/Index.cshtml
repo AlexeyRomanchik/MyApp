@@ -1,10 +1,8 @@
-﻿@model WebApplication.ViewModels.RamViewModel
-
+﻿@model WebApplication.ViewModels.PowerSupplyViewModel
 @{
     ViewData["Title"] = "Index";
     Layout = "_StartPage";
 }
-
 <div class="card text-white bg-danger mb-3" style="width: 100%; margin: 0;">
     <div class="card-header">
         <h3>Новинки</h3>
@@ -37,7 +35,9 @@
 
                                         <!-- Text -->
                                         <p class="card-text">
-                                            @Model.NewItems[i].MemoryType.Type, @Model.NewItems[i].TotalMemory, @Model.NewItems[i].Product.Manufacturer.Name
+                                            Мощность: @Model.NewItems[i].Power Вт,cтандарт: @Model.NewItems[i].Standard, активный КПД @Model.NewItems[i].ActiveEfficiency. %,
+                                            количество отдельных линий @Model.NewItems[i].NumberIndividualLines,
+                                            производитель: @Model.NewItems[i].Product.Manufacturer
                                             <h4 class="font-weight-bold red-text">
                                                 <strong>
                                                     @Math.Round(Model.NewItems[i].Product.Price, 2)$
@@ -79,7 +79,11 @@
 
                                             <!-- Text -->
                                             <p class="card-text">
-                                                @Model.NewItems[j].MemoryType.Type, @Model.NewItems[j].TotalMemory, @Model.NewItems[j].Product.Manufacturer.Name
+
+                                                Мощность: @Model.NewItems[j].Power Вт,cтандарт: @Model.NewItems[j].Standard, активный КПД: @Model.NewItems[j].ActiveEfficiency. %,
+                                                количество отдельных линий @Model.NewItems[j].NumberIndividualLines,
+                                                производитель: @Model.NewItems[j].Product.Manufacturer
+
                                                 <h4 class="font-weight-bold red-text">
                                                     <strong>
                                                         @Math.Round(Model.NewItems[j].Product.Price, 2)$
@@ -115,7 +119,7 @@
     </div>
 </div>
 <section class="text-center mb-4">
-    @foreach (var product in Model.Rams)
+    @foreach (var product in Model.PowerSupplies)
     {
         <div class="card" style="width: 20%">
 
@@ -132,7 +136,10 @@
 
                 <!-- Text -->
                 <p class="card-text">
-                    @product.MemoryType.Type, @product.TotalMemory, @product.Product.Manufacturer
+                    Мощность: @product.Power Вт,cтандарт: @product.Standard, активный КПД @product.ActiveEfficiency. %,
+                    количество отдельных линий @product.NumberIndividualLines,
+                    производитель: @product.Product.Manufacturer
+
                     <h4 class="font-weight-bold red-text">
                         <strong>
                             @Math.Round(product.Product.Price, 2)$
@@ -141,20 +148,20 @@
 
                     @if (product.Product.IsAvailable())
                     {
-                        <p>В наличии</p>
-                    }
-                    else
-                    {
-                        <p>Нет в наличии</p>
-                    }
-                </p>
-                <p>
-                    <a href="/Ram/Info?id=@product.Product.Id">Подробнее...</a>
-                </p>
-                <a id="@product.Id" class="btn btn-red tocart">В корзину</a>
+                <p>В наличии</p>
+                }
+                else
+                {
+                    <p>Нет в наличии</p>
+                }
+                    </p>
+                    <p>
+                        <a href="/Ram/Info?id=@product.Product.Id">Подробнее...</a>
+                    </p>
+                    <a id="@product.Id" class="btn btn-red tocart">В корзину</a>
+                </div>
             </div>
-        </div>
-    }
+        }
 
 </section>
 
@@ -196,7 +203,8 @@
                        asp-route-page="@i"
                        asp-controller="Ram"
                        class="page-link">
-                        @i</a>
+                        @i
+                    </a>
                 </li>
             }
         }
@@ -218,7 +226,8 @@
                        asp-route-page="@i"
                        asp-controller="Ram"
                        class="page-link">
-                        @i</a>
+                        @i
+                    </a>
                 </li>
             }
         }
@@ -279,7 +288,9 @@
 
                                         <!-- Text -->
                                         <p class="card-text">
-                                            @Model.NewItems[i].MemoryType.Type, @Model.NewItems[i].TotalMemory, @Model.NewItems[i].Product.Manufacturer.Name
+                                            Мощность: @Model.NewItems[i].Power Вт,cтандарт: @Model.NewItems[i].Standard, активный КПД @Model.NewItems[i].ActiveEfficiency. %,
+                                            количество отдельных линий @Model.NewItems[i].NumberIndividualLines,
+                                            производитель: @Model.NewItems[i].Product.Manufacturer
                                             <h4 class="font-weight-bold red-text">
                                                 <strong>
                                                     @Math.Round(Model.NewItems[i].Product.Price, 2)$
@@ -321,7 +332,9 @@
 
                                             <!-- Text -->
                                             <p class="card-text">
-                                                @Model.NewItems[j].MemoryType.Type, @Model.NewItems[j].TotalMemory, @Model.NewItems[j].Product.Manufacturer.Name
+                                                Мощность: @Model.NewItems[j].Power Вт,cтандарт: @Model.NewItems[j].Standard, активный КПД @Model.NewItems[j].ActiveEfficiency. %,
+                                                количество отдельных линий @Model.NewItems[j].NumberIndividualLines,
+                                                производитель: @Model.NewItems[j].Product.Manufacturer
                                                 <h4 class="font-weight-bold red-text">
                                                     <strong>
                                                         @Math.Round(Model.NewItems[j].Product.Price, 2)$
@@ -356,3 +369,4 @@
         </div>
     </div>
 </div>
+

@@ -5,3 +5,41 @@
     Layout = "_StartPage";
 }
 
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">First</th>
+        </tr>
+        </thead>
+        <tbody>
+            @foreach (var cartItem in Model.CartItems)
+            {
+                <tr>
+                    <td>
+                       dfsdfsdf
+                    </td>
+                    <td>
+                        <div class="card-body align-content-center">
+                            <p>
+                                <h6 class="card-title">
+                                    <a>@cartItem.Product.Name</a>
+                                </h6>
+                            <p class="card-text">
+                                Производитель:
+                                @cartItem.Product.Manufacturer.Name,
+
+                                <h4 class="font-weight-bold red-text">
+                                    <strong>
+                                        @Math.Round(cartItem.Product.Price, 2)$
+                                    </strong>
+                                </h4>
+                            </p>
+                            </p>
+                        </div>
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>

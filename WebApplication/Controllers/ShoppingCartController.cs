@@ -12,22 +12,22 @@ namespace WebApplication.Controllers
     public class ShoppingCartController : Controller
     {
         private const string CartSessionKey = "CartSessionKey";
+        private readonly HttpContext _httpContext;
 
-        private readonly IShoppingCartService _shoppingCartService;
         private readonly IRepositoryWrapper _repositoryWrapper;
-        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IShoppingCartService _shoppingCartService;
 
-        public ShoppingCartController(IShoppingCartService shoppingCartService, IRepositoryWrapper repositoryWrapper, IHttpContextAccessor httpContextAccessor)
+        public ShoppingCartController(IRepositoryWrapper repositoryWrapper, IHttpContextAccessor httpContextAccessor,
+            IShoppingCartService shoppingCartService)
         {
-            _shoppingCartService = shoppingCartService;
             _repositoryWrapper = repositoryWrapper;
-            _httpContextAccessor = httpContextAccessor;
-            _shoppingCartService.Cart = GetCart(httpContextAccessor.HttpContext);
+            _shoppingCartService = shoppingCartService;
+            _httpContext = httpContextAccessor.HttpContext;
+            _shoppingCartService.Cart = GetCart();
         }
 
         public IActionResult Index()
         {
-
             var cart = _shoppingCartService.Cart;
 
             var shoppingCartViewModel = new ShoppingCartViewModel
@@ -41,21 +41,20 @@ namespace WebApplication.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddToCart(Guid id)
+        public IActionResult AddToCart(Guid id)
         {
             var product = _repositoryWrapper.ProductRepository
                 .FindByCondition(x => x.Id == id).FirstOrDefault();
 
-            if(product != null)
+            if (product != null)
                 _shoppingCartService.AddItem(product, 1);
 
-            _httpContextAccessor.HttpContext.Session.Set<Cart>(CartSessionKey, _shoppingCartService.Cart);
+            SaveCart(_shoppingCartService.Cart);
 
             return Json(_shoppingCartService.Cart.GetTotalItemsCount());
-
         }
 
-        public ActionResult RemoveFromCart(Guid id)
+        public IActionResult RemoveFromCart(Guid id)
         {
             var product = _repositoryWrapper.ProductRepository
                 .FindByCondition(x => x.Id == id).FirstOrDefault();
@@ -63,20 +62,31 @@ namespace WebApplication.Controllers
             if (product != null)
                 _shoppingCartService.RemoveLine(product);
 
+            SaveCart(_shoppingCartService.Cart);
+
             return RedirectToAction("Index");
         }
 
-        private static Cart GetCart(HttpContext context)
+        public IActionResult GetCountItems()
         {
-            var cart = context.Session.Get<Cart>(CartSessionKey);
+            return Json( _shoppingCartService.Cart.GetTotalItemsCount());
+        }
+
+        private Cart GetCart()
+        {
+            var cart = _httpContext.Session.Get<Cart>(CartSessionKey);
 
             if (cart != null) return cart;
 
             cart = new Cart();
-            context.Session.Set<Cart>(CartSessionKey, cart);
+            _httpContext.Session.Set(CartSessionKey, cart);
 
             return cart;
         }
 
+        private void SaveCart(Cart cart)
+        {
+            _httpContext.Session.Set(CartSessionKey, cart);
+        }
     }
 }

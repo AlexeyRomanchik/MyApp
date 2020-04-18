@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -38,6 +39,18 @@ namespace WebApplication.Controllers
             };
 
             return View(ramViewModel);
+        }
+
+        public IActionResult Info(Guid id)
+        {
+            var product = _ramRepository.FindByCondition(x => x.Product.Id == id).First();
+
+            var ramInfoViewModel = new RamInfoViewModel()
+            {
+                Ram = product
+            };
+
+            return View(ramInfoViewModel);
         }
     }
 }

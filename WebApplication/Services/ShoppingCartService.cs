@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Microsoft.AspNetCore.Http;
 using WebApplication.Contracts;
 using WebApplication.Models;
-using WebApplication.Extensions;
 
 namespace WebApplication.Services
 {
@@ -18,18 +16,16 @@ namespace WebApplication.Services
                 .FirstOrDefault(x => x.ProductId == product.Id);
 
             if (cartItem == null)
-            {
-                Cart.CartItems.Add(new CartItem
-                {
-                    ProductId = product.Id,
-                    Product = product,
-                    Quantity = quantity
-                });
-            }
+                Cart.CartItems.Add(
+                    new CartItem
+                    {
+                        ProductId = product.Id,
+                        Product = product,
+                        Quantity = quantity
+                    }
+                    );
             else
-            {
                 cartItem.Quantity += quantity;
-            }
         }
 
         public void Clear()
@@ -41,6 +37,5 @@ namespace WebApplication.Services
         {
             Cart.CartItems.RemoveAll(x => x.ProductId == product.Id);
         }
-
     }
 }

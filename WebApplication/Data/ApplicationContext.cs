@@ -10,6 +10,7 @@ namespace WebApplication.Data
         public ApplicationContext(DbContextOptions options)
             : base(options)
         {
+            Database.EnsureDeleted();
             Database.EnsureCreated();
         }
 
@@ -25,6 +26,7 @@ namespace WebApplication.Data
             builder.ApplyConfiguration(new CartConfiguration());
             builder.ApplyConfiguration(new CartItemConfiguration());
             builder.ApplyConfiguration(new CategoryConfiguration());
+            builder.ApplyConfiguration(new PowerSupplyConfiguration());
         }
     }
 }

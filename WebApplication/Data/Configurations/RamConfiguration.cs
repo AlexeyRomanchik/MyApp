@@ -1,7 +1,5 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Org.BouncyCastle.Math.EC.Rfc7748;
 using WebApplication.Models;
 
 namespace WebApplication.Data.Configurations
@@ -14,7 +12,7 @@ namespace WebApplication.Data.Configurations
             builder.HasKey(x => x.Id);
 
             builder.HasOne(x => x.Product)
-                .WithOne(y => y.Ram)
+                .WithOne()
                 .HasForeignKey("Ram");
         }
     }
