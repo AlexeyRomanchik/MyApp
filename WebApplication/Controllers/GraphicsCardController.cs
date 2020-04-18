@@ -7,21 +7,20 @@ using WebApplication.ViewModels;
 
 namespace WebApplication.Controllers
 {
-    public class PowerSupplyController : Controller
+    public class GraphicsCardController : Controller
     {
         private const int PageSize = 20;
 
-        private readonly IPowerSupplyRepository _powerSupplyRepository;
+        private readonly IGraphicsCardRepository _graphicsCardRepository;
 
-        public PowerSupplyController(IRepositoryWrapper repositoryWrapper)
+        public GraphicsCardController(IRepositoryWrapper repositoryWrapper)
         {
-            _powerSupplyRepository = repositoryWrapper.PowerSupplyRepository;
+            _graphicsCardRepository = repositoryWrapper.GraphicsCardRepository;
         }
-
 
         public async Task<IActionResult> Index(int page = 1)
         {
-            var powerSupplies = _powerSupplyRepository.FindAll();
+            var powerSupplies = _graphicsCardRepository.FindAll();
 
             var count = await powerSupplies.CountAsync();
 
@@ -29,16 +28,16 @@ namespace WebApplication.Controllers
 
             var pageViewModel = new PageViewModel(count, page, PageSize);
 
-            var powerSupplyViewModel = new PowerSupplyViewModel
+            var graphicsCardViewModel = new GraphicsCardViewModel()
             {
-                PowerSupplies = items,
+                GraphicsCards = items,
                 PageViewModel = pageViewModel,
                 NewItems = powerSupplies
                     .OrderByDescending(x => x.Product.DateAdded)
                     .Take(20).ToList()
             };
 
-            return View(powerSupplyViewModel);
+            return View(graphicsCardViewModel);
         }
     }
 }
