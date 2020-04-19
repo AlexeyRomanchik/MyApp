@@ -10,6 +10,7 @@ namespace WebApplication.Repository
         private IRamRepository _ramRepository;
         private IPowerSupplyRepository _powerSupplyRepository;
         private IGraphicsCardRepository _graphicsCardRepository;
+        private ICpuRepository _cpuRepository;
 
         public IProductRepository ProductRepository
         {
@@ -32,6 +33,12 @@ namespace WebApplication.Repository
         public IGraphicsCardRepository GraphicsCardRepository
         {
             get { return _graphicsCardRepository ??= new GraphicsCardRepository(_applicationContext); }
+            set => throw new System.NotImplementedException();
+        }
+
+        public ICpuRepository CpuRepository
+        {
+            get { return _cpuRepository ??= new CpuRepository(_applicationContext); }
             set => throw new System.NotImplementedException();
         }
 

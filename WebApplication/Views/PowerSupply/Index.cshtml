@@ -37,7 +37,7 @@
                                         <p class="card-text">
                                             Мощность: @Model.NewItems[i].Power Вт,cтандарт: @Model.NewItems[i].Standard, активный КПД @Model.NewItems[i].ActiveEfficiency. %,
                                             количество отдельных линий @Model.NewItems[i].NumberIndividualLines,
-                                            производитель: @Model.NewItems[i].Product.Manufacturer
+                                            производитель: @Model.NewItems[i].Product.Manufacturer.Name
                                             <h4 class="font-weight-bold red-text">
                                                 <strong>
                                                     @Math.Round(Model.NewItems[i].Product.Price, 2)$
@@ -82,7 +82,7 @@
 
                                                 Мощность: @Model.NewItems[j].Power Вт,cтандарт: @Model.NewItems[j].Standard, активный КПД: @Model.NewItems[j].ActiveEfficiency. %,
                                                 количество отдельных линий @Model.NewItems[j].NumberIndividualLines,
-                                                производитель: @Model.NewItems[j].Product.Manufacturer
+                                                производитель: @Model.NewItems[j].Product.Manufacturer.Name
 
                                                 <h4 class="font-weight-bold red-text">
                                                     <strong>
@@ -138,7 +138,7 @@
                 <p class="card-text">
                     Мощность: @product.Power Вт,cтандарт: @product.Standard, активный КПД @product.ActiveEfficiency. %,
                     количество отдельных линий @product.NumberIndividualLines,
-                    производитель: @product.Product.Manufacturer
+                    производитель: @product.Product.Manufacturer.Name
 
                     <h4 class="font-weight-bold red-text">
                         <strong>
@@ -290,7 +290,7 @@
                                         <p class="card-text">
                                             Мощность: @Model.NewItems[i].Power Вт,cтандарт: @Model.NewItems[i].Standard, активный КПД @Model.NewItems[i].ActiveEfficiency. %,
                                             количество отдельных линий @Model.NewItems[i].NumberIndividualLines,
-                                            производитель: @Model.NewItems[i].Product.Manufacturer
+                                            производитель: @Model.NewItems[i].Product.Manufacturer.Name
                                             <h4 class="font-weight-bold red-text">
                                                 <strong>
                                                     @Math.Round(Model.NewItems[i].Product.Price, 2)$
@@ -334,7 +334,7 @@
                                             <p class="card-text">
                                                 Мощность: @Model.NewItems[j].Power Вт,cтандарт: @Model.NewItems[j].Standard, активный КПД @Model.NewItems[j].ActiveEfficiency. %,
                                                 количество отдельных линий @Model.NewItems[j].NumberIndividualLines,
-                                                производитель: @Model.NewItems[j].Product.Manufacturer
+                                                производитель: @Model.NewItems[j].Product.Manufacturer.Name
                                                 <h4 class="font-weight-bold red-text">
                                                     <strong>
                                                         @Math.Round(Model.NewItems[j].Product.Price, 2)$

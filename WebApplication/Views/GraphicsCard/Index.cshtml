@@ -38,7 +38,7 @@
                                         <p class="card-text">
                                             Видеопамять : @Model.NewItems[i].VideoMemory GB,
                                             частота памяти: @Model.NewItems[i].MemoryFrequency МГц, поддержка DirectX  @Model.NewItems[i].DirectXSupport,
-                                            производитель: @Model.NewItems[i].Product.Manufacturer
+                                            производитель: @Model.NewItems[i].Product.Manufacturer.Name
                                             <h4 class="font-weight-bold red-text">
                                                 <strong>
                                                     @Math.Round(Model.NewItems[i].Product.Price, 2)$
@@ -82,7 +82,7 @@
                                             <p class="card-text">
                                                 Видеопамять : @Model.NewItems[j].VideoMemory GB,
                                                 частота памяти: @Model.NewItems[j].MemoryFrequency МГц, поддержка DirectX  @Model.NewItems[j].DirectXSupport,
-                                                производитель: @Model.NewItems[j].Product.Manufacturer
+                                                производитель: @Model.NewItems[j].Product.Manufacturer.Name
                                                 <h4 class="font-weight-bold red-text">
                                                     <strong>
                                                         @Math.Round(Model.NewItems[j].Product.Price, 2)$
@@ -137,7 +137,7 @@
                 <p class="card-text">
                     Видеопамять : @product.VideoMemory GB,
                     частота памяти: @product.MemoryFrequency МГц, поддержка DirectX  @product.DirectXSupport,
-                    производитель: @product.Product.Manufacturer
+                    производитель: @product.Product.Manufacturer.Name
 
                     <h4 class="font-weight-bold red-text">
                         <strong>
@@ -289,7 +289,7 @@
                                         <p class="card-text">
                                             Видеопамять : @Model.NewItems[i].VideoMemory GB,
                                             частота памяти: @Model.NewItems[i].MemoryFrequency МГц, поддержка DirectX  @Model.NewItems[i].DirectXSupport,
-                                            производитель: @Model.NewItems[i].Product.Manufacturer
+                                            производитель: @Model.NewItems[i].Product.Manufacturer.Name
                                             <h4 class="font-weight-bold red-text">
                                                 <strong>
                                                     @Math.Round(Model.NewItems[i].Product.Price, 2)$
@@ -333,7 +333,7 @@
                                             <p class="card-text">
                                                 Видеопамять : @Model.NewItems[j].VideoMemory GB,
                                                 частота памяти: @Model.NewItems[j].MemoryFrequency МГц, поддержка DirectX  @Model.NewItems[j].DirectXSupport,
-                                                производитель: @Model.NewItems[j].Product.Manufacturer
+                                                производитель: @Model.NewItems[j].Product.Manufacturer.Name
                                                 <h4 class="font-weight-bold red-text">
                                                     <strong>
                                                         @Math.Round(Model.NewItems[j].Product.Price, 2)$

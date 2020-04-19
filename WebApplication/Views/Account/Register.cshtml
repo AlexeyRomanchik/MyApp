@@ -3,12 +3,12 @@
 @{
     ViewData["Title"] = "Register";
 }
-
+<!--
 <h4>Регистрация нового пользователя</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Register"  asp-controller="Account">
+        <form asp-action="Register" asp-controller="Account">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Email" class="control-label"></label>
@@ -32,6 +32,56 @@
     </div>
 </div>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+-->
+
+<div class="content align-content-center text-center h-100">
+        <form class="text-center border border-light p-5 w-50" asp-action="Register" asp-controller="Account" style="margin: auto; margin-top: 15%">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <p class="h4 mb-4">Sign up</p>
+
+            <div class="form-row mb-4">
+                <div class="col">
+                    <!-- First name -->
+                    <input type="text" id="defaultRegisterFormFirstName" class="form-control" placeholder="First name">
+                </div>
+                <div class="col">
+                    <!-- Last name -->
+                    <input type="text" id="defaultRegisterFormLastName" class="form-control" placeholder="Last name">
+                </div>
+            </div>
+
+            <!-- E-mail -->
+            <input type="email" asp-for="Email" id="defaultRegisterFormEmail" class="form-control mb-4" placeholder="E-mail">
+            <span asp-validation-for="Email" class="text-danger"></span>
+            <!-- Password -->
+            <input type="password" asp-for="Password" id="defaultRegisterFormPassword" class="form-control" placeholder="Password" aria-describedby="defaultRegisterFormPasswordHelpBlock">
+
+            <span asp-validation-for="Password" class="text-danger"></span>
+            <br/>
+            <input type="password" asp-for="PasswordConfirm" class="form-control" placeholder="PasswordConfirm" aria-describedby="defaultRegisterFormPasswordHelpBlock">
+            <span asp-validation-for="PasswordConfirm" class="text-danger"></span>
+           
+            <br />
+            <!-- Phone number -->
+            <input type="text" id="defaultRegisterPhonePassword" class="form-control" placeholder="Phone number" aria-describedby="defaultRegisterFormPhoneHelpBlock">
+  
+
+            <!-- Newsletter -->
+            <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="defaultRegisterFormNewsletter">
+                <label class="custom-control-label" for="defaultRegisterFormNewsletter">Subscribe to our newsletter</label>
+            </div>
+
+            <!-- Sign up button -->
+            <button class="btn btn-info my-4 btn-block  w-50" style="margin: auto" type="submit">Sign in</button>
+
+            <!-- Social register -->
+            <!-- Terms of service -->
+            
+
+        </form>
+</div>
+
+        @section Scripts {
+            @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+        }

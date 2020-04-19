@@ -4,33 +4,43 @@
     ViewData["Title"] = "Login";
 }
 
-
-<h4>Вход</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Login" asp-controller="Account">
+<div class="content align-content-center text-center h-100">
+        <form class="text-center border border-light  w-50 p-5" asp-action="Login" asp-controller="Account" style="margin: auto; margin-top: 15%">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
+            <p class="h4 mb-4">Sign in</p>
+
+            <!-- Email -->
+            <input asp-for="Email" type="email" id="defaultLoginFormEmail" class="form-control mb-4" placeholder="E-mail">
+            <!-- Password -->
+            <input asp-for="Password" type="password" id="defaultLoginFormPassword" class="form-control mb-4" placeholder="Password">
+
+            <div class="d-flex justify-content-around">
+                <div>
+                    <!-- Remember me -->
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" asp-for="RememberMe" id="defaultLoginFormRemember">
+                        <label class="custom-control-label" for="defaultLoginFormRemember">Remember me</label>
+                    </div>
+                </div>
+                <div>
+                    <!-- Forgot password -->
+                    <a href="">Forgot password?</a>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" class="form-control" />
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="RememberMe" /> @Html.DisplayNameFor(model => model.RememberMe)
-                </label>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Войти" class="btn btn-primary" />
-            </div>
+
+            <!-- Sign in button -->
+            <button class="btn btn-info btn-block my-4 w-50" type="submit" style="margin: auto">Sign in</button>
+
+            <!-- Register -->
+            <p>
+                Not a member?
+                <a href="">Register</a>
+            </p>
+
+
+
+
         </form>
     </div>
-</div>
 
 

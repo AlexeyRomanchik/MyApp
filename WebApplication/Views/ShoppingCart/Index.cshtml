@@ -4,42 +4,95 @@
     ViewData["Title"] = "View";
     Layout = "_StartPage";
 }
-
-    <table class="table">
-        <thead>
+<style>
+    @@media (max-device-width: 768px) {
+        .mob-fix {
+            height: auto !important;
+            line-height: 20px !important;
+            text-align: center;
+        }
+    }
+</style>
+<table class="table table">
+    <thead>
+    <tr>
+        <th scope="col" class="w-20">Изображение</th>
+        <th scope="col"class="w-20">Информация о товаре</th>
+        <th scope="col"class="w-20">Количество</th>
+        <th scope="col"class="w-20">Стоимость</th>
+        <th scope="col"class="w-20">Удалить</th>
+    </tr>
+    </thead>
+    <tbody>
+        @foreach (var cartItem in Model.CartItems)
+        {
         <tr>
-            <th scope="col">#</th>
-            <th scope="col">First</th>
-        </tr>
-        </thead>
-        <tbody>
-            @foreach (var cartItem in Model.CartItems)
-            {
-                <tr>
-                    <td>
-                       dfsdfsdf
-                    </td>
-                    <td>
-                        <div class="card-body align-content-center">
-                            <p>
-                                <h6 class="card-title">
-                                    <a>@cartItem.Product.Name</a>
-                                </h6>
-                            <p class="card-text">
-                                Производитель:
-                                
+            <td>
+                <img src="@cartItem.Product.ImageUrl" alt="Card image cap" style="width: 250px; padding: 0; margin: 0;">
+            </td>
+            <td>
+                <div class="card-body align-content-center">
+                    <p>
+                        <h6 class="card-title">
+                            <a>@cartItem.Product.Name</a>
+                        </h6>
+                    <p class="card-text">
 
-                                <h4 class="font-weight-bold red-text">
-                                    <strong>
-                                        @Math.Round(cartItem.Product.Price, 2)$
-                                    </strong>
-                                </h4>
-                            </p>
-                            </p>
+                        <h4 class="font-weight-bold red-text">
+                        <strong>
+                            @Math.Round(cartItem.Product.Price, 2)$
+                        </strong>
+                    </h4>
+                    </p>
+                    </p>
+                </div>
+
+            </td>
+            <td>
+                <div style="width: 150px">
+                    <div class="col-lg-6 col-lg-offset-3">
+                            <div class="input-group">
+                                <span class="input-group-btn">
+                                    <button id="minus" class="btn btn-danger" type="button">-</button>
+                                </span>
+                                <input id="calc" type="text" class="form-control text-center" style="width: 80px" value="@cartItem.Quantity">
+                                <span class="input-group-btn">
+                                    <button id="plus" class="btn btn-success" type="button">+</button>
+                                </span>
+                            </div>
                         </div>
+          
 
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+                </div>
+            </td>
+            <td>
+                <h4 class="font-weight-bold red-text">
+                    <strong>
+                        @Math.Round(cartItem.Product.Price * cartItem.Quantity, 2)$
+                    </strong>
+                </h4>
+            </td>
+            <td>
+                <a id="@cartItem.Product.Id" class="btn btn-red tocart">Удалить</a>
+            </td>
+
+        </tr>
+        }
+    <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td><h4 class="font-weight-bold red-text">
+            <strong>
+                total:
+                @Math.Round(Model.TotalPrice, 2)$
+            </strong>
+        </h4></td>
+        <td> <a class="btn btn-blue tocart">Оформить заказ</a></td>
+    </tr>
+
+    </tbody>
+</table>
+
+
+
