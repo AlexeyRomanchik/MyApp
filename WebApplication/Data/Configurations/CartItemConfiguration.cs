@@ -14,6 +14,11 @@ namespace WebApplication.Data.Configurations
             builder.HasOne(x => x.Cart)
                 .WithMany(t => t.CartItems)
                 .HasForeignKey(y => y.CartId);
+
+            builder.HasOne(x => x.Product)
+                .WithOne()
+                .HasForeignKey("CartItem");
+
         }
     }
 }

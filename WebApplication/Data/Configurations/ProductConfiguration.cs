@@ -12,6 +12,8 @@ namespace WebApplication.Data.Configurations
             builder.HasKey(x => x.Id);
 
             builder.Property(x => x.Name).HasMaxLength(300).IsRequired();
+            builder.Property(x => x.Price).HasColumnType("decimal(15,2)");
+
 
             builder.HasMany(x => x.Ratings)
                 .WithOne(t => t.Product)
@@ -20,6 +22,7 @@ namespace WebApplication.Data.Configurations
             builder.HasOne(x => x.Category)
                 .WithMany(t => t.Products)
                 .HasForeignKey(y => y.CategoryId);
+
 
         }
     }

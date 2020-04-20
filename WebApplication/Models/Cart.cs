@@ -15,6 +15,9 @@ namespace WebApplication.Models
         [Required(ErrorMessage = "Не указана итоговая цена")]
         public double FinalPrice { get; set; }
 
+        public Guid OrderId { get; set; }
+        public Order Order { get; set; }
+
         public Cart()
         {
             CartItems = new List<CartItem>();

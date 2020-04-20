@@ -28,6 +28,13 @@ namespace WebApplication.Data
             builder.ApplyConfiguration(new PowerSupplyConfiguration());
             builder.ApplyConfiguration(new GraphicsCardConfiguration());
             builder.ApplyConfiguration(new CpuConfiguration());
+            builder.ApplyConfiguration(new MotherboardConfiguration());
+            builder.ApplyConfiguration(new HddConfiguration());
+            builder.ApplyConfiguration(new OrderConfiguration());
+            builder.ApplyConfiguration(new CustomerConfiguration());
+            builder.ApplyConfiguration(new AddressConfiguration());
+            builder.ApplyConfiguration(new MotherboardInterfaceConfiguration());
+            builder.ApplyConfiguration(new PowerSupplyInterfaceConfiguration());
         }
     }
 }

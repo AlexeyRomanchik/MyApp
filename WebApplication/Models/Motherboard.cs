@@ -13,7 +13,8 @@ namespace WebApplication.Models
         public int RamMemoryTypeId { get; set; }
         public int MemorySlotsNumber { get; set; }
 
-        public RamMemoryType RamMemoryType { get; set; }
+        public Product Product { get; set; }
+
         public List<MotherboardInterface> MotherboardInterfaces { get; set; }
         public SocketType SocketType { get; set; }
 
