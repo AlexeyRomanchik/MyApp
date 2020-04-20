@@ -45,6 +45,12 @@ namespace WebApplication.Models
         [Required(ErrorMessage = "Поле обязательное")]
         public int FansNumber { get; set; }
 
+        public int GraphicsCardMemoryTypeId { get; set; }
+
         public Product Product { get; set; }
+        public GraphicsCardMemoryType MemoryType { get; set; }
+
+        public int InterfaceId { get; set; }
+        public Interface Interface { get; set; }
     }
 }

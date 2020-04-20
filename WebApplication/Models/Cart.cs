@@ -21,9 +21,9 @@ namespace WebApplication.Models
             FinalPrice = 0;
         }
 
-        public double GetFinalPrice()
+        public decimal GetFinalPrice()
         {
-            double finalPrice = 0;
+            decimal finalPrice = 0;
 
             if(CartItems == null) return finalPrice;
 

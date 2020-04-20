@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -53,7 +54,10 @@ namespace WebApplication.Models
         [Required(ErrorMessage = "Поле обязательное")]
         public double Tdp { get; set; }
 
+        public int SocketTypeId { get; set; }
+
         public Product Product { get; set; }
+        public SocketType SocketType { get; set; }
 
     }
 }

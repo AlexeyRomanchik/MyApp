@@ -20,7 +20,7 @@ namespace WebApplication.Models
         [Display(Name = "Цена")]
         [Required(ErrorMessage = "Не указана цена продукта")]
         [Range(0, double.MaxValue)]
-        public double Price { get; set; }
+        public decimal Price { get; set; }
 
         [Display(Name = "Количество на складе")]
         [Required(ErrorMessage = "Не указано количество")]

@@ -38,6 +38,14 @@ namespace WebApplication
             services.AddControllersWithViews();
             services.AddSession();
             services.AddDistributedMemoryCache();
+
+            services.AddAuthentication().
+                AddGoogle(options =>
+                {
+                    options.ClientId = "425736496155-pfq97jct0gcbjm8kp2jlf41km06vfq2j.apps.googleusercontent.com";
+                    options.ClientSecret = "wwjkpXvNLyICdwfklAVzp6RW";
+                });
+
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
