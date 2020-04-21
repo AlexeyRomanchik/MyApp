@@ -35,6 +35,7 @@ namespace WebApplication.Data
             builder.ApplyConfiguration(new AddressConfiguration());
             builder.ApplyConfiguration(new MotherboardInterfaceConfiguration());
             builder.ApplyConfiguration(new PowerSupplyInterfaceConfiguration());
+            builder.ApplyConfiguration(new ManufacturerCategoryConfiguration());
         }
     }
 }

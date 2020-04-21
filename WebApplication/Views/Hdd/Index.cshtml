@@ -1,12 +1,10 @@
-﻿@using WebApplication.ViewModels
-@model WebApplication.ViewModels.RamViewModel
-
+﻿@model WebApplication.ViewModels.HddViewModel
 @{
     ViewData["Title"] = "Index";
     Layout = "_StartPage";
 }
 
-<div class="card text-white bg-danger" style="margin: 0; width: 100%; padding: 0px;">
+<div class="card text-white bg-danger mb-3" style="width: 100%; margin: 0;">
     <div class="card-header">
         <h3>Новинки</h3>
     </div>
@@ -38,7 +36,10 @@
 
                                         <!-- Text -->
                                         <p class="card-text">
-                                            Тип оперативной памяти: @Model.NewItems[i].MemoryType.Type, общей обьем: @Model.NewItems[i].TotalMemory, производитель: @Model.NewItems[i].Product.Manufacturer.Name
+                                            Обьем памяти: @Model.NewItems[i].Volume Мб, размер буфера @Model.NewItems[i].Buffer Мб,
+                                            размер сектора @Model.NewItems[i].SectorSize Мб,
+                                            производитель: @Model.NewItems[i].Product.Manufacturer.Name
+
                                             <h4 class="font-weight-bold red-text">
                                                 <strong>
                                                     @Math.Round(Model.NewItems[i].Product.Price, 2)$
@@ -47,7 +48,7 @@
                                         </p>
                                         <!-- Button -->
                                         <p>
-                                            <a href="/Ram/Info?id=@Model.NewItems[i].Product.Id">Подробнее...</a>
+                                            <a href="/Hdd/Info?id=@Model.NewItems[i].Product.Id">Подробнее...</a>
                                         </p>
                                         <a id="@Model.NewItems[i].Product.Id" class="btn btn-red tocart">В корзину</a>
                                     </div>
@@ -80,7 +81,10 @@
 
                                             <!-- Text -->
                                             <p class="card-text">
-                                                Тип оперативной памяти: @Model.NewItems[j].MemoryType.Type, общей обьем: @Model.NewItems[j].TotalMemory, производитель: @Model.NewItems[j].Product.Manufacturer.Name
+                                                Обьем памяти: @Model.NewItems[j].Volume Мб, размер буфера @Model.NewItems[j].Buffer Мб,
+                                                размер сектора @Model.NewItems[j].SectorSize Мб,
+                                                производитель: @Model.NewItems[j].Product.Manufacturer.Name
+
                                                 <h4 class="font-weight-bold red-text">
                                                     <strong>
                                                         @Math.Round(Model.NewItems[j].Product.Price, 2)$
@@ -91,7 +95,7 @@
                                             <p>
                                                 <a href="#">Подробнее...</a>
                                             </p>
-                                            <a href="/Ram/Info?id=@Model.NewItems[i].Product.Id" class="btn btn-red tocart">В корзину</a>
+                                            <a href="/Hdd/Info?id=@Model.NewItems[i].Product.Id" class="btn btn-red tocart">В корзину</a>
                                         </div>
                                     </div>
                                 }
@@ -115,98 +119,8 @@
         </div>
     </div>
 </div>
-<div class="elegant-color" style="padding: 0px; margin: 0px;">
-    <nav class="navbar navbar-expand-lg navbar-dark elegant-color">
-
-        <span class="navbar-brand">Сортировать:</span>
-
-
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav"
-                aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="basicExampleNav">
-
-            <ul class="navbar-nav mr-auto">
-                @if (Model.SortBaseViewModel.CurrentSortState == SortState.PriceAsc || Model.SortBaseViewModel.CurrentSortState == SortState.PriceDesc)
-                {
-                    <li class="nav-item active">
-                        <a class="nav-link" asp-action="Index" asp-route-page="@Model.PageViewModel.PageNumber" asp-route-sortState="@(Model.SortBaseViewModel.PriceSortState) ">Цена </a>
-                    </li>
-                }
-                else
-                {
-                    <li class="nav-item">
-                        <a class="nav-link" asp-action="Index" asp-route-page="@Model.PageViewModel.PageNumber" asp-route-sortState="@(Model.SortBaseViewModel.PriceSortState) ">Цена &uarr;</a>
-                    </li>
-                }
-                @if (Model.SortBaseViewModel.CurrentSortState == SortState.NameAsc || Model.SortBaseViewModel.CurrentSortState == SortState.NameDesc)
-                {
-                    <li class="nav-item active">
-                        <a class="nav-link" asp-action="Index" asp-route-page="@Model.PageViewModel.PageNumber" asp-route-sortState="@(Model.SortBaseViewModel.NameSortState)">Название</a>
-                    </li>
-                }
-                else
-                {
-                    <li class="nav-item">
-                        <a class="nav-link" asp-action="Index" asp-route-page="@Model.PageViewModel.PageNumber" asp-route-sortState="@(Model.SortBaseViewModel.NameSortState)">Название</a>
-                    </li>
-                }
-                @if (Model.SortBaseViewModel.CurrentSortState == SortState.DateAddedAsc || Model.SortBaseViewModel.CurrentSortState == SortState.DateAddedDesc)
-                {
-                    <li class="nav-item active">
-                        <a class="nav-link" asp-action="Index" asp-route-page="@Model.PageViewModel.PageNumber" asp-route-sortState="@(Model.SortBaseViewModel.DateAddedSortState)">Дата добавления</a>
-                    </li>
-                }
-                else
-                {
-                    <li class="nav-item">
-                        <a class="nav-link" asp-action="Index" asp-route-page="@Model.PageViewModel.PageNumber" asp-route-sortState="@(Model.SortBaseViewModel.DateAddedSortState)">Дата добавления</a>
-                    </li>
-                }
-           
-            </ul>
-
-            <form class="form-inline" asp-action="Index" asp-controller="Ram">
-                <div class="md-form my-0">
-                    <input class="form-control mr-sm-2" type="text" placeholder="Search" id="name" name="name" aria-label="Search">
-                </div>
-            </form>
-        </div>
-    </nav>
-    <!--Accordion wrapper-->
-    <div class="accordion md-accordion elegant-color w-100" id="accordionEx" role="tablist" aria-multiselectable="true">
-
-        <!-- Accordion card -->
-        <div class="card  elegant-color" style="color: white; width: 100%; padding: 0px; margin: 0px;">
-
-            <!-- Card header -->
-            <div class="card-header" role="tab" id="headingOne1">
-                <a data-toggle="collapse" data-parent="#accordionEx" href="#collapseOne1" aria-expanded="true"
-                   aria-controls="collapseOne1">
-                    <h5 class="mb-0 white-text">
-                        Фильтры <i class="fas fa-angle-down rotate-icon"></i>
-                    </h5>
-                </a>
-            </div>
-
-            <!-- Card body -->
-            <div id="collapseOne1" class="collapse show" role="tabpanel" aria-labelledby="headingOne1" data-parent="#accordionEx">
-                <div class="card-body">
-                   
-                </div>
-            </div>
-
-        </div>
-
-    </div>
-    <!-- Accordion wrapper -->
-</div>
-
-
 <section class="text-center mb-4">
-    @foreach (var product in Model.Products)
+    @foreach (var product in Model.HddList)
     {
         <div class="card" style="width: 20%">
 
@@ -223,7 +137,10 @@
 
                 <!-- Text -->
                 <p class="card-text">
-                    Тип оперативной памяти: @product.MemoryType.Type, общей обьем: @product.TotalMemory, производитель: @product.Product.Manufacturer.Name
+                    Обьем памяти: @product.Volume Мб, размер буфера @product.Buffer Мб,
+                    размер сектора @product.SectorSize Мб,
+                    производитель: @product.Product.Manufacturer.Name
+
                     <h4 class="font-weight-bold red-text">
                         <strong>
                             @Math.Round(product.Product.Price, 2)$
@@ -232,20 +149,20 @@
 
                     @if (product.Product.IsAvailable())
                     {
-                        <p>В наличии</p>
+<p>В наличии</p>
                     }
                     else
                     {
                         <p>Нет в наличии</p>
                     }
                 </p>
-                <p>
-                    <a href="/Ram/Info?id=@product.Product.Id">Подробнее...</a>
-                </p>
-                <a id="@product.Id" class="btn btn-red tocart">В корзину</a>
+                    <p>
+                        <a href="/Hdd/Info?id=@product.Product.Id">Подробнее...</a>
+                    </p>
+                    <a id="@product.Id" class="btn btn-red tocart">В корзину</a>
+                </div>
             </div>
-        </div>
-    }
+        }
 
 </section>
 
@@ -256,8 +173,7 @@
             <li class="page-item">
                 <a asp-action="Index"
                    asp-route-page="@(Model.PageViewModel.PageNumber - 1)"
-                   asp-controller="Ram"
-                   asp-route-sortState="@Model.SortBaseViewModel.CurrentSortState"
+                   asp-controller="Hdd"
                    class="page-link" aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>
                     <span class="sr-only">Previous</span>
@@ -286,18 +202,17 @@
                 <li class="page-item">
                     <a asp-action="Index"
                        asp-route-page="@i"
-                       asp-controller="Ram"
-                       asp-route-sortState="@Model.SortBaseViewModel.CurrentSortState"
+                       asp-controller="Hdd"
                        class="page-link">
-                        @i</a>
+                        @i
+                    </a>
                 </li>
             }
         }
         <li class="page-item active">
             <a class="page-link" asp-action="Index"
                asp-route-page="@Model.PageViewModel.PageNumber"
-               asp-route-sortState="@Model.SortBaseViewModel.CurrentSortState"
-               asp-controller="Ram">
+               asp-controller="Hdd">
                 @Model.PageViewModel.PageNumber
                 <span class="sr-only">(current)</span>
             </a>
@@ -310,10 +225,10 @@
                 <li class="page-item">
                     <a asp-action="Index"
                        asp-route-page="@i"
-                       asp-controller="Ram"
-                       asp-route-sortState="@Model.SortBaseViewModel.CurrentSortState"
+                       asp-controller="Hdd"
                        class="page-link">
-                        @i</a>
+                        @i
+                    </a>
                 </li>
             }
         }
@@ -323,8 +238,7 @@
             <li class="page-item">
                 <a asp-action="Index"
                    asp-route-page="@(Model.PageViewModel.PageNumber + 1)"
-                   asp-controller="Ram"
-                   asp-route-sortState="@Model.SortBaseViewModel.CurrentSortState"
+                   asp-controller="Hdd"
                    class="page-link" aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
                     <span class="sr-only">Next</span>
@@ -343,7 +257,7 @@
     </ul>
 </nav>
 
-<div class="ard text-white bg-dark" style="margin: 0; width: 100%;">
+<div class="ard text-white bg-dark" style="width: 100%; margin: 0;">
     <div class="card-header">
         <h3>Рекомендуемые товары</h3>
     </div>
@@ -375,7 +289,9 @@
 
                                         <!-- Text -->
                                         <p class="card-text">
-                                            Тип оперативной памяти: @Model.NewItems[i].MemoryType.Type, общей обьем: @Model.NewItems[i].TotalMemory, производитель: @Model.NewItems[i].Product.Manufacturer.Name
+                                            Обьем памяти: @Model.NewItems[i].Volume Мб, размер буфера @Model.NewItems[i].Buffer Мб,
+                                            размер сектора @Model.NewItems[i].SectorSize Мб,
+                                            производитель: @Model.NewItems[i].Product.Manufacturer.Name
                                             <h4 class="font-weight-bold red-text">
                                                 <strong>
                                                     @Math.Round(Model.NewItems[i].Product.Price, 2)$
@@ -384,7 +300,7 @@
                                         </p>
                                         <!-- Button -->
                                         <p>
-                                            <a href="/Ram/Info?id=@Model.NewItems[i].Product.Id">Подробнее...</a>
+                                            <a href="/Hdd/Info?id=@Model.NewItems[i].Product.Id">Подробнее...</a>
                                         </p>
                                         <a id="@Model.NewItems[i].Product.Id" class="btn btn-red tocart">В корзину</a>
                                     </div>
@@ -417,7 +333,9 @@
 
                                             <!-- Text -->
                                             <p class="card-text">
-                                                @Model.NewItems[j].MemoryType.Type, общей обьем: @Model.NewItems[j].TotalMemory, производитель: @Model.NewItems[j].Product.Manufacturer.Name
+                                                Обьем памяти: @Model.NewItems[j].Volume Мб, размер буфера @Model.NewItems[j].Buffer Мб,
+                                                размер сектора @Model.NewItems[j].SectorSize Мб,
+                                                производитель: @Model.NewItems[j].Product.Manufacturer.Name
                                                 <h4 class="font-weight-bold red-text">
                                                     <strong>
                                                         @Math.Round(Model.NewItems[j].Product.Price, 2)$
@@ -426,7 +344,7 @@
                                             </p>
                                             <!-- Button -->
                                             <p>
-                                                <a href="/Ram/Info?id=@Model.NewItems[i].Product.Id">Подробнее...</a>
+                                                <a href="/Hdd/Info?id=@Model.NewItems[i].Product.Id">Подробнее...</a>
                                             </p>
                                             <a id="@Model.NewItems[j].Product.Id" class="btn btn-red tocart">В корзину</a>
                                         </div>
@@ -452,3 +370,7 @@
         </div>
     </div>
 </div>
+
+
+
+

@@ -14,6 +14,8 @@ namespace WebApplication.Models
         [MinLength(5)]
         [MaxLength(300)]
         public string Name { get; set; }
+
+        public List<ManufacturerCategory> ManufacturerCategories { get; set; }
         public List<Product> Products { get; set; }
     }
 }

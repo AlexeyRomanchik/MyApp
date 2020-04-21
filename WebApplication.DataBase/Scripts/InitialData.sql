@@ -180,56 +180,56 @@ WHILE @number > 0
 		 VALUES
 			   (NEWID()
 			   ,'Видеокарта AFOX GeForce GT210'
-			   , 200 +(RAND(@number) * 1000)
-			   ,100 + (RAND(@number) * 1000)
+			   , 200 +ROUND((RAND()* 1000),0)
+			   ,100 + ROUND((RAND()* 1000),0)
 			   ,'/productsImages/VideoCards/vc1.jpg'
 			   , SYSDATETIME()
 			   ,1
 			   ,1),
 			   (NEWID()
 			   ,'Видеокарта MSI GeForce GT 710'
-			   , 200 + (RAND(@number) * 1000)
-			   ,100 + (RAND(@number) * 1000)
+			   , 200 + ROUND((RAND()* 1000),0)
+			   ,100 + ROUND((RAND()* 1000),0)
 			   ,'/productsImages/VideoCards/vc2.jpg'
 			   , SYSDATETIME()
 			   ,2
 			   ,1),
 			   (NEWID()
 			   ,'Видеокарта Gigabyte GeForce GT'
-			   , 200 + (RAND(@number) * 1000)
-			   ,100 + (RAND(@number) * 1000)
+			   , 200 + ROUND((RAND()* 1000),0)
+			   ,100 + ROUND((RAND()* 1000),0)
 			   ,'/productsImages/VideoCards/vc3.jpg'
 			   , SYSDATETIME()
 			   ,3
 			   ,1),
 			   (NEWID()
 			   ,'Видеокарта Inno3D GeForce GT 710'
-			   , 200 + (RAND(@number) * 1000)
-			   ,100 + (RAND(@number) * 1000)
+			   , 200 + ROUND((RAND()* 1000),0)
+			   ,100 + ROUND((RAND()* 1000),0)
 			   ,'/productsImages/VideoCards/vc4.jpg'
 			   , SYSDATETIME()
 			   ,4
 			   ,1),
 			   (NEWID()
 			   ,'Видеокарта Sapphire R5 230 '
-			   , 200 + (RAND(@number) * 1000)
-			   ,100 + (RAND(@number) * 1000)
+			   , 200 + ROUND((RAND()* 1000),0)
+			   ,100 + ROUND((RAND()* 1000),0)
 			   ,'/productsImages/VideoCards/vc5.jpg'
 			   , SYSDATETIME()
 			   ,5
 			   ,1),
 			   (NEWID()
 			   ,'Видеокарта Gigabyte GeForce 210'
-			   , 200 + (RAND(@number) * 1000)
-			   ,100 + (RAND(@number) * 1000)
+			   , 200 + ROUND((RAND()* 1000),0)
+			   ,100 + ROUND((RAND()* 1000),0)
 			   ,'/productsImages/VideoCards/vc6.jpg'
 			   , SYSDATETIME()
 			   ,6
 			   ,1),
 			   (NEWID()
 			   ,'Видеокарта Colorful GeForce GT710'
-			   , 200 + (RAND(@number) * 1000)
-			   ,100 + (RAND(@number) * 1000)
+			   , 200 + ROUND((RAND()* 1000),0)
+			   ,100 + ROUND((RAND()* 1000),0)
 			   ,'/productsImages/VideoCards/vc7.jpg'
 			   , SYSDATETIME()
 			   ,6

@@ -13,15 +13,23 @@ namespace WebApplication.Controllers
         private const int PageSize = 20;
 
         private readonly IRamRepository _ramRepository;
+        private readonly IRamSortService _ramSortService;
 
-        public RamController(IRepositoryWrapper repositoryWrapper)
+        public RamController(IRepositoryWrapper repositoryWrapper, ISortServiceWrapper sortServiceWrapper)
         {
+            _ramSortService = sortServiceWrapper.RamSortService;
             _ramRepository = repositoryWrapper.RamRepository;
         }
 
-        public async Task<IActionResult> Index(int page = 1)
+        public async Task<IActionResult> Index(int page = 1, string name = null, SortState sortState = SortState.DateAddedDesc)
         {
             var ramProducts = _ramRepository.FindAll();
+            if (name != null)
+            {
+                ramProducts = ramProducts.Where(x => x.Product.Name.Contains(name));
+            }
+
+            ramProducts = _ramSortService.SortBy(sortState, ramProducts);
 
             var count = await ramProducts.CountAsync();
 
@@ -31,7 +39,8 @@ namespace WebApplication.Controllers
 
             var ramViewModel = new RamViewModel
             {
-                Rams = items,
+                SortBaseViewModel = new SortBaseViewModel(sortState),
+                Products = items,
                 PageViewModel = pageViewModel,
                 NewItems = ramProducts
                     .OrderByDescending(x => x.Product.DateAdded)

@@ -32,5 +32,10 @@ namespace WebApplication.Extensions
         {
             services.AddScoped<IShoppingCartService, ShoppingCartService>();
         }
+
+        public static void ConfigureSortWrapper(this IServiceCollection services)
+        {
+            services.AddScoped<ISortServiceWrapper, SortServiceWrapper>();
+        }
     }
 }

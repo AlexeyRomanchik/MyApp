@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace WebApplication.Models
 {
@@ -12,5 +9,6 @@ namespace WebApplication.Models
 
         public int InterfaceId { get; set; }
         public Interface Interface { get; set; }
+        public int Quantity { get; set; }
     }
 }

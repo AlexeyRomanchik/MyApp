@@ -1,4 +1,5 @@
-﻿using WebApplication.Contracts;
+﻿using System;
+using WebApplication.Contracts;
 using WebApplication.Data;
 
 namespace WebApplication.Repository
@@ -6,45 +7,59 @@ namespace WebApplication.Repository
     public class RepositoryWrapper : IRepositoryWrapper
     {
         private readonly ApplicationContext _applicationContext;
+        private ICpuRepository _cpuRepository;
+        private IGraphicsCardRepository _graphicsCardRepository;
+        private IHddRepository _hddRepository;
+        private IMotherboardRepository _motherboardRepository;
+        private IPowerSupplyRepository _powerSupplyRepository;
         private IProductRepository _productRepository;
         private IRamRepository _ramRepository;
-        private IPowerSupplyRepository _powerSupplyRepository;
-        private IGraphicsCardRepository _graphicsCardRepository;
-        private ICpuRepository _cpuRepository;
+
+        public RepositoryWrapper(ApplicationContext applicationContext)
+        {
+            _applicationContext = applicationContext;
+        }
 
         public IProductRepository ProductRepository
         {
             get { return _productRepository ??= new ProductRepository(_applicationContext); }
-            set => throw new System.NotImplementedException();
+            set => throw new NotImplementedException();
         }
 
         public IRamRepository RamRepository
         {
             get { return _ramRepository ??= new RamRepository(_applicationContext); }
-            set => throw new System.NotImplementedException();
+            set => throw new NotImplementedException();
         }
 
         public IPowerSupplyRepository PowerSupplyRepository
         {
             get { return _powerSupplyRepository ??= new PowerSupplyRepository(_applicationContext); }
-            set => throw new System.NotImplementedException();
+            set => throw new NotImplementedException();
         }
 
         public IGraphicsCardRepository GraphicsCardRepository
         {
             get { return _graphicsCardRepository ??= new GraphicsCardRepository(_applicationContext); }
-            set => throw new System.NotImplementedException();
+            set => throw new NotImplementedException();
         }
 
         public ICpuRepository CpuRepository
         {
             get { return _cpuRepository ??= new CpuRepository(_applicationContext); }
-            set => throw new System.NotImplementedException();
+            set => throw new NotImplementedException();
         }
 
-        public RepositoryWrapper(ApplicationContext applicationContext)
+        public IHddRepository HddRepository
         {
-            _applicationContext = applicationContext;
+            get { return _hddRepository ??= new HddRepository(_applicationContext); }
+            set => throw new NotImplementedException();
+        }
+
+        public IMotherboardRepository MotherboardRepository
+        {
+            get { return _motherboardRepository ??= new MotherboardRepository(_applicationContext); }
+            set => throw new NotImplementedException();
         }
 
         public void Save()

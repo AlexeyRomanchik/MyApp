@@ -30,9 +30,7 @@ namespace WebApplication.Models
         [Required(ErrorMessage = "Поле обязательное")]
         public double SupplyVoltage { get; set; }
 
-        public int InterfaceId { get; set; }
         public RamMemoryType MemoryType { get; set; }
         public Product Product { get; set; }
-        public Interface Interface { get; set; }
     }
 }

@@ -61,6 +61,13 @@
   <ItemGroup>
     <None Include="Scripts\InitialData.sql" />
     <None Include="WebApplication.DataBase.publish.xml" />
+    <None Include="Scripts\InsertRams.sql" />
+    <None Include="Scripts\InsertBaseData.sql" />
+    <None Include="Scripts\GraphicsCardInsert.sql" />
+    <None Include="Scripts\PowerSupplyInsert.sql" />
+    <None Include="Scripts\CpuInsert.sql" />
+    <None Include="Scripts\HddScript.sql" />
+    <None Include="Scripts\MotherboardInsert.sql" />
   </ItemGroup>
   <ItemGroup>
     <PreDeploy Include="Scripts\Script.PreDeployment1.sql" />

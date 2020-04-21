@@ -1,13 +1,14 @@
-﻿
-namespace WebApplication.Contracts
+﻿namespace WebApplication.Contracts
 {
     public interface IRepositoryWrapper
     {
         IProductRepository ProductRepository { get; set; }
         IRamRepository RamRepository { get; set; }
         IPowerSupplyRepository PowerSupplyRepository { get; set; }
-        IGraphicsCardRepository GraphicsCardRepository  { get; set; }
+        IGraphicsCardRepository GraphicsCardRepository { get; set; }
         ICpuRepository CpuRepository { get; set; }
+        IHddRepository HddRepository { get; set; }
+        IMotherboardRepository MotherboardRepository { get; set; }
         void Save();
     }
 }
