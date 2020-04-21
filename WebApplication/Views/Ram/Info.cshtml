@@ -4,5 +4,161 @@
     Layout = "_StartPage";
 }
 
-@Model.Ram.Product.Id
+<div class="container dark-grey-text mt-5">
 
+        <!--Grid row-->
+        <div class="row wow fadeIn">
+
+            <!--Grid column-->
+            <div class="col-md-6 mb-4" style="margin: auto; text-align: center;">
+
+                <img src="@Model.Ram.Product.ImageUrl" class="img-fluid w-75" alt="">
+
+            </div>
+            <!--Grid column-->
+            <!--Grid column-->
+            <div class="col-md-6 mb-4">
+
+                <!--Content-->
+                <div class="p-4">
+
+                    <div class="mb-3">
+                        <a href="">
+                            <span class="badge purple mr-1">@Model.Ram.Product.Category.Name</span>
+                        </a>
+                        <a href="">
+                            <span class="badge blue mr-1">New</span>
+                        </a>
+                    </div>
+
+                    <p class="lead">
+                        <span>$@Model.Ram.Product.Price</span>
+                    </p>
+
+                    <p class="lead font-weight-bold">@Model.Ram.Product.Name</p>
+
+                    <p>
+                        Производитель: @Model.Ram.Product.Manufacturer.Name
+                    </p>
+                    <p>
+                        Дата выхода на рынок: @Model.Ram.Product.DateAdded
+                    </p>
+
+                    <form class="d-flex justify-content-left">
+                        <!-- Default input -->
+                        <input type="number" value="1" aria-label="Search" class="form-control" style="width: 100px">
+                        <button class="btn btn-primary btn-md my-0 p" type="submit">
+                            Add to cart
+                            <i class="fas fa-shopping-cart ml-1"></i>
+                        </button>
+
+                    </form>
+
+                </div>
+                <!--Content-->
+
+            </div>
+            <!--Grid column-->
+
+        </div>
+        <!--Grid row-->
+
+        <hr>
+        <p class="lead font-weight-bold">Технические характеристики</p>
+        <table class="table table-hover">
+            <tbody>
+                <tr>
+                    <th scope="row">1</th>
+                    <td>Тип оперативной памяти</td>
+                    <td>@Model.Ram.MemoryType.Type</td>
+
+                </tr>
+                <tr>
+                    <th scope="row">2</th>
+                    <td>Общий обьем памяти</td>
+                    <td>@Model.Ram.TotalMemory GB</td>
+
+                </tr>
+                <tr>
+                    <th scope="row">3</th>
+                    <td >Напряжение питания</td>
+                    <td >@Math.Round(Model.Ram.SupplyVoltage, 2) В</td>
+                </tr>
+                <tr>
+                    <th scope="row">4</th>
+                    <td >Тактовая частота</td>
+                    <td >@Model.Ram.Frequency МГц</td>
+                </tr>
+                <tr>
+                    <th scope="row">5</th>
+                    <td >Количество контактов</td>
+                    <td >@Model.Ram.ContactsNumber</td>
+                </tr>
+                <tr>
+                    <th scope="row">6</th>
+                    <td >Пропускная способность</td>
+                    <td >@Model.Ram.Throughput Мбайт/с</td>
+                </tr>
+            </tbody>
+        </table>
+        
+
+
+        <!--Grid row-->
+        <div class="row d-flex justify-content-center wow fadeIn">
+
+            <!--Grid column-->
+            <div class="col-md-6 text-center">
+
+                <h4 class="my-4 h4">Рекомендуемые товары</h4>
+
+            </div>
+            <!--Grid column-->
+
+        </div>
+        <section class="text-center mb-4">
+            @foreach (var product in Model.PopularGoods)
+            {
+                <div class="card" style="width: 20%">
+
+                    <!-- Card image -->
+                    <img class="card-img-top" src="@product.Product.ImageUrl" alt="Card image cap">
+
+                    <!-- Card content -->
+                    <div class="card-body">
+
+                        <!-- Title -->
+                        <h6 class="card-title">
+                            <a>@product.Product.Name</a>
+                        </h6>
+
+                        <!-- Text -->
+                        <p class="card-text">
+                            Тип оперативной памяти: @product.MemoryType.Type, общей обьем: @product.TotalMemory, производитель: @product.Product.Manufacturer.Name
+                            <h4 class="font-weight-bold red-text">
+                                <strong>
+                                    @Math.Round(product.Product.Price, 2)$
+                                </strong>
+                            </h4>
+
+                            @if (product.Product.IsAvailable())
+                            {
+                                <p>В наличии</p>
+                            }
+                            else
+                            {
+                                <p>Нет в наличии</p>
+                            }
+                        </p>
+                        <p>
+                            <a href="/Ram/Info?id=@product.Product.Id">Подробнее...</a>
+                        </p>
+                        <a id="@product.Id" class="btn btn-red tocart">В корзину</a>
+                    </div>
+                </div>
+            }
+
+        </section>
+      
+
+    </div>

@@ -56,7 +56,10 @@ namespace WebApplication.Controllers
 
             var ramInfoViewModel = new RamInfoViewModel()
             {
-                Ram = product
+                Ram = product,
+                PopularGoods = _ramRepository.FindAll()
+                    .OrderByDescending(x => x.Product.DateAdded)
+                    .Take(4).ToList()
             };
 
             return View(ramInfoViewModel);
