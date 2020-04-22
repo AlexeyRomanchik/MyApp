@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using WebApplication.Contracts;
 using WebApplication.Data;
@@ -19,5 +21,19 @@ namespace WebApplication.Repository
                 .ThenInclude(x => x.Manufacturer)
                 .AsNoTracking();
         }
+
+        public override IQueryable<Motherboard> FindByCondition(Expression<Func<Motherboard, bool>> expression)
+        {
+            return RepositoryContext.Set<Motherboard>()
+                .Where(expression)
+                .Include(x => x.Product)
+                .Include("Product.Manufacturer")
+                .Include("Product.Category")
+                .Include("MotherboardInterfaces")
+                .Include("MotherboardInterfaces.Interface")
+                .Include("SocketType")
+                .AsNoTracking();
+        }
+
     }
 }

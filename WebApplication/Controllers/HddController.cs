@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApplication.Contracts;
+using WebApplication.Models;
 using WebApplication.ViewModels;
 
 namespace WebApplication.Controllers
@@ -19,7 +19,6 @@ namespace WebApplication.Controllers
         {
             _hddRepository = repositoryWrapper.HddRepository;
         }
-
 
         public async Task<IActionResult> Index(int page = 1)
         {
@@ -42,5 +41,22 @@ namespace WebApplication.Controllers
 
             return View(cpuViewModel);
         }
+
+        public IActionResult Info(Guid id)
+        {
+            var product = _hddRepository.
+                FindByCondition(x => x.Product.Id == id).First();
+
+            var infoViewModel = new InfoViewModel<Hdd>()
+            {
+                Product = product,
+                PopularGoods = _hddRepository.FindAll()
+                    .OrderByDescending(x => x.Product.DateAdded)
+                    .Take(4).ToList()
+            };
+
+            return View(infoViewModel);
+        }
+
     }
 }

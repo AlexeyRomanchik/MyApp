@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using WebApplication.Contracts;
 using WebApplication.Data;
@@ -17,6 +19,17 @@ namespace WebApplication.Repository
             return RepositoryContext.Set<Hdd>().
                 Include(x => x.Product)
                 .ThenInclude(x => x.Manufacturer)
+                .AsNoTracking();
+        }
+
+        public override IQueryable<Hdd> FindByCondition(Expression<Func<Hdd, bool>> expression)
+        {
+            return RepositoryContext.Set<Hdd>()
+                .Where(expression)
+                .Include(x => x.Product)
+                .Include("Product.Manufacturer")
+                .Include("Product.Category")
+                .Include("Interface")
                 .AsNoTracking();
         }
     }

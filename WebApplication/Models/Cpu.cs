@@ -49,7 +49,7 @@ namespace WebApplication.Models
         [Required(ErrorMessage = "Поле обязательное")]
         public double MaxMemoryFrequency { get; set; }
 
-        [Display(Name = "Расчетная тепловая мощность (МГц)")]
+        [Display(Name = "Расчетная тепловая мощность Вт")]
         [Required(ErrorMessage = "Поле обязательное")]
         public double Tdp { get; set; }
 

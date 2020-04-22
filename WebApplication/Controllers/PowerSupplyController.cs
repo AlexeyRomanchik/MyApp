@@ -1,8 +1,10 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApplication.Contracts;
+using WebApplication.Models;
 using WebApplication.ViewModels;
 
 namespace WebApplication.Controllers
@@ -40,5 +42,22 @@ namespace WebApplication.Controllers
 
             return View(powerSupplyViewModel);
         }
+
+        public IActionResult Info(Guid id)
+        {
+            var product = _powerSupplyRepository.
+                FindByCondition(x => x.Product.Id == id).First();
+
+            var infoViewModel = new InfoViewModel<PowerSupply>()
+            {
+                Product = product,
+                PopularGoods = _powerSupplyRepository.FindAll()
+                    .OrderByDescending(x => x.Product.DateAdded)
+                    .Take(4).ToList()
+            };
+
+            return View(infoViewModel);
+        }
+
     }
 }

@@ -1,4 +1,4 @@
-﻿@model WebApplication.ViewModels.RamInfoViewModel
+﻿@model WebApplication.ViewModels.InfoViewModel<PowerSupply>
 @{
     ViewData["Title"] = "Info";
     Layout = "_StartPage";
@@ -12,7 +12,7 @@
             <!--Grid column-->
             <div class="col-md-6 mb-4" style="margin: auto; text-align: center;">
 
-                <img src="@Model.Ram.Product.ImageUrl" class="img-fluid w-75" alt="">
+                <img src="@Model.Product.Product.ImageUrl" class="img-fluid w-75" alt="">
 
             </div>
             <!--Grid column-->
@@ -24,7 +24,7 @@
 
                     <div class="mb-3">
                         <a href="">
-                            <span class="badge purple mr-1">@Model.Ram.Product.Category.Name</span>
+                            <span class="badge purple mr-1">@Model.Product.Product.Category.Name</span>
                         </a>
                         <a href="">
                             <span class="badge blue mr-1">New</span>
@@ -32,16 +32,16 @@
                     </div>
 
                     <p class="lead">
-                        <span>$@Model.Ram.Product.Price</span>
+                        <span>$@Model.Product.Product.Price</span>
                     </p>
 
-                    <p class="lead font-weight-bold">@Model.Ram.Product.Name</p>
+                    <p class="lead font-weight-bold">@Model.Product.Product.Name</p>
 
                     <p>
-                        Производитель: @Model.Ram.Product.Manufacturer.Name
+                        Производитель: @Model.Product.Product.Manufacturer.Name
                     </p>
                     <p>
-                        Дата выхода на рынок: @Model.Ram.Product.DateAdded
+                        Дата выхода на рынок: @Model.Product.Product.DateAdded
                     </p>
 
                     <form class="d-flex justify-content-left">
@@ -69,35 +69,45 @@
             <tbody>
                 <tr>
                     <th scope="row">1</th>
-                    <td>Тип оперативной памяти</td>
-                    <td>@Model.Ram.MemoryType.Type</td>
+                    <td>Мощность</td>
+                    <td>@Model.Product.Power Вт</td>
 
                 </tr>
                 <tr>
                     <th scope="row">2</th>
-                    <td>Общий обьем памяти</td>
-                    <td>@Model.Ram.TotalMemory GB</td>
+                    <td>Стандарт</td>
+                    <td>@Model.Product.Standard</td>
 
                 </tr>
                 <tr>
                     <th scope="row">3</th>
-                    <td>Напряжение питания</td>
-                    <td>@Math.Round(Model.Ram.SupplyVoltage, 2) В</td>
+                    <td>Количество отдельных линий</td>
+                    <td>@Model.Product.NumberIndividualLines</td>
                 </tr>
                 <tr>
                     <th scope="row">4</th>
-                    <td>Тактовая частота</td>
-                    <td>@Model.Ram.Frequency МГц</td>
+                    <td>Максимальный ток по линии</td>
+                    <td>@Model.Product.MaxLineCurrent В</td>
                 </tr>
                 <tr>
                     <th scope="row">5</th>
-                    <td>Количество контактов</td>
-                    <td>@Model.Ram.ContactsNumber</td>
+                    <td>Коррекция фактора мощности</td>
+                    <td>@Model.Product.PowerFactorCorrection A</td>
                 </tr>
                 <tr>
                     <th scope="row">6</th>
-                    <td>Пропускная способность</td>
-                    <td>@Model.Ram.Throughput Мбайт/с</td>
+                    <td>Активный КПД</td>
+                    <td>@Model.Product.ActiveEfficiency %</td>
+                </tr>
+                <tr>
+                    <th scope="row">7</th>
+                    <td>Размер вентилятора блока питания</td>
+                    <td>@Model.Product.FanSize мм</td>
+                </tr>
+                <tr>
+                    <th scope="row">8</th>
+                    <td>Количество вентиляторов</td>
+                    <td>@Model.Product.FansNumber</td>
                 </tr>
             </tbody>
         </table>
@@ -134,7 +144,10 @@
 
                         <!-- Text -->
                         <p class="card-text">
-                            Тип оперативной памяти: @product.MemoryType.Type, общей обьем: @product.TotalMemory, производитель: @product.Product.Manufacturer.Name
+                            Мощность: @product.Power Вт,cтандарт: @product.Standard, активный КПД @product.ActiveEfficiency. %,
+                            количество отдельных линий @product.NumberIndividualLines,
+                            производитель: @product.Product.Manufacturer.Name
+
                             <h4 class="font-weight-bold red-text">
                                 <strong>
                                     @Math.Round(product.Product.Price, 2)$
@@ -151,7 +164,7 @@
                         }
                             </p>
                             <p>
-                                <a href="/Ram/Info?id=@product.Product.Id">Подробнее...</a>
+                                <a href="/PowerSupply/Info?id=@product.Product.Id">Подробнее...</a>
                             </p>
                             <a id="@product.Id" class="btn btn-red tocart">В корзину</a>
                         </div>
@@ -161,4 +174,6 @@
         </section>
 
 
+
     </div>
+

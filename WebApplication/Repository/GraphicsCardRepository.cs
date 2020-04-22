@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using WebApplication.Contracts;
 using WebApplication.Data;
@@ -17,6 +19,18 @@ namespace WebApplication.Repository
             return RepositoryContext.Set<GraphicsCard>().
                 Include(x => x.Product)
                 .ThenInclude(x => x.Manufacturer)
+                .AsNoTracking();
+        }
+
+        public override IQueryable<GraphicsCard> FindByCondition(Expression<Func<GraphicsCard, bool>> expression)
+        {
+            return RepositoryContext.Set<GraphicsCard>()
+                .Where(expression)
+                .Include(x => x.Product)
+                .Include("Product.Manufacturer")
+                .Include("Product.Category")
+                .Include("Interface")
+                .Include("MemoryType")
                 .AsNoTracking();
         }
     }
