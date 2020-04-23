@@ -19,6 +19,7 @@ namespace WebApplication.Repository
             return RepositoryContext.Set<Motherboard>().
                 Include(x => x.Product)
                 .ThenInclude(x => x.Manufacturer)
+                .Include("SocketType")
                 .AsNoTracking();
         }
 

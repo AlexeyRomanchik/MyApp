@@ -4,6 +4,6 @@ namespace WebApplication.Contracts
 {
     public interface IFileService
     {
-        void SaveUploadedFile(IFormFile uploadedFile);
+        void SaveUploadedFile(IFormFile uploadedFile, string path);
     }
 }

@@ -9,21 +9,21 @@ using WebApplication.ViewModels;
 
 namespace WebApplication.Controllers
 {
-    public class RamCrudController : Controller
+    public class GraphicsCardCrudController : Controller
     {
         private const int PageSize = 100;
 
         private readonly IRepositoryWrapper _repositoryWrapper;
-        private readonly IRamRepository _ramRepository;
-        public RamCrudController(IRepositoryWrapper repositoryWrapper)
+        private readonly IGraphicsCardRepository _graphicsCardRepository;
+        public GraphicsCardCrudController(IRepositoryWrapper repositoryWrapper)
         {
             _repositoryWrapper = repositoryWrapper;
-            _ramRepository = repositoryWrapper.RamRepository;
+            _graphicsCardRepository = repositoryWrapper.GraphicsCardRepository;
         }
 
         public async Task<IActionResult> Index(int page = 1)
         {
-            var products = _ramRepository.FindAll();
+            var products = _graphicsCardRepository.FindAll();
 
             var count = await products.CountAsync();
 
@@ -31,7 +31,7 @@ namespace WebApplication.Controllers
 
             var pageViewModel = new PageViewModel(count, page, PageSize);
 
-            var ramViewModel = new CrudViewModel<Ram>
+            var ramViewModel = new CrudViewModel<GraphicsCard>
             {
                 Products = items,
                 PageViewModel = pageViewModel
@@ -42,14 +42,13 @@ namespace WebApplication.Controllers
 
         public IActionResult Remove(Guid id)
         {
-            var product = _ramRepository.FindByCondition(x => x.Id == id).FirstOrDefault();
+            var product = _graphicsCardRepository.FindByCondition(x => x.Id == id).FirstOrDefault();
 
-            if (product == null) return View("Index");
-            _ramRepository.Delete(product);
+            if (product == null) return RedirectToAction("Index");
+            _graphicsCardRepository.Delete(product);
             _repositoryWrapper.Save();
 
             return RedirectToAction("Index");
         }
-
     }
 }

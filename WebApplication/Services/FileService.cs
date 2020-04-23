@@ -7,18 +7,11 @@ namespace WebApplication.Services
 {
     public class FileService : IFileService
     {
-        private readonly string _path;
-
-        public FileService(string path)
-        {
-            _path = path;
-        }
-
-        public async void SaveUploadedFile(IFormFile uploadedFile)
+        public async void SaveUploadedFile(IFormFile uploadedFile, string path)
         {
             if (uploadedFile == null) throw new ArgumentNullException(nameof(uploadedFile));
 
-            await using var fileStream = new FileStream(_path, FileMode.Create);
+            await using var fileStream = new FileStream(path, FileMode.Create);
             uploadedFile.CopyTo(fileStream);
         }
     }

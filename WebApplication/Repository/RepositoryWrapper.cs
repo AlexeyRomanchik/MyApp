@@ -64,7 +64,7 @@ namespace WebApplication.Repository
 
         public void Save()
         {
-            _applicationContext.SaveChangesAsync();
+            _applicationContext.SaveChanges();
         }
     }
 }

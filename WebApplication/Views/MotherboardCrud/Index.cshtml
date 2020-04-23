@@ -1,11 +1,12 @@
-﻿@model WebApplication.ViewModels.CrudViewModel<Ram>
+﻿@model WebApplication.ViewModels.CrudViewModel<Motherboard>
 @{
     ViewData["Title"] = "Index";
     Layout = "_AdminPanel";
 }
-    <div>
-        <a href="#" class="btn btn-blue tocart"> Добавить <i class="fas fa-plus-circle" style="padding: 5px"></i></a>
-    </div>
+
+<div>
+    <a href="#" class="btn btn-blue tocart"> Добавить <i class="fas fa-plus-circle" style="padding: 5px"></i></a>
+</div>
 <table class="table table-hover">
     <thead>
         <tr>
@@ -14,12 +15,10 @@
             <th scope="col">Цена</th>
             <th scope="col">Количество на складе</th>
             <th scope="col">Дата добавления</th>
-            <th scope="col">Тип памяти</th>
-            <th scope="col">Общий объем памяти</th>
-            <th scope="col">Тактовая частота</th>
-            <th scope="col">Количество контактов</th>
-            <th scope="col">Пропускная способность</th>
-            <th scope="col">Напряжение питания</th>
+            <th scope="col">Тип сокета</th>
+            <th scope="col">Чипсет</th>
+            <th scope="col">Форм-фактор</th>
+            <th scope="col">Количество слотов памяти</th>
             <th scope="col">Редактировать</th>
             <th scope="col">Удалить</th>
         </tr>
@@ -33,22 +32,20 @@
             <td>@product.Product.Price</td>
             <td>@product.Product.QuantityInStock</td>
             <td>@product.Product.DateAdded</td>
-            <td>@product.MemoryType.Type</td>
-            <td>@product.TotalMemory</td>
-            <td>@product.Frequency</td>
-            <td>@product.ContactsNumber</td>
-            <td>@product.Throughput</td>
-            <td>@product.SupplyVoltage</td>
+            <td>@product.SocketType.Type</td>
+            <td>@product.ChipSet</td>
+            <td>@product.FormFactor</td>
+            <td>@product.MemorySlotsNumber</td>
             <td>
-                <form asp-action="Remove" asp-controller="RamCrud" asp-route-id="@product.Id" method="post">
-                    <button type="submit"  class="btn btn-teal tocart">
+                <form asp-action="Remove" asp-controller="MotherboardCrud" asp-route-id="@product.Id" method="post">
+                    <button type="submit" class="btn btn-teal tocart">
                         <i class="fas fa-pencil-alt mt-0" style="display: inline; padding: 1px;"></i>
                     </button>
                 </form>
             </td>
             <td>
-                <form asp-action="Remove" asp-controller="RamCrud" asp-route-id="@product.Id" method="post">
-                    <button type="submit"   class="btn btn-red tocart">
+                <form asp-action="Remove" asp-controller="MotherboardCrud" asp-route-id="@product.Id" method="post">
+                    <button type="submit" class="btn btn-red tocart">
                         <i class="far fa-trash-alt mt-0" style="display: inline; padding: 1px;"></i>
                     </button>
                 </form>
@@ -66,7 +63,7 @@
             <li class="page-item">
                 <a asp-action="Index"
                    asp-route-page="@(Model.PageViewModel.PageNumber - 1)"
-                   asp-controller="RamCrud"
+                   asp-controller="MotherboardCrud"
                    class="page-link" aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>
                     <span class="sr-only">Previous</span>
@@ -95,7 +92,7 @@
                 <li class="page-item">
                     <a asp-action="Index"
                        asp-route-page="@i"
-                       asp-controller="RamCrud"
+                       asp-controller="MotherboardCrud"
                        class="page-link">
                         @i
                     </a>
@@ -105,7 +102,7 @@
         <li class="page-item active">
             <a class="page-link" asp-action="Index"
                asp-route-page="@Model.PageViewModel.PageNumber"
-               asp-controller="RamCrud">
+               asp-controller="MotherboardCrud">
                 @Model.PageViewModel.PageNumber
                 <span class="sr-only">(current)</span>
             </a>
@@ -118,7 +115,7 @@
                 <li class="page-item">
                     <a asp-action="Index"
                        asp-route-page="@i"
-                       asp-controller="RamCrud"
+                       asp-controller="MotherboardCrud"
                        class="page-link">
                         @i
                     </a>
@@ -131,7 +128,7 @@
             <li class="page-item">
                 <a asp-action="Index"
                    asp-route-page="@(Model.PageViewModel.PageNumber + 1)"
-                   asp-controller="RamCrud"
+                   asp-controller="MotherboardCrud"
                    class="page-link" aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
                     <span class="sr-only">Next</span>
@@ -149,3 +146,8 @@
         }
     </ul>
 </nav>
+
+
+
+
+
