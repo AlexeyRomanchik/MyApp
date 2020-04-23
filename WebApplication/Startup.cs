@@ -46,6 +46,8 @@ namespace WebApplication
                     options.ClientSecret = "wwjkpXvNLyICdwfklAVzp6RW";
                 });
             services.ConfigureSortWrapper();
+
+            services.ConfigureFileService();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

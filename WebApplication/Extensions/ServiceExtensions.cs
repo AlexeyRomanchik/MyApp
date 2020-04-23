@@ -37,5 +37,11 @@ namespace WebApplication.Extensions
         {
             services.AddScoped<ISortServiceWrapper, SortServiceWrapper>();
         }
+
+        public static void ConfigureFileService(this IServiceCollection services)
+        {
+            services.AddScoped<IFileService, FileService>();
+        }
+
     }
 }

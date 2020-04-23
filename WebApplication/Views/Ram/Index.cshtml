@@ -132,19 +132,44 @@
                 @if (Model.SortBaseViewModel.CurrentSortState == SortState.PriceAsc || Model.SortBaseViewModel.CurrentSortState == SortState.PriceDesc)
                 {
                     <li class="nav-item active">
-                        <a class="nav-link" asp-action="Index" asp-route-page="@Model.PageViewModel.PageNumber" asp-route-sortState="@(Model.SortBaseViewModel.PriceSortState) ">Цена </a>
+                        <a class="nav-link" asp-action="Index" asp-route-page="@Model.PageViewModel.PageNumber"
+                           asp-route-sortState="@(Model.SortBaseViewModel.PriceSortState)">
+                            Цена
+                            @if(Model.SortBaseViewModel.CurrentSortState == SortState.PriceAsc)
+                            {
+                                <span>&uarr;</span>
+                            }
+                            else
+                            {
+                                <span>&darr;</span>
+                            }
+                        </a>
                     </li>
                 }
                 else
                 {
                     <li class="nav-item">
-                        <a class="nav-link" asp-action="Index" asp-route-page="@Model.PageViewModel.PageNumber" asp-route-sortState="@(Model.SortBaseViewModel.PriceSortState) ">Цена &uarr;</a>
+                        <a class="nav-link" asp-action="Index" asp-route-page="@Model.PageViewModel.PageNumber"
+                           asp-route-sortState="@(Model.SortBaseViewModel.PriceSortState) ">
+                            Цена
+                        </a>
                     </li>
                 }
                 @if (Model.SortBaseViewModel.CurrentSortState == SortState.NameAsc || Model.SortBaseViewModel.CurrentSortState == SortState.NameDesc)
                 {
                     <li class="nav-item active">
-                        <a class="nav-link" asp-action="Index" asp-route-page="@Model.PageViewModel.PageNumber" asp-route-sortState="@(Model.SortBaseViewModel.NameSortState)">Название</a>
+                        <a class="nav-link" asp-action="Index" asp-route-page="@Model.PageViewModel.PageNumber"
+                           asp-route-sortState="@(Model.SortBaseViewModel.NameSortState)">
+                            Название
+                            @if (Model.SortBaseViewModel.CurrentSortState == SortState.NameAsc)
+                            {
+                                <span>&uarr;</span>
+                            }
+                            else
+                            {
+                                <span>&darr;</span>
+                            }
+                        </a>
                     </li>
                 }
                 else
@@ -156,13 +181,27 @@
                 @if (Model.SortBaseViewModel.CurrentSortState == SortState.DateAddedAsc || Model.SortBaseViewModel.CurrentSortState == SortState.DateAddedDesc)
                 {
                     <li class="nav-item active">
-                        <a class="nav-link" asp-action="Index" asp-route-page="@Model.PageViewModel.PageNumber" asp-route-sortState="@(Model.SortBaseViewModel.DateAddedSortState)">Дата добавления</a>
+                        <a class="nav-link" asp-action="Index" asp-route-page="@Model.PageViewModel.PageNumber"
+                           asp-route-sortState="@(Model.SortBaseViewModel.DateAddedSortState)">
+                            Дата добавления
+                            @if (Model.SortBaseViewModel.CurrentSortState == SortState.DateAddedAsc)
+                            {
+                                <span>&uarr;</span>
+                            }
+                            else
+                            {
+                                <span>&darr;</span>
+                            }
+                        </a>
                     </li>
                 }
                 else
                 {
                     <li class="nav-item">
-                        <a class="nav-link" asp-action="Index" asp-route-page="@Model.PageViewModel.PageNumber" asp-route-sortState="@(Model.SortBaseViewModel.DateAddedSortState)">Дата добавления</a>
+                        <a class="nav-link" asp-action="Index" asp-route-page="@Model.PageViewModel.PageNumber"
+                           asp-route-sortState="@(Model.SortBaseViewModel.DateAddedSortState)">
+                            Дата добавления
+                        </a>
                     </li>
                 }
            
