@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using WebApplication.ViewModels;
 
-namespace WebApplication.Contracts
+namespace WebApplication.Contracts.SortContracts
 {
     public interface IProductSortService<TProduct>
     {

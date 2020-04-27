@@ -3,11 +3,7 @@ using WebApplication.Models;
 
 namespace WebApplication.ViewModels
 {
-    public class PowerSupplyViewModel
+    public class PowerSupplyViewModel : BaseProductViewModel<PowerSupply>
     {
-        public List<PowerSupply> PopularGoods { get; set; }
-        public List<PowerSupply> NewItems { get; set; }
-        public List<PowerSupply> PowerSupplies { get; set; }
-        public PageViewModel PageViewModel { get; set; }
     }
 }

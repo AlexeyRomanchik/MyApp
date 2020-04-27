@@ -4,8 +4,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApplication.Contracts;
+using WebApplication.Contracts.SortContracts;
 using WebApplication.Models;
 using WebApplication.ViewModels;
+using WebApplication.ViewModels.FilterViewModels;
 
 namespace WebApplication.Controllers
 {
@@ -14,32 +16,47 @@ namespace WebApplication.Controllers
         private const int PageSize = 20;
 
         private readonly IMotherboardRepository _motherboardRepository;
+        private readonly IMotherboardSortService _motherboardSortService;
 
-        public MotherboardController(IRepositoryWrapper repositoryWrapper)
+        public MotherboardController(IRepositoryWrapper repositoryWrapper, ISortServiceWrapper sortServiceWrapper)
         {
             _motherboardRepository = repositoryWrapper.MotherboardRepository;
+            _motherboardSortService = sortServiceWrapper.MotherboardSortService;
         }
 
-        public async Task<IActionResult> Index(int page = 1)
+        public async Task<IActionResult> Index(int page = 1, string name = null,
+            SortState sortState = SortState.DateAddedDesc,
+            string manufacturer = BaseFilterViewModel.AllManufacturers)
         {
-            var ramProducts = _motherboardRepository.FindAll();
+            var products = _motherboardRepository.FindAll();
+            var manufacturers = products.Select(x => x.Product.Manufacturer.Name).Distinct();
 
-            var count = await ramProducts.CountAsync();
+            var filterViewModel = new BaseFilterViewModel(manufacturers.ToList(), manufacturer);
 
-            var items = await ramProducts.Skip((page - 1) * PageSize).Take(PageSize).ToListAsync();
+            if (name != null)
+            {
+                products = products.Where(x => x.Product.Name.Contains(name));
+            }
+
+            products = _motherboardSortService.SortBy(sortState, products);
+
+            var count = await products.CountAsync();
+
+            var items = await products.Skip((page - 1) * PageSize).Take(PageSize).ToListAsync();
 
             var pageViewModel = new PageViewModel(count, page, PageSize);
 
-            var cpuViewModel = new MotherboardViewModel
+            var motherboardViewModel = new MotherboardViewModel()
             {
-                Motherboards = items,
+                SortBaseViewModel = new SortBaseViewModel(sortState),
+                Products = items,
                 PageViewModel = pageViewModel,
-                NewItems = ramProducts
+                NewItems = products
                     .OrderByDescending(x => x.Product.DateAdded)
                     .Take(20).ToList()
             };
 
-            return View(cpuViewModel);
+            return View(motherboardViewModel);
         }
 
         public IActionResult Info(Guid id)

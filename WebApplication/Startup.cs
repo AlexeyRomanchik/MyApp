@@ -48,6 +48,7 @@ namespace WebApplication
             services.ConfigureSortWrapper();
 
             services.ConfigureFileService();
+            services.ConfigureFiltersService();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

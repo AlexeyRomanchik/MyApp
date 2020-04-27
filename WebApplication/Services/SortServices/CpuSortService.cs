@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Linq;
-using WebApplication.Contracts;
+using WebApplication.Contracts.SortContracts;
 using WebApplication.Models;
 using WebApplication.ViewModels;
 
-namespace WebApplication.Services
+namespace WebApplication.Services.SortServices
 {
-    public class RamSortService : ProductSortService<Ram>, IRamSortService
+    public class CpuSortService : ProductSortService<Cpu>, ICpuSortService
     {
-        public override IQueryable<Ram> SortBy(SortState sortState, IQueryable<Ram> products)
+        public override IQueryable<Cpu> SortBy(SortState sortState, IQueryable<Cpu> products)
         {
             switch (sortState)
             {
@@ -28,6 +28,5 @@ namespace WebApplication.Services
                     throw new ArgumentOutOfRangeException(nameof(sortState), sortState, null);
             }
         }
-
     }
 }

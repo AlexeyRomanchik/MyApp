@@ -1,0 +1,60 @@
+﻿@model WebApplication.Models.Ram
+
+@{
+    ViewData["Title"] = "Add";
+}
+
+<h1>Add</h1>
+
+<h4>Ram</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Add">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Id" class="control-label"></label>
+                <input asp-for="Id" class="form-control" />
+                <span asp-validation-for="Id" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RamMemoryTypeId" class="control-label"></label>
+                <input asp-for="RamMemoryTypeId" class="form-control" />
+                <span asp-validation-for="RamMemoryTypeId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TotalMemory" class="control-label"></label>
+                <input asp-for="TotalMemory" class="form-control" />
+                <span asp-validation-for="TotalMemory" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Frequency" class="control-label"></label>
+                <input asp-for="Frequency" class="form-control" />
+                <span asp-validation-for="Frequency" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ContactsNumber" class="control-label"></label>
+                <input asp-for="ContactsNumber" class="form-control" />
+                <span asp-validation-for="ContactsNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Throughput" class="control-label"></label>
+                <input asp-for="Throughput" class="form-control" />
+                <span asp-validation-for="Throughput" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SupplyVoltage" class="control-label"></label>
+                <input asp-for="SupplyVoltage" class="form-control" />
+                <span asp-validation-for="SupplyVoltage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

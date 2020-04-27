@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using WebApplication.Contracts;
-using WebApplication.Models;
+﻿using System.Linq;
+using WebApplication.Contracts.SortContracts;
 using WebApplication.ViewModels;
 
-namespace WebApplication.Services
+namespace WebApplication.Services.SortServices
 {
     public abstract class ProductSortService<TProduct> : IProductSortService<TProduct>
     {

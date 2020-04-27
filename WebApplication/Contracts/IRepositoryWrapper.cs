@@ -9,6 +9,7 @@
         ICpuRepository CpuRepository { get; set; }
         IHddRepository HddRepository { get; set; }
         IMotherboardRepository MotherboardRepository { get; set; }
+        IManufacturerRepository ManufacturerRepository { get; set; }
         void Save();
     }
 }

@@ -4,8 +4,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApplication.Contracts;
+using WebApplication.Contracts.SortContracts;
 using WebApplication.Models;
 using WebApplication.ViewModels;
+using WebApplication.ViewModels.FilterViewModels;
 
 namespace WebApplication.Controllers
 {
@@ -14,27 +16,42 @@ namespace WebApplication.Controllers
         private const int PageSize = 20;
 
         private readonly IGraphicsCardRepository _graphicsCardRepository;
+        private readonly IGraphicsCardSortService _graphicsCardSortService;
 
-        public GraphicsCardController(IRepositoryWrapper repositoryWrapper)
+        public GraphicsCardController(IRepositoryWrapper repositoryWrapper, ISortServiceWrapper sortServiceWrapper)
         {
             _graphicsCardRepository = repositoryWrapper.GraphicsCardRepository;
+            _graphicsCardSortService = sortServiceWrapper.GraphicsCardSortService;
         }
 
-        public async Task<IActionResult> Index(int page = 1)
+        public async Task<IActionResult> Index(int page = 1, string name = null,
+            SortState sortState = SortState.DateAddedDesc,
+            string manufacturer = BaseFilterViewModel.AllManufacturers)
         {
-            var graphicsCards = _graphicsCardRepository.FindAll();
+            var products = _graphicsCardRepository.FindAll();
+            var manufacturers = products.Select(x => x.Product.Manufacturer.Name).Distinct();
 
-            var count = await graphicsCards.CountAsync();
+            var filterViewModel = new BaseFilterViewModel(manufacturers.ToList(), manufacturer);
 
-            var items = await graphicsCards.Skip((page - 1) * PageSize).Take(PageSize).ToListAsync();
+            if (name != null)
+            {
+                products = products.Where(x => x.Product.Name.Contains(name));
+            }
+
+            products = _graphicsCardSortService.SortBy(sortState, products);
+
+            var count = await products.CountAsync();
+
+            var items = await products.Skip((page - 1) * PageSize).Take(PageSize).ToListAsync();
 
             var pageViewModel = new PageViewModel(count, page, PageSize);
 
             var graphicsCardViewModel = new GraphicsCardViewModel()
             {
-                GraphicsCards = items,
+                SortBaseViewModel = new SortBaseViewModel(sortState),
+                Products = items,
                 PageViewModel = pageViewModel,
-                NewItems = graphicsCards
+                NewItems = products
                     .OrderByDescending(x => x.Product.DateAdded)
                     .Take(20).ToList()
             };

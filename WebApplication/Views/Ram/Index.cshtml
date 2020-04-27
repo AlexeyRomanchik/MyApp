@@ -150,7 +150,7 @@
                 {
                     <li class="nav-item">
                         <a class="nav-link" asp-action="Index" asp-route-page="@Model.PageViewModel.PageNumber"
-                           asp-route-sortState="@(Model.SortBaseViewModel.PriceSortState) ">
+                           asp-route-sortState="@(Model.SortBaseViewModel.PriceSortState)">
                             Цена
                         </a>
                     </li>
@@ -233,7 +233,16 @@
             <!-- Card body -->
             <div id="collapseOne1" class="collapse show" role="tabpanel" aria-labelledby="headingOne1" data-parent="#accordionEx">
                 <div class="card-body">
-                   
+                    <form asp-controller="Ram" asp-action="Index">
+                        <label class="control-label">Производитель: </label>
+                        @Html.DropDownList("Manufacturer", Model.BaseFilterViewModel.Manufacturers,
+                            htmlAttributes: new { @class = "form-control", @style = "width:20%;" })
+                        <br />
+                        <button class="btn btn-elegant"
+                                asp-route-page="@(Model.PageViewModel.PageNumber)"
+                                asp-route-sortState="@Model.SortBaseViewModel.CurrentSortState"
+                                type="submit">Установить фильтр</button>
+                    </form>
                 </div>
             </div>
 
@@ -294,6 +303,7 @@
         {
             <li class="page-item">
                 <a asp-action="Index"
+                   asp-route-manufacturer ="@Model.BaseFilterViewModel.SelectedManufacturer"
                    asp-route-page="@(Model.PageViewModel.PageNumber - 1)"
                    asp-controller="Ram"
                    asp-route-sortState="@Model.SortBaseViewModel.CurrentSortState"
@@ -325,6 +335,7 @@
                 <li class="page-item">
                     <a asp-action="Index"
                        asp-route-page="@i"
+                       asp-route-manufacturer ="@Model.BaseFilterViewModel.SelectedManufacturer"
                        asp-controller="Ram"
                        asp-route-sortState="@Model.SortBaseViewModel.CurrentSortState"
                        class="page-link">
@@ -336,6 +347,7 @@
             <a class="page-link" asp-action="Index"
                asp-route-page="@Model.PageViewModel.PageNumber"
                asp-route-sortState="@Model.SortBaseViewModel.CurrentSortState"
+               asp-route-manufacturer ="@Model.BaseFilterViewModel.SelectedManufacturer"
                asp-controller="Ram">
                 @Model.PageViewModel.PageNumber
                 <span class="sr-only">(current)</span>
@@ -349,6 +361,7 @@
                 <li class="page-item">
                     <a asp-action="Index"
                        asp-route-page="@i"
+                       asp-route-manufacturer ="@Model.BaseFilterViewModel.SelectedManufacturer"
                        asp-controller="Ram"
                        asp-route-sortState="@Model.SortBaseViewModel.CurrentSortState"
                        class="page-link">
@@ -363,6 +376,7 @@
                 <a asp-action="Index"
                    asp-route-page="@(Model.PageViewModel.PageNumber + 1)"
                    asp-controller="Ram"
+                   asp-route-manufacturer ="@Model.BaseFilterViewModel.SelectedManufacturer"
                    asp-route-sortState="@Model.SortBaseViewModel.CurrentSortState"
                    class="page-link" aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>

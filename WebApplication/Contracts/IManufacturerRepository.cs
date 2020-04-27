@@ -2,7 +2,7 @@
 
 namespace WebApplication.Contracts
 {
-    public interface IRamSortService : IProductSortService<Ram>
+    public interface IManufacturerRepository : IRepositoryBase<Manufacturer>
     {
     }
 }

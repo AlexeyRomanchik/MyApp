@@ -2,9 +2,13 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using WebApplication.Contracts;
+using WebApplication.Contracts.FiltersContracts;
+using WebApplication.Contracts.SortContracts;
 using WebApplication.Data;
 using WebApplication.Repository;
 using WebApplication.Services;
+using WebApplication.Services.Filters;
+using WebApplication.Services.SortServices;
 
 namespace WebApplication.Extensions
 {
@@ -41,6 +45,11 @@ namespace WebApplication.Extensions
         public static void ConfigureFileService(this IServiceCollection services)
         {
             services.AddScoped<IFileService, FileService>();
+        }
+
+        public static void ConfigureFiltersService(this IServiceCollection services)
+        {
+            services.AddScoped<IRamFilter, RamFilter>();
         }
 
     }

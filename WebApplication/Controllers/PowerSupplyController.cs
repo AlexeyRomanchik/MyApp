@@ -4,8 +4,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApplication.Contracts;
+using WebApplication.Contracts.SortContracts;
 using WebApplication.Models;
 using WebApplication.ViewModels;
+using WebApplication.ViewModels.FilterViewModels;
 
 namespace WebApplication.Controllers
 {
@@ -14,16 +16,30 @@ namespace WebApplication.Controllers
         private const int PageSize = 20;
 
         private readonly IPowerSupplyRepository _powerSupplyRepository;
+        private readonly IPowerSupplySortService _powerSupplySortService;
 
-        public PowerSupplyController(IRepositoryWrapper repositoryWrapper)
+        public PowerSupplyController(IRepositoryWrapper repositoryWrapper, ISortServiceWrapper sortServiceWrapper)
         {
             _powerSupplyRepository = repositoryWrapper.PowerSupplyRepository;
+            _powerSupplySortService = sortServiceWrapper.PowerSupplySortService;
         }
 
 
-        public async Task<IActionResult> Index(int page = 1)
+        public async Task<IActionResult> Index(int page = 1, string name = null,
+            SortState sortState = SortState.DateAddedDesc,
+            string manufacturer = BaseFilterViewModel.AllManufacturers)
         {
             var powerSupplies = _powerSupplyRepository.FindAll();
+            var manufacturers = powerSupplies.Select(x => x.Product.Manufacturer.Name).Distinct();
+
+            var filterViewModel = new BaseFilterViewModel(manufacturers.ToList(), manufacturer);
+
+            if (name != null)
+            {
+                powerSupplies = powerSupplies.Where(x => x.Product.Name.Contains(name));
+            }
+
+            powerSupplies = _powerSupplySortService.SortBy(sortState, powerSupplies);
 
             var count = await powerSupplies.CountAsync();
 
@@ -33,7 +49,8 @@ namespace WebApplication.Controllers
 
             var powerSupplyViewModel = new PowerSupplyViewModel
             {
-                PowerSupplies = items,
+                SortBaseViewModel = new SortBaseViewModel(sortState),
+                Products = items,
                 PageViewModel = pageViewModel,
                 NewItems = powerSupplies
                     .OrderByDescending(x => x.Product.DateAdded)

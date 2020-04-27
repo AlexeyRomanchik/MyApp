@@ -14,6 +14,7 @@ namespace WebApplication.Repository
         private IPowerSupplyRepository _powerSupplyRepository;
         private IProductRepository _productRepository;
         private IRamRepository _ramRepository;
+        private IManufacturerRepository _manufacturerRepository;
 
         public RepositoryWrapper(ApplicationContext applicationContext)
         {
@@ -59,6 +60,12 @@ namespace WebApplication.Repository
         public IMotherboardRepository MotherboardRepository
         {
             get { return _motherboardRepository ??= new MotherboardRepository(_applicationContext); }
+            set => throw new NotImplementedException();
+        }
+
+        public IManufacturerRepository ManufacturerRepository
+        {
+            get { return _manufacturerRepository ??= new ManufacturerRepository(_applicationContext);}
             set => throw new NotImplementedException();
         }
 

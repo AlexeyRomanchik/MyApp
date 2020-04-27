@@ -40,6 +40,12 @@ namespace WebApplication.Controllers
             return View(ramViewModel);
         }
 
+        public IActionResult Add()
+        {
+            return View();
+        }
+
+
         public IActionResult Remove(Guid id)
         {
             var product = _ramRepository.FindByCondition(x => x.Id == id).FirstOrDefault();
