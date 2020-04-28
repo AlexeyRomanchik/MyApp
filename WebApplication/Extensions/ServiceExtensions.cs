@@ -50,6 +50,11 @@ namespace WebApplication.Extensions
         public static void ConfigureFiltersService(this IServiceCollection services)
         {
             services.AddScoped<IRamFilter, RamFilter>();
+            services.AddScoped<ICpuFilter, CpuFilter>();
+            services.AddScoped<IPowerSupplyFilter, PowerSupplyFilter>();
+            services.AddScoped<IMotherboardFilter, MotherboardFilter>();
+            services.AddScoped<IHddFilter, HddFilter>();
+            services.AddScoped<IGraphicsCardFilter, GraphicsCardFilter>();
         }
 
     }

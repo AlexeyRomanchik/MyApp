@@ -2,8 +2,8 @@
 
 namespace WebApplication.Contracts.FiltersContracts
 {
-    public interface IRamFilter : IBaseFilter<Ram>
+    public interface ICpuFilter : IBaseFilter<Cpu>
     {
+        
     }
 }
-

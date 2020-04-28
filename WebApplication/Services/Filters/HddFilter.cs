@@ -5,9 +5,9 @@ using WebApplication.ViewModels.FilterViewModels;
 
 namespace WebApplication.Services.Filters
 {
-    public class RamFilter : IRamFilter
+    public class HddFilter : IHddFilter
     {
-        public IQueryable<Ram> ApplyBaseFilter(BaseFilterViewModel filterViewModel, IQueryable<Ram> products)
+        public IQueryable<Hdd> ApplyBaseFilter(BaseFilterViewModel filterViewModel, IQueryable<Hdd> products)
         {
             if (filterViewModel.SelectedManufacturer != BaseFilterViewModel.AllManufacturers)
                 products = products.Where(x => x.Product.Manufacturer.Name == filterViewModel.SelectedManufacturer);
