@@ -53,6 +53,7 @@ namespace WebApplication.Controllers
 
             var motherboardViewModel = new MotherboardViewModel()
             {
+                BaseFilterViewModel = filterViewModel,
                 SortBaseViewModel = new SortBaseViewModel(sortState),
                 Products = items,
                 PageViewModel = pageViewModel,

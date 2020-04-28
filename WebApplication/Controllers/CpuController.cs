@@ -54,6 +54,7 @@ namespace WebApplication.Controllers
 
             var cpuViewModel = new CpuViewModel()
             {
+                BaseFilterViewModel = filterViewModel,
                 SortBaseViewModel = new SortBaseViewModel(sortState),
                 Products = items,
                 PageViewModel = pageViewModel,

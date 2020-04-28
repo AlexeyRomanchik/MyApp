@@ -53,6 +53,7 @@ namespace WebApplication.Controllers
 
             var graphicsCardViewModel = new GraphicsCardViewModel()
             {
+                BaseFilterViewModel = filterViewModel,
                 SortBaseViewModel = new SortBaseViewModel(sortState),
                 Products = items,
                 PageViewModel = pageViewModel,

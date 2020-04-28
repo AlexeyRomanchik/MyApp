@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApplication.Contracts;
@@ -18,15 +19,65 @@ namespace WebApplication.Controllers
         private readonly IRamRepository _ramRepository;
         private readonly IRamSortService _ramSortService;
         private readonly IRamFilter _ramFilter;
+        private readonly IRepositoryWrapper _repositoryWrapper;
 
         public RamController(IRepositoryWrapper repositoryWrapper, ISortServiceWrapper sortServiceWrapper, IRamFilter ramFilter)
         {
+            _repositoryWrapper = repositoryWrapper;
             _ramFilter = ramFilter;
             _ramSortService = sortServiceWrapper.RamSortService;
-            _ramRepository = repositoryWrapper.RamRepository;
+            _ramRepository = _repositoryWrapper.RamRepository;
         }
 
-        public async Task<IActionResult> Index(int page = 1, string name = null, 
+        public IActionResult Index(int page = 1, string name = null, 
+            SortState sortState = SortState.DateAddedDesc,
+            string manufacturer = BaseFilterViewModel.AllManufacturers)
+        {
+            var ramViewModel = PrepareData(page, name, sortState, manufacturer);
+
+            return View(ramViewModel.Result);
+        }
+
+        [Authorize(Roles = "admin")]
+        public IActionResult Table(int page = 1, string name = null,
+            SortState sortState = SortState.DateAddedDesc,
+            string manufacturer = BaseFilterViewModel.AllManufacturers)
+        {
+            var ramViewModel = PrepareData(page, name, sortState, manufacturer);
+
+            return View(ramViewModel.Result);
+        }
+
+
+        public IActionResult Info(Guid id)
+        {
+            var product = _ramRepository.FindByCondition(x => x.Product.Id == id).First();
+
+            var ramInfoViewModel = new RamInfoViewModel()
+            {
+                Ram = product,
+                PopularGoods = _ramRepository.FindAll()
+                    .OrderByDescending(x => x.Product.DateAdded)
+                    .Take(4).ToList()
+            };
+
+            return View(ramInfoViewModel);
+        }
+
+        [Authorize(Roles = "admin")]
+        public IActionResult Remove(Guid id)
+        {
+            var product = _ramRepository.FindByCondition(x => x.Id == id).FirstOrDefault();
+
+            if (product == null) return View("Table");
+            _ramRepository.Delete(product);
+            _repositoryWrapper.Save();
+
+            return RedirectToAction("Table");
+        }
+
+
+        private async Task<RamViewModel> PrepareData(int page = 1, string name = null,
             SortState sortState = SortState.DateAddedDesc,
             string manufacturer = BaseFilterViewModel.AllManufacturers)
         {
@@ -60,23 +111,7 @@ namespace WebApplication.Controllers
                     .OrderByDescending(x => x.Product.DateAdded)
                     .Take(20).ToList()
             };
-
-            return View(ramViewModel);
-        }
-
-        public IActionResult Info(Guid id)
-        {
-            var product = _ramRepository.FindByCondition(x => x.Product.Id == id).First();
-
-            var ramInfoViewModel = new RamInfoViewModel()
-            {
-                Ram = product,
-                PopularGoods = _ramRepository.FindAll()
-                    .OrderByDescending(x => x.Product.DateAdded)
-                    .Take(4).ToList()
-            };
-
-            return View(ramInfoViewModel);
+            return ramViewModel;
         }
     }
 }

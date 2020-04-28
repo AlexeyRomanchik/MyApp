@@ -237,7 +237,7 @@
             <!-- Card body -->
             <div id="collapseOne1" class="collapse show" role="tabpanel" aria-labelledby="headingOne1" data-parent="#accordionEx">
                 <div class="card-body">
-                    @*<form asp-controller="Ram" asp-action="Index">
+                    <form asp-controller="PowerSupply" asp-action="Index">
                         <label class="control-label">Производитель: </label>
                         @Html.DropDownList("Manufacturer", Model.BaseFilterViewModel.Manufacturers,
                             htmlAttributes: new { @class = "form-control", @style = "width:20%;" })
@@ -248,7 +248,7 @@
                                 type="submit">
                             Установить фильтр
                         </button>
-                    </form>*@
+                    </form>
                 </div>
             </div>
 
@@ -312,6 +312,7 @@
                 <a asp-action="Index"
                    asp-route-page="@(Model.PageViewModel.PageNumber - 1)"
                    asp-controller="PowerSupply"
+                   asp-route-manufacturer ="@Model.BaseFilterViewModel.SelectedManufacturer"
                    asp-route-sortState="@Model.SortBaseViewModel.CurrentSortState"
                    class="page-link" aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>
@@ -341,6 +342,7 @@
                 <li class="page-item">
                     <a asp-action="Index"
                        asp-route-page="@i"
+                       asp-route-manufacturer ="@Model.BaseFilterViewModel.SelectedManufacturer"
                        asp-controller="PowerSupply"
                        asp-route-sortState="@Model.SortBaseViewModel.CurrentSortState"
                        class="page-link">
@@ -353,6 +355,7 @@
             <a class="page-link" asp-action="Index"
                asp-route-page="@Model.PageViewModel.PageNumber"
                asp-route-sortState="@Model.SortBaseViewModel.CurrentSortState"
+               asp-route-manufacturer ="@Model.BaseFilterViewModel.SelectedManufacturer"
                asp-controller="PowerSupply">
                 @Model.PageViewModel.PageNumber
                 <span class="sr-only">(current)</span>
@@ -368,6 +371,7 @@
                        asp-route-page="@i"
                        asp-controller="PowerSupply"
                        asp-route-sortState="@Model.SortBaseViewModel.CurrentSortState"
+                       asp-route-manufacturer ="@Model.BaseFilterViewModel.SelectedManufacturer"
                        class="page-link">
                         @i
                     </a>
@@ -381,6 +385,7 @@
                 <a asp-action="Index"
                    asp-route-page="@(Model.PageViewModel.PageNumber + 1)"
                    asp-route-sortState="@Model.SortBaseViewModel.CurrentSortState"
+                   asp-route-manufacturer ="@Model.BaseFilterViewModel.SelectedManufacturer"
                    asp-controller="PowerSupply"
                    class="page-link" aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>

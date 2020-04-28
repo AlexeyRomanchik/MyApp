@@ -54,6 +54,7 @@ namespace WebApplication.Controllers
 
             var powerSupplyViewModel = new PowerSupplyViewModel
             {
+                BaseFilterViewModel = filterViewModel,
                 SortBaseViewModel = new SortBaseViewModel(sortState),
                 Products = items,
                 PageViewModel = pageViewModel,

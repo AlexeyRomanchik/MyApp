@@ -53,6 +53,7 @@ namespace WebApplication.Controllers
 
             var hddViewModel = new HddViewModel()
             {
+                BaseFilterViewModel = filterViewModel,
                 SortBaseViewModel = new SortBaseViewModel(sortState),
                 Products = items,
                 PageViewModel = pageViewModel,
