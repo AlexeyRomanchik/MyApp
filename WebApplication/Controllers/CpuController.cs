@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApplication.Contracts;
+using WebApplication.Contracts.FiltersContracts;
 using WebApplication.Contracts.SortContracts;
 using WebApplication.Models;
 using WebApplication.ViewModels;
@@ -17,9 +18,11 @@ namespace WebApplication.Controllers
 
         private readonly ICpuRepository _cpuRepository;
         private readonly ICpuSortService _cpuSortService;
+        private readonly ICpuFilter _cpuFilter;
 
-        public CpuController(IRepositoryWrapper repositoryWrapper, ISortServiceWrapper sortServiceWrapper)
+        public CpuController(IRepositoryWrapper repositoryWrapper, ISortServiceWrapper sortServiceWrapper, ICpuFilter cpuFilter)
         {
+            _cpuFilter = cpuFilter;
             _cpuRepository = repositoryWrapper.CpuRepository;
             _cpuSortService = sortServiceWrapper.CpuSortService;
         }
@@ -38,6 +41,8 @@ namespace WebApplication.Controllers
             {
                 products = products.Where(x => x.Product.Name.Contains(name));
             }
+
+            products = _cpuFilter.ApplyBaseFilter(filterViewModel, products);
 
             products = _cpuSortService.SortBy(sortState, products);
 

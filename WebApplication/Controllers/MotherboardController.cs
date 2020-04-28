@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApplication.Contracts;
+using WebApplication.Contracts.FiltersContracts;
 using WebApplication.Contracts.SortContracts;
 using WebApplication.Models;
 using WebApplication.ViewModels;
@@ -17,9 +18,11 @@ namespace WebApplication.Controllers
 
         private readonly IMotherboardRepository _motherboardRepository;
         private readonly IMotherboardSortService _motherboardSortService;
+        private readonly IMotherboardFilter _motherboardFilter;
 
-        public MotherboardController(IRepositoryWrapper repositoryWrapper, ISortServiceWrapper sortServiceWrapper)
+        public MotherboardController(IRepositoryWrapper repositoryWrapper, ISortServiceWrapper sortServiceWrapper, IMotherboardFilter motherboardFilter)
         {
+            _motherboardFilter = motherboardFilter;
             _motherboardRepository = repositoryWrapper.MotherboardRepository;
             _motherboardSortService = sortServiceWrapper.MotherboardSortService;
         }
@@ -37,6 +40,8 @@ namespace WebApplication.Controllers
             {
                 products = products.Where(x => x.Product.Name.Contains(name));
             }
+
+            products = _motherboardFilter.ApplyBaseFilter(filterViewModel, products);
 
             products = _motherboardSortService.SortBy(sortState, products);
 

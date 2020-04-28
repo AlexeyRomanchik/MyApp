@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApplication.Contracts;
+using WebApplication.Contracts.FiltersContracts;
 using WebApplication.Contracts.SortContracts;
 using WebApplication.Models;
 using WebApplication.ViewModels;
@@ -17,9 +18,11 @@ namespace WebApplication.Controllers
 
         private readonly IGraphicsCardRepository _graphicsCardRepository;
         private readonly IGraphicsCardSortService _graphicsCardSortService;
+        private readonly IGraphicsCardFilter _graphicsCardFilter;
 
-        public GraphicsCardController(IRepositoryWrapper repositoryWrapper, ISortServiceWrapper sortServiceWrapper)
+        public GraphicsCardController(IRepositoryWrapper repositoryWrapper, ISortServiceWrapper sortServiceWrapper, IGraphicsCardFilter graphicsCardFilter)
         {
+            _graphicsCardFilter = graphicsCardFilter;
             _graphicsCardRepository = repositoryWrapper.GraphicsCardRepository;
             _graphicsCardSortService = sortServiceWrapper.GraphicsCardSortService;
         }
@@ -37,6 +40,8 @@ namespace WebApplication.Controllers
             {
                 products = products.Where(x => x.Product.Name.Contains(name));
             }
+
+            products = _graphicsCardFilter.ApplyBaseFilter(filterViewModel, products);
 
             products = _graphicsCardSortService.SortBy(sortState, products);
 

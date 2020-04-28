@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApplication.Contracts;
+using WebApplication.Contracts.FiltersContracts;
 using WebApplication.Contracts.SortContracts;
 using WebApplication.Models;
 using WebApplication.ViewModels;
@@ -17,9 +18,11 @@ namespace WebApplication.Controllers
 
         private readonly IPowerSupplyRepository _powerSupplyRepository;
         private readonly IPowerSupplySortService _powerSupplySortService;
+        private readonly IPowerSupplyFilter _powerSupplyFilter;
 
-        public PowerSupplyController(IRepositoryWrapper repositoryWrapper, ISortServiceWrapper sortServiceWrapper)
+        public PowerSupplyController(IRepositoryWrapper repositoryWrapper, ISortServiceWrapper sortServiceWrapper, IPowerSupplyFilter powerSupplyFilter)
         {
+            _powerSupplyFilter = powerSupplyFilter;
             _powerSupplyRepository = repositoryWrapper.PowerSupplyRepository;
             _powerSupplySortService = sortServiceWrapper.PowerSupplySortService;
         }
@@ -38,6 +41,8 @@ namespace WebApplication.Controllers
             {
                 powerSupplies = powerSupplies.Where(x => x.Product.Name.Contains(name));
             }
+
+            powerSupplies = _powerSupplyFilter.ApplyBaseFilter(filterViewModel, powerSupplies);
 
             powerSupplies = _powerSupplySortService.SortBy(sortState, powerSupplies);
 
