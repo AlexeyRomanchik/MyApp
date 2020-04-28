@@ -15,13 +15,14 @@ namespace WebApplication.Controllers
     public class RamController : Controller
     {
         private const int PageSize = 20;
+        private readonly IRamFilter _ramFilter;
 
         private readonly IRamRepository _ramRepository;
         private readonly IRamSortService _ramSortService;
-        private readonly IRamFilter _ramFilter;
         private readonly IRepositoryWrapper _repositoryWrapper;
 
-        public RamController(IRepositoryWrapper repositoryWrapper, ISortServiceWrapper sortServiceWrapper, IRamFilter ramFilter)
+        public RamController(IRepositoryWrapper repositoryWrapper, ISortServiceWrapper sortServiceWrapper,
+            IRamFilter ramFilter)
         {
             _repositoryWrapper = repositoryWrapper;
             _ramFilter = ramFilter;
@@ -29,13 +30,12 @@ namespace WebApplication.Controllers
             _ramRepository = _repositoryWrapper.RamRepository;
         }
 
-        public IActionResult Index(int page = 1, string name = null, 
+        public IActionResult Index(int page = 1, string name = null,
             SortState sortState = SortState.DateAddedDesc,
             string manufacturer = BaseFilterViewModel.AllManufacturers)
         {
-            var ramViewModel = PrepareData(page, name, sortState, manufacturer);
-
-            return View(ramViewModel.Result);
+            var viewModel = PrepareData(page, name, sortState, manufacturer);
+            return View(viewModel.Result);
         }
 
         [Authorize(Roles = "admin")]
@@ -43,17 +43,15 @@ namespace WebApplication.Controllers
             SortState sortState = SortState.DateAddedDesc,
             string manufacturer = BaseFilterViewModel.AllManufacturers)
         {
-            var ramViewModel = PrepareData(page, name, sortState, manufacturer);
-
-            return View(ramViewModel.Result);
+            var viewModel = PrepareData(page, name, sortState, manufacturer);
+            return View(viewModel.Result);
         }
-
 
         public IActionResult Info(Guid id)
         {
             var product = _ramRepository.FindByCondition(x => x.Product.Id == id).First();
 
-            var ramInfoViewModel = new RamInfoViewModel()
+            var ramInfoViewModel = new RamInfoViewModel
             {
                 Ram = product,
                 PopularGoods = _ramRepository.FindAll()
@@ -69,13 +67,12 @@ namespace WebApplication.Controllers
         {
             var product = _ramRepository.FindByCondition(x => x.Id == id).FirstOrDefault();
 
-            if (product == null) return View("Table");
+            if (product == null) return RedirectToAction("Table");
             _ramRepository.Delete(product);
             _repositoryWrapper.Save();
 
             return RedirectToAction("Table");
         }
-
 
         private async Task<RamViewModel> PrepareData(int page = 1, string name = null,
             SortState sortState = SortState.DateAddedDesc,
@@ -87,10 +84,7 @@ namespace WebApplication.Controllers
             var filterViewModel = new BaseFilterViewModel(manufacturers.ToList(), manufacturer);
 
 
-            if (name != null)
-            {
-                ramProducts = ramProducts.Where(x => x.Product.Name.Contains(name));
-            }
+            if (name != null) ramProducts = ramProducts.Where(x => x.Product.Name.Contains(name));
 
             ramProducts = _ramFilter.ApplyBaseFilter(filterViewModel, ramProducts);
 

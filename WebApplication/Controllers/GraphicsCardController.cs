@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApplication.Contracts;
@@ -15,19 +16,66 @@ namespace WebApplication.Controllers
     public class GraphicsCardController : Controller
     {
         private const int PageSize = 20;
+        private readonly IGraphicsCardFilter _graphicsCardFilter;
 
         private readonly IGraphicsCardRepository _graphicsCardRepository;
         private readonly IGraphicsCardSortService _graphicsCardSortService;
-        private readonly IGraphicsCardFilter _graphicsCardFilter;
+        private readonly IRepositoryWrapper _repositoryWrapper;
 
-        public GraphicsCardController(IRepositoryWrapper repositoryWrapper, ISortServiceWrapper sortServiceWrapper, IGraphicsCardFilter graphicsCardFilter)
+        public GraphicsCardController(IRepositoryWrapper repositoryWrapper, ISortServiceWrapper sortServiceWrapper,
+            IGraphicsCardFilter graphicsCardFilter)
         {
+            _repositoryWrapper = repositoryWrapper;
             _graphicsCardFilter = graphicsCardFilter;
-            _graphicsCardRepository = repositoryWrapper.GraphicsCardRepository;
+            _graphicsCardRepository = _repositoryWrapper.GraphicsCardRepository;
             _graphicsCardSortService = sortServiceWrapper.GraphicsCardSortService;
         }
 
-        public async Task<IActionResult> Index(int page = 1, string name = null,
+        public IActionResult Index(int page = 1, string name = null,
+            SortState sortState = SortState.DateAddedDesc,
+            string manufacturer = BaseFilterViewModel.AllManufacturers)
+        {
+            var viewModel = PrepareData(page, name, sortState, manufacturer);
+            return View(viewModel.Result);
+        }
+
+        [Authorize(Roles = "admin")]
+        public IActionResult Table(int page = 1, string name = null,
+            SortState sortState = SortState.DateAddedDesc,
+            string manufacturer = BaseFilterViewModel.AllManufacturers)
+        {
+            var viewModel = PrepareData(page, name, sortState, manufacturer);
+            return View(viewModel.Result);
+        }
+
+        public IActionResult Info(Guid id)
+        {
+            var product = _graphicsCardRepository.FindByCondition(x => x.Product.Id == id).First();
+
+            var infoViewModel = new InfoViewModel<GraphicsCard>
+            {
+                Product = product,
+                PopularGoods = _graphicsCardRepository.FindAll()
+                    .OrderByDescending(x => x.Product.DateAdded)
+                    .Take(4).ToList()
+            };
+
+            return View(infoViewModel);
+        }
+
+        [Authorize(Roles = "admin")]
+        public IActionResult Remove(Guid id)
+        {
+            var product = _graphicsCardRepository.FindByCondition(x => x.Id == id).FirstOrDefault();
+
+            if (product == null) return RedirectToAction("Table");
+            _graphicsCardRepository.Delete(product);
+            _repositoryWrapper.Save();
+
+            return RedirectToAction("Table");
+        }
+
+        private async Task<GraphicsCardViewModel> PrepareData(int page = 1, string name = null,
             SortState sortState = SortState.DateAddedDesc,
             string manufacturer = BaseFilterViewModel.AllManufacturers)
         {
@@ -36,10 +84,7 @@ namespace WebApplication.Controllers
 
             var filterViewModel = new BaseFilterViewModel(manufacturers.ToList(), manufacturer);
 
-            if (name != null)
-            {
-                products = products.Where(x => x.Product.Name.Contains(name));
-            }
+            if (name != null) products = products.Where(x => x.Product.Name.Contains(name));
 
             products = _graphicsCardFilter.ApplyBaseFilter(filterViewModel, products);
 
@@ -51,7 +96,7 @@ namespace WebApplication.Controllers
 
             var pageViewModel = new PageViewModel(count, page, PageSize);
 
-            var graphicsCardViewModel = new GraphicsCardViewModel()
+            var graphicsCardViewModel = new GraphicsCardViewModel
             {
                 BaseFilterViewModel = filterViewModel,
                 SortBaseViewModel = new SortBaseViewModel(sortState),
@@ -62,24 +107,7 @@ namespace WebApplication.Controllers
                     .Take(20).ToList()
             };
 
-            return View(graphicsCardViewModel);
+            return graphicsCardViewModel;
         }
-
-        public IActionResult Info(Guid id)
-        {
-            var product = _graphicsCardRepository.
-                FindByCondition(x => x.Product.Id == id).First();
-
-            var infoViewModel = new InfoViewModel<GraphicsCard>()
-            {
-                Product = product,
-                PopularGoods = _graphicsCardRepository.FindAll()
-                    .OrderByDescending(x => x.Product.DateAdded)
-                    .Take(4).ToList()
-            };
-
-            return View(infoViewModel);
-        }
-
     }
 }

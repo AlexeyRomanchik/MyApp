@@ -1,0 +1,311 @@
+﻿@using WebApplication.ViewModels
+@model WebApplication.ViewModels.CpuViewModel
+@{
+    ViewData["Title"] = "Index";
+    Layout = "_AdminPanel";
+}
+
+    <div class="elegant-color" style="padding: 0px; margin: 0px;">
+        <nav class="navbar navbar-expand-lg navbar-dark elegant-color">
+
+            <span class="navbar-brand">Сортировать:</span>
+
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav"
+                    aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="basicExampleNav">
+
+                <ul class="navbar-nav mr-auto">
+                    @if (Model.SortBaseViewModel.CurrentSortState == SortState.PriceAsc || Model.SortBaseViewModel.CurrentSortState == SortState.PriceDesc)
+                    {
+                        <li class="nav-item active">
+                            <a class="nav-link" asp-action="Table" asp-route-page="@Model.PageViewModel.PageNumber"
+                               asp-route-sortState="@(Model.SortBaseViewModel.PriceSortState)">
+                                Цена
+                                @if (Model.SortBaseViewModel.CurrentSortState == SortState.PriceAsc)
+                                {
+                                    <span>&uarr;</span>
+                                }
+                                else
+                                {
+                                    <span>&darr;</span>
+                                }
+                            </a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" asp-action="Table" asp-route-page="@Model.PageViewModel.PageNumber"
+                               asp-route-sortState="@(Model.SortBaseViewModel.PriceSortState)">
+                                Цена
+                            </a>
+                        </li>
+                    }
+                    @if (Model.SortBaseViewModel.CurrentSortState == SortState.NameAsc || Model.SortBaseViewModel.CurrentSortState == SortState.NameDesc)
+                    {
+                        <li class="nav-item active">
+                            <a class="nav-link" asp-action="Table" asp-route-page="@Model.PageViewModel.PageNumber"
+                               asp-route-sortState="@(Model.SortBaseViewModel.NameSortState)">
+                                Название
+                                @if (Model.SortBaseViewModel.CurrentSortState == SortState.NameAsc)
+                                {
+                                    <span>&uarr;</span>
+                                }
+                                else
+                                {
+                                    <span>&darr;</span>
+                                }
+                            </a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" asp-action="Table" asp-route-page="@Model.PageViewModel.PageNumber" asp-route-sortState="@(Model.SortBaseViewModel.NameSortState)">Название</a>
+                        </li>
+                    }
+                    @if (Model.SortBaseViewModel.CurrentSortState == SortState.DateAddedAsc || Model.SortBaseViewModel.CurrentSortState == SortState.DateAddedDesc)
+                    {
+                        <li class="nav-item active">
+                            <a class="nav-link" asp-action="Table" asp-route-page="@Model.PageViewModel.PageNumber"
+                               asp-route-sortState="@(Model.SortBaseViewModel.DateAddedSortState)">
+                                Дата добавления
+                                @if (Model.SortBaseViewModel.CurrentSortState == SortState.DateAddedAsc)
+                                {
+                                    <span>&uarr;</span>
+                                }
+                                else
+                                {
+                                    <span>&darr;</span>
+                                }
+                            </a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" asp-action="Table" asp-route-page="@Model.PageViewModel.PageNumber"
+                               asp-route-sortState="@(Model.SortBaseViewModel.DateAddedSortState)">
+                                Дата добавления
+                            </a>
+                        </li>
+                    }
+
+                </ul>
+
+                <form class="form-inline" asp-action="Table" asp-controller="Cpu">
+                    <div class="md-form my-0">
+                        <input class="form-control mr-sm-2" type="text" placeholder="Search" id="name" name="name" aria-label="Search">
+                    </div>
+                </form>
+            </div>
+        </nav>
+        <!--Accordion wrapper-->
+        <div class="accordion md-accordion elegant-color w-100" id="accordionEx" role="tablist" aria-multiselectable="true">
+
+            <!-- Accordion card -->
+            <div class="card  elegant-color" style="color: white; width: 100%; padding: 0px; margin: 0px;">
+
+                <!-- Card header -->
+                <div class="card-header" role="tab" id="headingOne1">
+                    <a data-toggle="collapse" data-parent="#accordionEx" href="#collapseOne1" aria-expanded="true"
+                       aria-controls="collapseOne1">
+                        <h5 class="mb-0 white-text">
+                            Фильтры <i class="fas fa-angle-down rotate-icon"></i>
+                        </h5>
+                    </a>
+                </div>
+
+                <!-- Card body -->
+                <div id="collapseOne1" class="collapse show" role="tabpanel" aria-labelledby="headingOne1" data-parent="#accordionEx">
+                    <div class="card-body">
+                        <form asp-controller="Cpu" asp-action="Table">
+                            <label class="control-label">Производитель: </label>
+                            @Html.DropDownList("Manufacturer", Model.BaseFilterViewModel.Manufacturers,
+                                htmlAttributes: new { @class = "form-control", @style = "width:20%;" })
+                            <br />
+                            <button class="btn btn-elegant"
+                                    asp-route-page="@(Model.PageViewModel.PageNumber)"
+                                    asp-route-sortState="@Model.SortBaseViewModel.CurrentSortState"
+                                    type="submit">
+                                Установить фильтр
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        <!-- Accordion wrapper -->
+    </div>
+
+<div>
+    <a href="#" class="btn btn-blue tocart"> Добавить <i class="fas fa-plus-circle" style="padding: 5px"></i></a>
+</div>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Название</th>
+            <th scope="col">Цена</th>
+            <th scope="col">Количество на складе</th>
+            <th scope="col">Дата добавления</th>
+            <th scope="col">Сокет</th>
+            <th scope="col">Количество ядер</th>
+            <th scope="col">Максимальное количество потоков</th>
+            <th scope="col">Базовая тактовая частота</th>
+            <th scope="col">Максимальная частота</th>
+            <th scope="col">Кэш L2 (MB)</th>
+            <th scope="col">Кэш L3 (MB)</th>
+            <th scope="col">Поддержка памяти</th>
+            <th scope="col">Количество каналов памяти</th>
+            <th scope="col">Максимальная частота памяти</th>
+            <th scope="col">Расчетная тепловая мощность Вт</th>
+            <th scope="col">Редактировать</th>
+            <th scope="col">Удалить</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model.Products)
+        {
+            <tr>
+                <td>@product.Id</td>
+                <td>@product.Product.Name</td>
+                <td>@product.Product.Price</td>
+                <td>@product.Product.QuantityInStock</td>
+                <td>@product.Product.DateAdded</td>
+                <td>@product.Socket</td>
+                <td>@product.NumberCores</td>
+                <td>@product.MaximumNumberThreads</td>
+                <td>@product.BaseClock</td>
+                <td>@product.MaximumFrequency</td>
+                <td>@product.L2Cache</td>
+                <td>@product.L3Cache</td>
+                <td>@product.MemorySupport</td>
+                <td>@product.NumberMemoryChannels</td>
+                <td>@product.MaxMemoryFrequency</td>
+                <td>@product.Tdp</td>
+                <td>
+                    <form asp-action="Remove" asp-controller="Cpu" asp-route-id="@product.Id" method="post">
+                        <button type="submit" class="btn btn-teal tocart">
+                            <i class="fas fa-pencil-alt mt-0" style="display: inline; padding: 1px;"></i>
+                        </button>
+                    </form>
+                </td>
+                <td>
+                    <form asp-action="Remove" asp-controller="Cpu" asp-route-id="@product.Id" method="post">
+                        <button type="submit" class="btn btn-red tocart">
+                            <i class="far fa-trash-alt mt-0" style="display: inline; padding: 1px;"></i>
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<nav class="d-flex justify-content-center wow fadeIn">
+    <ul class="pagination pg-blue">
+        @if (Model.PageViewModel.HasPreviousPage)
+        {
+            <li class="page-item">
+                <a asp-action="Table"
+                   asp-route-page="@(Model.PageViewModel.PageNumber - 1)"
+                   asp-controller="Cpu"
+                   asp-route-manufacturer="@Model.BaseFilterViewModel.SelectedManufacturer"
+                   asp-route-sortState="@Model.SortBaseViewModel.CurrentSortState"
+                   class="page-link" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                    <span class="sr-only">Previous</span>
+                </a>
+            </li>
+        }
+        else
+        {
+            <li class="page-item disabled">
+                <a href="#"
+                   class="page-link" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                    <span class="sr-only">Previous</span>
+                </a>
+            </li>
+        }
+        @{
+            var index = 1;
+            if (Model.PageViewModel.PageNumber > 3)
+            {
+                index = Model.PageViewModel.PageNumber - 3;
+            }
+
+            for (var i = index; i < Model.PageViewModel.PageNumber; i++)
+            {
+                <li class="page-item">
+                    <a asp-action="Table"
+                       asp-route-page="@i"
+                       asp-controller="Cpu"
+                       asp-route-manufacturer="@Model.BaseFilterViewModel.SelectedManufacturer"
+                       asp-route-sortState="@Model.SortBaseViewModel.CurrentSortState"
+                       class="page-link">
+                        @i
+                    </a>
+                </li>
+            }
+        }
+        <li class="page-item active">
+            <a class="page-link" asp-action="Table"
+               asp-route-page="@Model.PageViewModel.PageNumber"
+               asp-route-manufacturer="@Model.BaseFilterViewModel.SelectedManufacturer"
+               asp-route-sortState="@Model.SortBaseViewModel.CurrentSortState"
+               asp-controller="Cpu">
+                @Model.PageViewModel.PageNumber
+                <span class="sr-only">(current)</span>
+            </a>
+        </li>
+        @{
+            var indexNext = Model.PageViewModel.PageNumber + 1;
+
+            for (var i = indexNext; i <= Model.PageViewModel.TotalPages && i < indexNext + 3; i++)
+            {
+                <li class="page-item">
+                    <a asp-action="Table"
+                       asp-route-page="@i"
+                       asp-route-manufacturer="@Model.BaseFilterViewModel.SelectedManufacturer"
+                       asp-controller="Cpu"
+                       asp-route-sortState="@Model.SortBaseViewModel.CurrentSortState"
+                       class="page-link">
+                        @i
+                    </a>
+                </li>
+            }
+        }
+
+        @if (Model.PageViewModel.HasNextPage)
+        {
+            <li class="page-item">
+                <a asp-action="Table"
+                   asp-route-page="@(Model.PageViewModel.PageNumber + 1)"
+                   asp-controller="Cpu"
+                   asp-route-manufacturer="@Model.BaseFilterViewModel.SelectedManufacturer"
+                   asp-route-sortState="@Model.SortBaseViewModel.CurrentSortState"
+                   class="page-link" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </li>
+        }
+        else
+        {
+            <li class="page-item disabled">
+                <a class="page-link" href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </li>
+        }
+    </ul>
+</nav>

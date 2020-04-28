@@ -1,11 +1,11 @@
 ﻿@using WebApplication.ViewModels
-@model WebApplication.ViewModels.RamViewModel
+@model WebApplication.ViewModels.GraphicsCardViewModel
 @{
     ViewData["Title"] = "Index";
     Layout = "_AdminPanel";
 }
 
-<div class="elegant-color" style="margin: 0px; padding: 0px;">
+<div class="elegant-color" style="padding: 0px; margin: 0px;">
     <nav class="navbar navbar-expand-lg navbar-dark elegant-color">
 
         <span class="navbar-brand">Сортировать:</span>
@@ -97,7 +97,7 @@
 
             </ul>
 
-            <form class="form-inline" asp-action="Table" asp-controller="Ram">
+            <form class="form-inline" asp-action="Table" asp-controller="GraphicsCard">
                 <div class="md-form my-0">
                     <input class="form-control mr-sm-2" type="text" placeholder="Search" id="name" name="name" aria-label="Search">
                 </div>
@@ -108,7 +108,7 @@
     <div class="accordion md-accordion elegant-color w-100" id="accordionEx" role="tablist" aria-multiselectable="true">
 
         <!-- Accordion card -->
-        <div class="card  elegant-color" style="color: white; margin: 0px; padding: 0px; width: 100%;">
+        <div class="card  elegant-color" style="color: white; width: 100%; padding: 0px; margin: 0px;">
 
             <!-- Card header -->
             <div class="card-header" role="tab" id="headingOne1">
@@ -123,11 +123,11 @@
             <!-- Card body -->
             <div id="collapseOne1" class="collapse show" role="tabpanel" aria-labelledby="headingOne1" data-parent="#accordionEx">
                 <div class="card-body">
-                    <form asp-controller="Ram" asp-action="Table">
+                    <form asp-controller="GraphicsCard" asp-action="Table">
                         <label class="control-label">Производитель: </label>
                         @Html.DropDownList("Manufacturer", Model.BaseFilterViewModel.Manufacturers,
-                            new {@class = "form-control", style = "width:20%;"})
-                        <br/>
+                            htmlAttributes: new { @class = "form-control", @style = "width:20%;" })
+                        <br />
                         <button class="btn btn-elegant"
                                 asp-route-page="@(Model.PageViewModel.PageNumber)"
                                 asp-route-sortState="@Model.SortBaseViewModel.CurrentSortState"
@@ -144,7 +144,6 @@
     <!-- Accordion wrapper -->
 </div>
 
-
 <div>
     <a href="#" class="btn btn-blue tocart"> Добавить <i class="fas fa-plus-circle" style="padding: 5px"></i></a>
 </div>
@@ -156,12 +155,16 @@
         <th scope="col">Цена</th>
         <th scope="col">Количество на складе</th>
         <th scope="col">Дата добавления</th>
-        <th scope="col">Тип памяти</th>
-        <th scope="col">Общий объем памяти</th>
-        <th scope="col">Тактовая частота</th>
-        <th scope="col">Количество контактов</th>
-        <th scope="col">Пропускная способность</th>
-        <th scope="col">Напряжение питания</th>
+        <th scope="col">Частота графического процессора (МГц)</th>
+        <th scope="col">Turbo-частота графического процессора (МГц)</th>
+        <th scope="col">Количество потоковых процессоров</th>
+        <th scope="col">Видеопамять (GB)</th>
+        <th scope="col">Частота памяти</th>
+        <th scope="col">Ширина шины памяти (bit)</th>
+        <th scope="col">Поддержка DirectX</th>
+        <th scope="col">Рекомендуемый блок питания (Вт)</th>
+        <th scope="col">Количество вентиляторов</th>
+        <th scope="col">Тип графической памяти</th>
         <th scope="col">Редактировать</th>
         <th scope="col">Удалить</th>
     </tr>
@@ -175,21 +178,25 @@
             <td>@product.Product.Price</td>
             <td>@product.Product.QuantityInStock</td>
             <td>@product.Product.DateAdded</td>
-            <td>@product.MemoryType.Type</td>
-            <td>@product.TotalMemory</td>
-            <td>@product.Frequency</td>
-            <td>@product.ContactsNumber</td>
-            <td>@product.Throughput</td>
-            <td>@product.SupplyVoltage</td>
+            <td>@product.GpuFrequency</td>
+            <td>@product.GpuTurboFrequency</td>
+            <td>@product.StreamProcessorsNumber</td>
+            <td>@product.VideoMemory</td>
+            <td>@product.MemoryFrequency</td>
+            <td>@product.MemoryBusWidth</td>
+            <td>@product.DirectXSupport</td>
+            <td>@product.RecommendedPowerSupply</td>
+            <td>@product.FansNumber</td>
+            <td>@product.MemoryType</td>
             <td>
-                <form asp-action="Remove" asp-controller="Ram" asp-route-id="@product.Id" method="post">
+                <form asp-action="Remove" asp-controller="GraphicsCard" asp-route-id="@product.Id" method="post">
                     <button type="submit" class="btn btn-teal tocart">
                         <i class="fas fa-pencil-alt mt-0" style="display: inline; padding: 1px;"></i>
                     </button>
                 </form>
             </td>
             <td>
-                <form asp-action="Remove" asp-controller="Ram" asp-route-id="@product.Id" method="post">
+                <form asp-action="Remove" asp-controller="GraphicsCard" asp-route-id="@product.Id" method="post">
                     <button type="submit" class="btn btn-red tocart">
                         <i class="far fa-trash-alt mt-0" style="display: inline; padding: 1px;"></i>
                     </button>
@@ -200,16 +207,15 @@
     </tbody>
 </table>
 
-
 <nav class="d-flex justify-content-center wow fadeIn">
     <ul class="pagination pg-blue">
         @if (Model.PageViewModel.HasPreviousPage)
         {
             <li class="page-item">
                 <a asp-action="Table"
-                   asp-route-manufacturer="@Model.BaseFilterViewModel.SelectedManufacturer"
                    asp-route-page="@(Model.PageViewModel.PageNumber - 1)"
-                   asp-controller="Ram"
+                   asp-route-manufacturer ="@Model.BaseFilterViewModel.SelectedManufacturer"
+                   asp-controller="GraphicsCard"
                    asp-route-sortState="@Model.SortBaseViewModel.CurrentSortState"
                    class="page-link" aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>
@@ -239,8 +245,8 @@
                 <li class="page-item">
                     <a asp-action="Table"
                        asp-route-page="@i"
-                       asp-route-manufacturer="@Model.BaseFilterViewModel.SelectedManufacturer"
-                       asp-controller="Ram"
+                       asp-route-manufacturer ="@Model.BaseFilterViewModel.SelectedManufacturer"
+                       asp-controller="GraphicsCard"
                        asp-route-sortState="@Model.SortBaseViewModel.CurrentSortState"
                        class="page-link">
                         @i
@@ -251,9 +257,9 @@
         <li class="page-item active">
             <a class="page-link" asp-action="Table"
                asp-route-page="@Model.PageViewModel.PageNumber"
+               asp-route-manufacturer ="@Model.BaseFilterViewModel.SelectedManufacturer"
                asp-route-sortState="@Model.SortBaseViewModel.CurrentSortState"
-               asp-route-manufacturer="@Model.BaseFilterViewModel.SelectedManufacturer"
-               asp-controller="Ram">
+               asp-controller="GraphicsCard">
                 @Model.PageViewModel.PageNumber
                 <span class="sr-only">(current)</span>
             </a>
@@ -266,9 +272,9 @@
                 <li class="page-item">
                     <a asp-action="Table"
                        asp-route-page="@i"
-                       asp-route-manufacturer="@Model.BaseFilterViewModel.SelectedManufacturer"
-                       asp-controller="Ram"
+                       asp-route-manufacturer ="@Model.BaseFilterViewModel.SelectedManufacturer"
                        asp-route-sortState="@Model.SortBaseViewModel.CurrentSortState"
+                       asp-controller="GraphicsCard"
                        class="page-link">
                         @i
                     </a>
@@ -281,8 +287,8 @@
             <li class="page-item">
                 <a asp-action="Table"
                    asp-route-page="@(Model.PageViewModel.PageNumber + 1)"
-                   asp-controller="Ram"
-                   asp-route-manufacturer="@Model.BaseFilterViewModel.SelectedManufacturer"
+                   asp-controller="GraphicsCard"
+                   asp-route-manufacturer ="@Model.BaseFilterViewModel.SelectedManufacturer"
                    asp-route-sortState="@Model.SortBaseViewModel.CurrentSortState"
                    class="page-link" aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>

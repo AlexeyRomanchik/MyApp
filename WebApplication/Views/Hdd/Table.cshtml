@@ -1,10 +1,9 @@
 ﻿@using WebApplication.ViewModels
-@model WebApplication.ViewModels.RamViewModel
+@model WebApplication.ViewModels.HddViewModel
 @{
     ViewData["Title"] = "Index";
     Layout = "_AdminPanel";
 }
-
 <div class="elegant-color" style="margin: 0px; padding: 0px;">
     <nav class="navbar navbar-expand-lg navbar-dark elegant-color">
 
@@ -97,7 +96,7 @@
 
             </ul>
 
-            <form class="form-inline" asp-action="Table" asp-controller="Ram">
+            <form class="form-inline" asp-action="Table" asp-controller="Hdd">
                 <div class="md-form my-0">
                     <input class="form-control mr-sm-2" type="text" placeholder="Search" id="name" name="name" aria-label="Search">
                 </div>
@@ -123,7 +122,7 @@
             <!-- Card body -->
             <div id="collapseOne1" class="collapse show" role="tabpanel" aria-labelledby="headingOne1" data-parent="#accordionEx">
                 <div class="card-body">
-                    <form asp-controller="Ram" asp-action="Table">
+                    <form asp-controller="Hdd" asp-action="Table">
                         <label class="control-label">Производитель: </label>
                         @Html.DropDownList("Manufacturer", Model.BaseFilterViewModel.Manufacturers,
                             new {@class = "form-control", style = "width:20%;"})
@@ -144,7 +143,6 @@
     <!-- Accordion wrapper -->
 </div>
 
-
 <div>
     <a href="#" class="btn btn-blue tocart"> Добавить <i class="fas fa-plus-circle" style="padding: 5px"></i></a>
 </div>
@@ -156,12 +154,17 @@
         <th scope="col">Цена</th>
         <th scope="col">Количество на складе</th>
         <th scope="col">Дата добавления</th>
-        <th scope="col">Тип памяти</th>
-        <th scope="col">Общий объем памяти</th>
-        <th scope="col">Тактовая частота</th>
-        <th scope="col">Количество контактов</th>
-        <th scope="col">Пропускная способность</th>
-        <th scope="col">Напряжение питания</th>
+        <th scope="col">Объём</th>
+        <th scope="col">Форм-фактор</th>
+        <th scope="col">Скорость вращения шпинделя</th>
+        <th scope="col">Буфер</th>
+        <th scope="col">Размер сектора</th>
+        <th scope="col">Скорость последовательного чтения</th>
+        <th scope="col">Скорость последовательной записи</th>
+        <th scope="col">Энергопотребление (Чтение/Запись)</th>
+        <th scope="col">Энергопотребление (Ожидание)</th>
+        <th scope="col">Уровень шума (Чтение/Запись)</th>
+        <th scope="col">Уровень шума (Ожидание)</th>
         <th scope="col">Редактировать</th>
         <th scope="col">Удалить</th>
     </tr>
@@ -175,21 +178,26 @@
             <td>@product.Product.Price</td>
             <td>@product.Product.QuantityInStock</td>
             <td>@product.Product.DateAdded</td>
-            <td>@product.MemoryType.Type</td>
-            <td>@product.TotalMemory</td>
-            <td>@product.Frequency</td>
-            <td>@product.ContactsNumber</td>
-            <td>@product.Throughput</td>
-            <td>@product.SupplyVoltage</td>
+            <td>@product.Volume</td>
+            <td>@product.FormFactor</td>
+            <td>@product.SpindleSpeed</td>
+            <td>@product.Buffer</td>
+            <td>@product.SectorSize</td>
+            <td>@product.SequentialReadSpeed</td>
+            <td>@product.SequentialWriteSpeed</td>
+            <td>@product.PowerConsumptionForReadWrite</td>
+            <td>@product.PowerConsumptionStandby</td>
+            <td>@product.NoiseReadingWriting</td>
+            <td>@product.NoiseStandby</td>
             <td>
-                <form asp-action="Remove" asp-controller="Ram" asp-route-id="@product.Id" method="post">
+                <form asp-action="Remove" asp-controller="Hdd" asp-route-id="@product.Id" method="post">
                     <button type="submit" class="btn btn-teal tocart">
                         <i class="fas fa-pencil-alt mt-0" style="display: inline; padding: 1px;"></i>
                     </button>
                 </form>
             </td>
             <td>
-                <form asp-action="Remove" asp-controller="Ram" asp-route-id="@product.Id" method="post">
+                <form asp-action="Remove" asp-controller="Hdd" asp-route-id="@product.Id" method="post">
                     <button type="submit" class="btn btn-red tocart">
                         <i class="far fa-trash-alt mt-0" style="display: inline; padding: 1px;"></i>
                     </button>
@@ -200,7 +208,6 @@
     </tbody>
 </table>
 
-
 <nav class="d-flex justify-content-center wow fadeIn">
     <ul class="pagination pg-blue">
         @if (Model.PageViewModel.HasPreviousPage)
@@ -209,7 +216,7 @@
                 <a asp-action="Table"
                    asp-route-manufacturer="@Model.BaseFilterViewModel.SelectedManufacturer"
                    asp-route-page="@(Model.PageViewModel.PageNumber - 1)"
-                   asp-controller="Ram"
+                   asp-controller="Hdd"
                    asp-route-sortState="@Model.SortBaseViewModel.CurrentSortState"
                    class="page-link" aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>
@@ -238,9 +245,9 @@
             {
                 <li class="page-item">
                     <a asp-action="Table"
-                       asp-route-page="@i"
                        asp-route-manufacturer="@Model.BaseFilterViewModel.SelectedManufacturer"
-                       asp-controller="Ram"
+                       asp-route-page="@i"
+                       asp-controller="Hdd"
                        asp-route-sortState="@Model.SortBaseViewModel.CurrentSortState"
                        class="page-link">
                         @i
@@ -250,10 +257,10 @@
         }
         <li class="page-item active">
             <a class="page-link" asp-action="Table"
-               asp-route-page="@Model.PageViewModel.PageNumber"
                asp-route-sortState="@Model.SortBaseViewModel.CurrentSortState"
                asp-route-manufacturer="@Model.BaseFilterViewModel.SelectedManufacturer"
-               asp-controller="Ram">
+               asp-route-page="@Model.PageViewModel.PageNumber"
+               asp-controller="Hdd">
                 @Model.PageViewModel.PageNumber
                 <span class="sr-only">(current)</span>
             </a>
@@ -267,8 +274,8 @@
                     <a asp-action="Table"
                        asp-route-page="@i"
                        asp-route-manufacturer="@Model.BaseFilterViewModel.SelectedManufacturer"
-                       asp-controller="Ram"
                        asp-route-sortState="@Model.SortBaseViewModel.CurrentSortState"
+                       asp-controller="Hdd"
                        class="page-link">
                         @i
                     </a>
@@ -281,7 +288,7 @@
             <li class="page-item">
                 <a asp-action="Table"
                    asp-route-page="@(Model.PageViewModel.PageNumber + 1)"
-                   asp-controller="Ram"
+                   asp-controller="Hdd"
                    asp-route-manufacturer="@Model.BaseFilterViewModel.SelectedManufacturer"
                    asp-route-sortState="@Model.SortBaseViewModel.CurrentSortState"
                    class="page-link" aria-label="Next">

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApplication.Contracts;
@@ -15,19 +16,67 @@ namespace WebApplication.Controllers
     public class HddController : Controller
     {
         private const int PageSize = 20;
+        private readonly IHddFilter _hddFilter;
 
         private readonly IHddRepository _hddRepository;
         private readonly IHddSortService _hddSortService;
-        private readonly IHddFilter _hddFilter;
+        private readonly IRepositoryWrapper _repositoryWrapper;
 
-        public HddController(IRepositoryWrapper repositoryWrapper, ISortServiceWrapper sortServiceWrapper, IHddFilter hddFilter)
+        public HddController(IRepositoryWrapper repositoryWrapper, ISortServiceWrapper sortServiceWrapper,
+            IHddFilter hddFilter)
         {
+            _repositoryWrapper = repositoryWrapper;
             _hddFilter = hddFilter;
-            _hddRepository = repositoryWrapper.HddRepository;
+            _hddRepository = _repositoryWrapper.HddRepository;
             _hddSortService = sortServiceWrapper.HddSortService;
         }
 
-        public async Task<IActionResult> Index(int page = 1, string name = null,
+        public IActionResult Index(int page = 1, string name = null,
+            SortState sortState = SortState.DateAddedDesc,
+            string manufacturer = BaseFilterViewModel.AllManufacturers)
+        {
+            var viewModel = PrepareData(page, name, sortState, manufacturer);
+
+            return View(viewModel.Result);
+        }
+
+        [Authorize(Roles = "admin")]
+        public IActionResult Table(int page = 1, string name = null,
+            SortState sortState = SortState.DateAddedDesc,
+            string manufacturer = BaseFilterViewModel.AllManufacturers)
+        {
+            var viewModel = PrepareData(page, name, sortState, manufacturer);
+            return View(viewModel.Result);
+        }
+
+        public IActionResult Info(Guid id)
+        {
+            var product = _hddRepository.FindByCondition(x => x.Product.Id == id).First();
+
+            var infoViewModel = new InfoViewModel<Hdd>
+            {
+                Product = product,
+                PopularGoods = _hddRepository.FindAll()
+                    .OrderByDescending(x => x.Product.DateAdded)
+                    .Take(4).ToList()
+            };
+
+            return View(infoViewModel);
+        }
+
+        [Authorize(Roles = "admin")]
+        public IActionResult Remove(Guid id)
+        {
+            var product = _hddRepository.FindByCondition(x => x.Id == id).FirstOrDefault();
+
+            if (product == null) return RedirectToAction("Table");
+            _hddRepository.Delete(product);
+            _repositoryWrapper.Save();
+
+            return RedirectToAction("Table");
+        }
+
+        private async Task<HddViewModel> PrepareData(int page = 1, string name = null,
             SortState sortState = SortState.DateAddedDesc,
             string manufacturer = BaseFilterViewModel.AllManufacturers)
         {
@@ -36,10 +85,7 @@ namespace WebApplication.Controllers
 
             var filterViewModel = new BaseFilterViewModel(manufacturers.ToList(), manufacturer);
 
-            if (name != null)
-            {
-                products = products.Where(x => x.Product.Name.Contains(name));
-            }
+            if (name != null) products = products.Where(x => x.Product.Name.Contains(name));
 
             products = _hddFilter.ApplyBaseFilter(filterViewModel, products);
 
@@ -51,7 +97,7 @@ namespace WebApplication.Controllers
 
             var pageViewModel = new PageViewModel(count, page, PageSize);
 
-            var hddViewModel = new HddViewModel()
+            var hddViewModel = new HddViewModel
             {
                 BaseFilterViewModel = filterViewModel,
                 SortBaseViewModel = new SortBaseViewModel(sortState),
@@ -62,24 +108,7 @@ namespace WebApplication.Controllers
                     .Take(20).ToList()
             };
 
-            return View(hddViewModel);
+            return hddViewModel;
         }
-
-        public IActionResult Info(Guid id)
-        {
-            var product = _hddRepository.
-                FindByCondition(x => x.Product.Id == id).First();
-
-            var infoViewModel = new InfoViewModel<Hdd>()
-            {
-                Product = product,
-                PopularGoods = _hddRepository.FindAll()
-                    .OrderByDescending(x => x.Product.DateAdded)
-                    .Take(4).ToList()
-            };
-
-            return View(infoViewModel);
-        }
-
     }
 }
