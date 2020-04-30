@@ -1,0 +1,103 @@
+﻿@model WebApplication.ViewModels.AddViewModels.AddHddViewModel
+
+@{
+    ViewData["Title"] = "Add";
+    Layout = "_AdminPanel";
+}
+
+    <form asp-action="Add" asp-controller="Hdd" method="post" enctype="multipart/form-data">
+        <div class="file-upload">
+            <button class="file-upload-btn" type="button" onclick="$('.file-upload-input').trigger( 'click' )">Add Image</button>
+
+            <div class="image-upload-wrap">
+                <input class="file-upload-input" asp-for="UploadedFile" type='file' onchange="readURL(this);" accept="image/*" />
+                <div class="drag-text">
+                    <h3>Drag and drop a file or select add Image</h3>
+                </div>
+            </div>
+            <div class="file-upload-content">
+                <img class="file-upload-image" src="#" alt="your image" />
+                <div class="image-title-wrap">
+                    <button type="button" onclick="removeUpload()" class="remove-image">Remove <span class="image-title">Uploaded Image</span></button>
+                </div>
+            </div>
+        </div>
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="Volume" class="control-label"></label>
+            <input asp-for="Volume" class="form-control" />
+            <span asp-validation-for="Volume" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="FormFactor" class="control-label"></label>
+            <input asp-for="FormFactor" class="form-control" />
+            <span asp-validation-for="FormFactor" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="SpindleSpeed" class="control-label"></label>
+            <input asp-for="SpindleSpeed" class="form-control" />
+            <span asp-validation-for="SpindleSpeed" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Buffer" class="control-label"></label>
+            <input asp-for="Buffer" class="form-control" />
+            <span asp-validation-for="Buffer" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="SectorSize" class="control-label"></label>
+            <input asp-for="SectorSize" class="form-control" />
+            <span asp-validation-for="SectorSize" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="SequentialReadSpeed" class="control-label"></label>
+            <input asp-for="SequentialReadSpeed" class="form-control" />
+            <span asp-validation-for="SequentialReadSpeed" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="SequentialWriteSpeed" class="control-label"></label>
+            <input asp-for="SequentialWriteSpeed" class="form-control" />
+            <span asp-validation-for="SequentialWriteSpeed" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="PowerConsumptionForReadWrite" class="control-label"></label>
+            <input asp-for="PowerConsumptionForReadWrite" class="form-control" />
+            <span asp-validation-for="PowerConsumptionForReadWrite" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="PowerConsumptionStandby" class="control-label"></label>
+            <input asp-for="PowerConsumptionStandby" class="form-control" />
+            <span asp-validation-for="PowerConsumptionStandby" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="NoiseReadingWriting" class="control-label"></label>
+            <input asp-for="NoiseReadingWriting" class="form-control" />
+            <span asp-validation-for="NoiseReadingWriting" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="NoiseStandby" class="control-label"></label>
+            <input asp-for="NoiseStandby" class="form-control" />
+            <span asp-validation-for="NoiseStandby" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Name" class="control-label"></label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Price" class="control-label"></label>
+            <input asp-for="Price" class="form-control" />
+            <span asp-validation-for="Price" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="QuantityInStock" class="control-label"></label>
+            <input asp-for="QuantityInStock" class="form-control" />
+            <span asp-validation-for="QuantityInStock" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Create" class="btn btn-primary" />
+        </div>
+
+    </form>
+
+
+

@@ -1,7 +1,9 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApplication.Contracts;
@@ -9,6 +11,7 @@ using WebApplication.Contracts.FiltersContracts;
 using WebApplication.Contracts.SortContracts;
 using WebApplication.Models;
 using WebApplication.ViewModels;
+using WebApplication.ViewModels.AddViewModels;
 using WebApplication.ViewModels.FilterViewModels;
 
 namespace WebApplication.Controllers
@@ -16,17 +19,21 @@ namespace WebApplication.Controllers
     public class PowerSupplyController : Controller
     {
         private const int PageSize = 20;
-        private readonly IPowerSupplyFilter _powerSupplyFilter;
 
+        private readonly IPowerSupplyFilter _powerSupplyFilter;
         private readonly IPowerSupplyRepository _powerSupplyRepository;
         private readonly IPowerSupplySortService _powerSupplySortService;
         private readonly IRepositoryWrapper _repositoryWrapper;
+        private readonly IFileService _fileService;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
         public PowerSupplyController(IRepositoryWrapper repositoryWrapper, ISortServiceWrapper sortServiceWrapper,
-            IPowerSupplyFilter powerSupplyFilter)
+            IPowerSupplyFilter powerSupplyFilter, IFileService fileService, IWebHostEnvironment webHostEnvironment)
         {
             _repositoryWrapper = repositoryWrapper;
             _powerSupplyFilter = powerSupplyFilter;
+            _fileService = fileService;
+            _webHostEnvironment = webHostEnvironment;
             _powerSupplyRepository = _repositoryWrapper.PowerSupplyRepository;
             _powerSupplySortService = sortServiceWrapper.PowerSupplySortService;
         }
@@ -65,12 +72,71 @@ namespace WebApplication.Controllers
             return View(infoViewModel);
         }
 
+        [HttpGet]
+        [Authorize(Roles = "admin")]
+        public IActionResult Add()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "admin")]
+        public IActionResult Add(AddPowerSupplyViewModel powerSupplyViewModel)
+        {
+            var guid = Guid.NewGuid();
+            string filePath;
+
+            if (powerSupplyViewModel.UploadedFile != null)
+            {
+                var fileExtension = Path.GetExtension(powerSupplyViewModel.UploadedFile.FileName);
+                var fileName = Path.GetFileNameWithoutExtension(powerSupplyViewModel.UploadedFile.FileName);
+                filePath = "/productsImages/PowerSupply/" + fileName + guid + fileExtension;
+                _fileService.SaveUploadedFile(powerSupplyViewModel.UploadedFile, _webHostEnvironment.WebRootPath + filePath);
+            }
+            else
+            {
+                filePath = "/productsImages/default.jpg";
+            }
+
+            var powerSupply = new PowerSupply
+            {
+                Id = guid,
+                ActiveEfficiency = powerSupplyViewModel.ActiveEfficiency,
+                FanSize = powerSupplyViewModel.FanSize,
+                FansNumber = powerSupplyViewModel.FansNumber,
+                MaxLineCurrent = powerSupplyViewModel.MaxLineCurrent,
+                Power = powerSupplyViewModel.Power,
+                NumberIndividualLines = powerSupplyViewModel.NumberIndividualLines,
+                PowerFactorCorrection = powerSupplyViewModel.PowerFactorCorrection,
+                Standard = powerSupplyViewModel.Standard,
+                Product = new Product
+                {
+                    Id = guid,
+                    CategoryId = 2,
+                    Name = powerSupplyViewModel.Name,
+                    ImageUrl = filePath,
+                    DateAdded = DateTime.Now,
+                    Price = powerSupplyViewModel.Price,
+                    QuantityInStock = powerSupplyViewModel.QuantityInStock,
+                    ManufacturerId = 1
+                }
+            };
+
+            _powerSupplyRepository.Create(powerSupply);
+            _repositoryWrapper.Save();
+
+            return View();
+        }
+
+
         [Authorize(Roles = "admin")]
         public IActionResult Remove(Guid id)
         {
             var product = _powerSupplyRepository.FindByCondition(x => x.Id == id).FirstOrDefault();
 
             if (product == null) return RedirectToAction("Table");
+
+            _fileService.DeleteFile(_webHostEnvironment.WebRootPath + product.Product.ImageUrl);
             _powerSupplyRepository.Delete(product);
             _repositoryWrapper.Save();
 

@@ -19,9 +19,9 @@ namespace WebApplication.Controllers
     public class RamController : Controller
     {
         private const int PageSize = 20;
+
         private readonly IFileService _fileService;
         private readonly IRamFilter _ramFilter;
-
         private readonly IRamRepository _ramRepository;
         private readonly IRamSortService _ramSortService;
         private readonly IRepositoryWrapper _repositoryWrapper;

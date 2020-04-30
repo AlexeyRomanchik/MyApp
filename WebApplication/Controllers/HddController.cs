@@ -1,7 +1,9 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApplication.Contracts;
@@ -9,6 +11,7 @@ using WebApplication.Contracts.FiltersContracts;
 using WebApplication.Contracts.SortContracts;
 using WebApplication.Models;
 using WebApplication.ViewModels;
+using WebApplication.ViewModels.AddViewModels;
 using WebApplication.ViewModels.FilterViewModels;
 
 namespace WebApplication.Controllers
@@ -16,17 +19,21 @@ namespace WebApplication.Controllers
     public class HddController : Controller
     {
         private const int PageSize = 20;
-        private readonly IHddFilter _hddFilter;
 
+        private readonly IHddFilter _hddFilter;
         private readonly IHddRepository _hddRepository;
         private readonly IHddSortService _hddSortService;
         private readonly IRepositoryWrapper _repositoryWrapper;
+        private readonly IFileService _fileService;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
         public HddController(IRepositoryWrapper repositoryWrapper, ISortServiceWrapper sortServiceWrapper,
-            IHddFilter hddFilter)
+            IHddFilter hddFilter, IFileService fileService, IWebHostEnvironment webHostEnvironment)
         {
             _repositoryWrapper = repositoryWrapper;
             _hddFilter = hddFilter;
+            _fileService = fileService;
+            _webHostEnvironment = webHostEnvironment;
             _hddRepository = _repositoryWrapper.HddRepository;
             _hddSortService = sortServiceWrapper.HddSortService;
         }
@@ -70,10 +77,70 @@ namespace WebApplication.Controllers
             var product = _hddRepository.FindByCondition(x => x.Id == id).FirstOrDefault();
 
             if (product == null) return RedirectToAction("Table");
+
+            _fileService.DeleteFile(_webHostEnvironment.WebRootPath + product.Product.ImageUrl);
             _hddRepository.Delete(product);
             _repositoryWrapper.Save();
 
             return RedirectToAction("Table");
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "admin")]
+        public IActionResult Add()
+        {
+            return View();
+        }
+
+        public IActionResult Add(AddHddViewModel hddViewModel)
+        {
+            var guid = Guid.NewGuid();
+            string filePath;
+
+            if (hddViewModel.UploadedFile != null)
+            {
+                var fileExtension = Path.GetExtension(hddViewModel.UploadedFile.FileName);
+                var fileName = Path.GetFileNameWithoutExtension(hddViewModel.UploadedFile.FileName);
+                filePath = "/productsImages/Hdd/" + fileName + guid + fileExtension;
+                _fileService.SaveUploadedFile(hddViewModel.UploadedFile, _webHostEnvironment.WebRootPath + filePath);
+            }
+            else
+            {
+                filePath = "/productsImages/default.jpg";
+            }
+
+            var hdd = new Hdd
+            {
+                Id = guid,
+                FormFactor = hddViewModel.FormFactor,
+                Buffer = hddViewModel.Buffer,
+                NoiseReadingWriting = hddViewModel.NoiseReadingWriting,
+                PowerConsumptionForReadWrite = hddViewModel.PowerConsumptionForReadWrite,
+                SectorSize = hddViewModel.SectorSize,
+                PowerConsumptionStandby = hddViewModel.PowerConsumptionStandby,
+                SpindleSpeed = hddViewModel.SpindleSpeed,
+                NoiseStandby = hddViewModel.NoiseStandby,
+                Volume = hddViewModel.Volume,
+                SequentialReadSpeed = hddViewModel.SequentialReadSpeed,
+                InterfaceId = 1,
+                SequentialWriteSpeed = hddViewModel.SequentialWriteSpeed,
+                Product = new Product
+                {
+                    Id = guid,
+                    CategoryId = 2,
+                    Name = hddViewModel.Name,
+                    ImageUrl = filePath,
+                    DateAdded = DateTime.Now,
+                    Price = hddViewModel.Price,
+                    QuantityInStock = hddViewModel.QuantityInStock,
+                    ManufacturerId = 1
+                }
+            };
+
+            _hddRepository.Create(hdd);
+            _repositoryWrapper.Save();
+
+            return View();
         }
 
         private async Task<HddViewModel> PrepareData(int page = 1, string name = null,

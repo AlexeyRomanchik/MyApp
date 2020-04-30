@@ -1,11 +1,43 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace WebApplication.ViewModels.AddViewModels
 {
-    public class AddGraphicsCardViewModel
+    public class AddGraphicsCardViewModel : AddProductViewModel
     {
+        [Display(Name = "Частота графического процессора (МГц)")]
+        [Required(ErrorMessage = "Поле обязательное")]
+        public double GpuFrequency { get; set; }
+
+        [Display(Name = "Turbo-частота графического процессора (МГц)")]
+        [Required(ErrorMessage = "Поле обязательное")]
+        public double GpuTurboFrequency { get; set; }
+
+        [Display(Name = "Количество потоковых процессоров")]
+        [Required(ErrorMessage = "Поле обязательное")]
+        public int StreamProcessorsNumber { get; set; }
+
+        [Display(Name = "Видеопамять (GB)")]
+        [Required(ErrorMessage = "Поле обязательное")]
+        public int VideoMemory { get; set; }
+
+        [Display(Name = "Частота памяти")]
+        [Required(ErrorMessage = "Поле обязательное")]
+        public double MemoryFrequency { get; set; }
+
+        [Display(Name = "Ширина шины памяти (bit)")]
+        [Required(ErrorMessage = "Поле обязательное")]
+        public int MemoryBusWidth { get; set; }
+
+        [Display(Name = "Поддержка DirectX")]
+        [Required(ErrorMessage = "Поле обязательное")]
+        public int DirectXSupport { get; set; }
+
+        [Display(Name = "Рекомендуемый блок питания (Вт)")]
+        [Required(ErrorMessage = "Поле обязательное")]
+        public int RecommendedPowerSupply { get; set; }
+
+        [Display(Name = "Количество вентиляторов")]
+        [Required(ErrorMessage = "Поле обязательное")]
+        public int FansNumber { get; set; }
     }
 }

@@ -1,0 +1,103 @@
+﻿@model WebApplication.ViewModels.AddViewModels.AddCpuViewModel
+
+@{
+    ViewData["Title"] = "Add";
+    Layout = "_AdminPanel";
+}
+
+    <form asp-action="Add" asp-controller="Cpu" method="post" enctype="multipart/form-data">
+        <div class="file-upload">
+            <button class="file-upload-btn" type="button" onclick="$('.file-upload-input').trigger( 'click' )">Add Image</button>
+
+            <div class="image-upload-wrap">
+                <input class="file-upload-input" asp-for="UploadedFile" type='file' onchange="readURL(this);" accept="image/*" />
+                <div class="drag-text">
+                    <h3>Drag and drop a file or select add Image</h3>
+                </div>
+            </div>
+            <div class="file-upload-content">
+                <img class="file-upload-image" src="#" alt="your image" />
+                <div class="image-title-wrap">
+                    <button type="button" onclick="removeUpload()" class="remove-image">Remove <span class="image-title">Uploaded Image</span></button>
+                </div>
+            </div>
+        </div>
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="Socket" class="control-label"></label>
+            <input asp-for="Socket" class="form-control" />
+            <span asp-validation-for="Socket" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="NumberCores" class="control-label"></label>
+            <input asp-for="NumberCores" class="form-control" />
+            <span asp-validation-for="NumberCores" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="MaximumNumberThreads" class="control-label"></label>
+            <input asp-for="MaximumNumberThreads" class="form-control" />
+            <span asp-validation-for="MaximumNumberThreads" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="BaseClock" class="control-label"></label>
+            <input asp-for="BaseClock" class="form-control" />
+            <span asp-validation-for="BaseClock" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="MaximumFrequency" class="control-label"></label>
+            <input asp-for="MaximumFrequency" class="form-control" />
+            <span asp-validation-for="MaximumFrequency" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="L2Cache" class="control-label"></label>
+            <input asp-for="L2Cache" class="form-control" />
+            <span asp-validation-for="L2Cache" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="L3Cache" class="control-label"></label>
+            <input asp-for="L3Cache" class="form-control" />
+            <span asp-validation-for="L3Cache" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="MemorySupport" class="control-label"></label>
+            <input asp-for="MemorySupport" class="form-control" />
+            <span asp-validation-for="MemorySupport" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="NumberMemoryChannels" class="control-label"></label>
+            <input asp-for="NumberMemoryChannels" class="form-control" />
+            <span asp-validation-for="NumberMemoryChannels" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="MaxMemoryFrequency" class="control-label"></label>
+            <input asp-for="MaxMemoryFrequency" class="form-control" />
+            <span asp-validation-for="MaxMemoryFrequency" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Tdp" class="control-label"></label>
+            <input asp-for="Tdp" class="form-control" />
+            <span asp-validation-for="Tdp" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Name" class="control-label"></label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Price" class="control-label"></label>
+            <input asp-for="Price" class="form-control" />
+            <span asp-validation-for="Price" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="QuantityInStock" class="control-label"></label>
+            <input asp-for="QuantityInStock" class="form-control" />
+            <span asp-validation-for="QuantityInStock" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Create" class="btn btn-primary" />
+        </div>
+
+    </form>
+
+
+
