@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
     <!-- Bootstrap core CSS -->
     <link href="~/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/css/loadfilestyle.css" rel="stylesheet" />
     <!-- Material Design Bootstrap -->
     <link href="~/css/mdb.min.css" rel="stylesheet">
     <!-- Your custom styles (optional) -->
@@ -196,10 +197,11 @@
     <!-- SCRIPTS -->
 <!-- JQuery -->
     <script src="~/js/datatables.min.js"></script>
+    <script src="~/js/loadfilescript.js"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    @RenderSection("Scripts", required: false)
+@RenderSection("Scripts", required: false)
     <script type="text/javascript">
      
         new WOW().init();
