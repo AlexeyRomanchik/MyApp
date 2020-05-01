@@ -19,6 +19,7 @@ namespace WebApplication.Repository
             return RepositoryContext.Set<Hdd>().
                 Include(x => x.Product)
                 .ThenInclude(x => x.Manufacturer)
+                .Include("Product.Ratings")
                 .AsNoTracking();
         }
 
@@ -30,6 +31,8 @@ namespace WebApplication.Repository
                 .Include("Product.Manufacturer")
                 .Include("Product.Category")
                 .Include("Interface")
+                .Include("Product.Ratings")
+                .Include("Product.Ratings.User")
                 .AsNoTracking();
         }
     }

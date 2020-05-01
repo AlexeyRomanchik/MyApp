@@ -14,9 +14,7 @@
         <!--Carousel Wrapper-->
         <div id="multi-item-example" class="carousel slide carousel-multi-item" data-ride="carousel">
 
-            <!--Indicators-->
-            <!--/.Indicators-->
-            <!--Slides-->
+           
             <div class="carousel-inner" role="listbox">
                 <div class="carousel-item active">
                     <div class="d-flex align-items-center">
@@ -24,8 +22,6 @@
                             @for (var i = 0; i < 4 && i < Model.NewItems.Count; i++)
                             {
                                 <div class="card h-100" style="width: 20%">
-
-                                    <!-- Card image -->
                                     <img class="card-img-top" src="@Model.NewItems[i].Product.ImageUrl" alt="Card image cap">
 
                                     <!-- Card content -->
@@ -219,7 +215,6 @@
 
         <!-- Accordion card -->
         <div class="card  elegant-color" style="color: white; width: 100%; padding: 0px; margin: 0px;">
-
             <!-- Card header -->
             <div class="card-header" role="tab" id="headingOne1">
                 <a data-toggle="collapse" data-parent="#accordionEx" href="#collapseOne1" aria-expanded="true"
@@ -241,7 +236,9 @@
                         <button class="btn btn-elegant"
                                 asp-route-page="@(Model.PageViewModel.PageNumber)"
                                 asp-route-sortState="@Model.SortBaseViewModel.CurrentSortState"
-                                type="submit">Установить фильтр</button>
+                                type="submit">
+                            Установить фильтр
+                        </button>
                     </form>
                 </div>
             </div>
@@ -256,36 +253,53 @@
 <section class="text-center mb-4">
     @foreach (var product in Model.Products)
     {
-        <div class="card" style="width: 20%">
 
-            <!-- Card image -->
-            <img class="card-img-top" src="@product.Product.ImageUrl" alt="Card image cap">
+    <div class="card" style="width: 20%">
+        @if (product.Product.IsIndicatedRating())
+        {
+            <div class="@string.Format($"rating-wrapper value-color{Math.Round(product.Product.GetAverageRating())}")" title="Количество голосов: @product.Product.NumberOfRatings()">
+                <div class="rating">
+                    <span class="value">@Math.Round(product.Product.GetAverageRating(),1)</span>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="@string.Format($"rating-wrapper value-color{Math.Round(product.Product.GetAverageRating())}")" title="Пока никто не паставли рейтинг, станьте первым">
+                <div class="rating">
+                    <span class="value">?</span>
+                </div>
+            </div>
+        }
 
-            <!-- Card content -->
-            <div class="card-body">
 
-                <!-- Title -->
-                <h6 class="card-title">
-                    <a>@product.Product.Name</a>
-                </h6>
+        <img class="card-img-top" src="@product.Product.ImageUrl" alt="Card image cap">
 
-                <!-- Text -->
-                <p class="card-text">
-                    Тип оперативной памяти: @product.MemoryType.Type, общей обьем: @product.TotalMemory, производитель: @product.Product.Manufacturer.Name
-                    <h4 class="font-weight-bold red-text">
-                        <strong>
-                            @Math.Round(product.Product.Price, 2)$
-                        </strong>
-                    </h4>
+        <!-- Card content -->
+        <div class="card-body">
 
-                    @if (product.Product.IsAvailable())
-                    {
-                        <p>В наличии</p>
-                    }
-                    else
-                    {
-                        <p>Нет в наличии</p>
-                    }
+            <!-- Title -->
+            <h6 class="card-title">
+                <a>@product.Product.Name</a>
+            </h6>
+
+            <!-- Text -->
+            <p class="card-text">
+                Тип оперативной памяти: @product.MemoryType.Type, общей обьем: @product.TotalMemory, производитель: @product.Product.Manufacturer.Name
+                <h4 class="font-weight-bold red-text">
+                    <strong>
+                        @Math.Round(product.Product.Price, 2)$
+                    </strong>
+                </h4>
+
+                @if (product.Product.IsAvailable())
+                {
+                <p>В наличии</p>
+            }
+            else
+            {
+                <p>Нет в наличии</p>
+            }
                 </p>
                 <p>
                     <a href="/Ram/Info?id=@product.Product.Id">Подробнее...</a>

@@ -10,6 +10,7 @@
         IHddRepository HddRepository { get; set; }
         IMotherboardRepository MotherboardRepository { get; set; }
         IManufacturerRepository ManufacturerRepository { get; set; }
+        IRatingRepository RatingRepository { get; set; }
         void Save();
     }
 }

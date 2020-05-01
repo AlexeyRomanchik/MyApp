@@ -19,6 +19,7 @@ namespace WebApplication.Repository
             return RepositoryContext.Set<PowerSupply>().
                 Include(x => x.Product)
                 .ThenInclude(x => x.Manufacturer)
+                .Include("Product.Ratings")
                 .AsNoTracking();
         }
 
@@ -29,6 +30,8 @@ namespace WebApplication.Repository
                 .Include(x => x.Product)
                 .Include("Product.Manufacturer")
                 .Include("Product.Category")
+                .Include("Product.Ratings")
+                .Include("Product.Ratings.User")
                 .AsNoTracking();
         }
     }

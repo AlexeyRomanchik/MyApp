@@ -260,46 +260,61 @@
 <section class="text-center mb-4">
     @foreach (var product in Model.Products)
     {
-        <div class="card" style="width: 20%">
-
-            <!-- Card image -->
-            <img class="card-img-top" src="@product.Product.ImageUrl" alt="Card image cap">
-
-            <!-- Card content -->
-            <div class="card-body">
-
-                <!-- Title -->
-                <h6 class="card-title">
-                    <a>@product.Product.Name</a>
-                </h6>
-
-                <!-- Text -->
-                <p class="card-text">
-                    Мощность: @product.Power Вт,cтандарт: @product.Standard, активный КПД @product.ActiveEfficiency. %,
-                    количество отдельных линий @product.NumberIndividualLines,
-                    производитель: @product.Product.Manufacturer.Name
-
-                    <h4 class="font-weight-bold red-text">
-                        <strong>
-                            @Math.Round(product.Product.Price, 2)$
-                        </strong>
-                    </h4>
-
-                    @if (product.Product.IsAvailable())
-                    {
-                <p>В наличии</p>
-                }
-                else
-                {
-                    <p>Нет в наличии</p>
-                }
-                    </p>
-                    <p>
-                        <a href="/PowerSupply/Info?id=@product.Product.Id">Подробнее...</a>
-                    </p>
-                    <a id="@product.Id" class="btn btn-red tocart">В корзину</a>
+    <div class="card" style="width: 20%">
+        @if (product.Product.IsIndicatedRating())
+        {
+            <div class="@string.Format($"rating-wrapper value-color{Math.Round(product.Product.GetAverageRating())}")" title="Количество голосов: @product.Product.NumberOfRatings()">
+                <div class="rating">
+                    <span class="value">@Math.Round(product.Product.GetAverageRating(), 1)</span>
                 </div>
             </div>
+        }
+        else
+        {
+            <div class="@string.Format($"rating-wrapper value-color{Math.Round(product.Product.GetAverageRating())}")" title="Пока никто не паставли рейтинг, станьте первым">
+                <div class="rating">
+                    <span class="value">?</span>
+                </div>
+            </div>
+        }
+        <!-- Card image -->
+        <img class="card-img-top" src="@product.Product.ImageUrl" alt="Card image cap">
+
+        <!-- Card content -->
+        <div class="card-body">
+
+            <!-- Title -->
+            <h6 class="card-title">
+                <a>@product.Product.Name</a>
+            </h6>
+
+            <!-- Text -->
+            <p class="card-text">
+                Мощность: @product.Power Вт,cтандарт: @product.Standard, активный КПД @product.ActiveEfficiency. %,
+                количество отдельных линий @product.NumberIndividualLines,
+                производитель: @product.Product.Manufacturer.Name
+
+                <h4 class="font-weight-bold red-text">
+                    <strong>
+                        @Math.Round(product.Product.Price, 2)$
+                    </strong>
+                </h4>
+
+                @if (product.Product.IsAvailable())
+                {
+                <p>В наличии</p>
+            }
+            else
+            {
+                <p>Нет в наличии</p>
+            }
+                </p>
+                <p>
+                    <a href="/PowerSupply/Info?id=@product.Product.Id">Подробнее...</a>
+                </p>
+                <a id="@product.Id" class="btn btn-red tocart">В корзину</a>
+            </div>
+        </div>
         }
 
 </section>

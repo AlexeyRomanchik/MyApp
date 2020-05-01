@@ -20,6 +20,7 @@ namespace WebApplication.Repository
                 Include(x => x.Product)
                 .ThenInclude(x => x.Manufacturer)
                 .Include("SocketType")
+                .Include("Product.Ratings")
                 .AsNoTracking();
         }
 
@@ -33,6 +34,8 @@ namespace WebApplication.Repository
                 .Include("MotherboardInterfaces")
                 .Include("MotherboardInterfaces.Interface")
                 .Include("SocketType")
+                .Include("Product.Ratings")
+                .Include("Product.Ratings.User")
                 .AsNoTracking();
         }
 

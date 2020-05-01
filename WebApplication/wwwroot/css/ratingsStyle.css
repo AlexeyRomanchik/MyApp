@@ -1,0 +1,69 @@
+﻿.rating-wrapper {
+    width: 52px;
+    height: 52px;
+    position: relative;
+    border-radius: 50%;
+    padding: 4px;
+    align-content: center;
+    vertical-align: middle;
+}
+
+.rating {
+    width: 46px;
+    height: 46px;
+    background: white;
+    border-radius: 50%;
+    font: 18px/40px Arial;
+    text-align: center;
+    vertical-align: middle;
+    font-weight: bold;
+    color: #3B3C36;
+}
+
+.value {
+    vertical-align: middle;
+}
+
+.value-color10 {
+    background: linear-gradient(45deg, #1FFF00, #123524);
+}
+
+.value-color9 {
+    background: linear-gradient(45deg, #5CFF00, #177245);
+}
+
+.value-color8 {
+    background: linear-gradient(45deg, #88FF00, #018E02);
+}
+
+.value-color7 {
+    background: linear-gradient(45deg, #BAFF00, #0DBD00);
+}
+
+.value-color6 {
+    background: linear-gradient(45deg, #CEFF00, #2AD100);
+}
+
+.value-color5 {
+    background: linear-gradient(45deg, #DBCF00, #C2FF00);
+}
+
+.value-color4 {
+    background: linear-gradient(45deg, #DB8D00, #EEFF00);
+}
+
+.value-color3 {
+    background: linear-gradient(45deg, #DB5900, #FFF800);
+}
+
+.value-color2 {
+    background: linear-gradient(45deg, #DB2F00, #FFDC00);
+}
+
+.value-color1 {
+    background: linear-gradient(45deg, #DB0006, #FFBD00);
+}
+
+.value-color0 {
+    background: linear-gradient(45deg, #DCDCDC, #5D5E55);
+}

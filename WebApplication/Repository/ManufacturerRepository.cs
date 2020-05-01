@@ -13,5 +13,7 @@ namespace WebApplication.Repository
         public ManufacturerRepository(ApplicationContext repositoryContext) : base(repositoryContext)
         {
         }
+
+
     }
 }

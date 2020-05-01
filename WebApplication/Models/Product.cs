@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 
 
 namespace WebApplication.Models
@@ -40,6 +41,28 @@ namespace WebApplication.Models
         public List<Review> Reviews { get; set; }
 
         public bool IsAvailable() => 0 < QuantityInStock;
+
+        public bool IsIndicatedRating()
+        {
+            if (Ratings == null)
+                return false;
+            return Ratings.Count > 0;
+        }
+
+        public int NumberOfRatings()
+        {
+            return Ratings?.Count ?? 0;
+        }
+
+        public double GetAverageRating()
+        {
+            if (Ratings == null)
+                return 0;
+            if (Ratings.Count < 1)
+                return 0;
+            return (double)Ratings.Sum(x => x.Value) / Ratings.Count;
+        }
+            
 
     }
 }

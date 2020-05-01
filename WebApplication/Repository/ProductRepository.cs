@@ -14,5 +14,13 @@ namespace WebApplication.Repository
         {
         }
 
+        public override IQueryable<Product> FindByCondition(Expression<Func<Product, bool>> expression)
+        {
+            return RepositoryContext.Set<Product>()
+                .Where(expression)
+                .Include(x => x.Ratings)
+                .AsNoTracking();
+        }
+
     }
 }

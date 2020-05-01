@@ -21,6 +21,7 @@ namespace WebApplication.Repository
                 .Include("Product.Manufacturer")
                 .Include("Product.Category")
                 .Include("MemoryType")
+                .Include("Product.Ratings")
                 .AsNoTracking();
         }
 
@@ -32,6 +33,8 @@ namespace WebApplication.Repository
                 .Include("Product.Manufacturer")
                 .Include("Product.Category")
                 .Include("MemoryType")
+                .Include("Product.Ratings")
+                .Include("Product.Ratings.User")
                 .AsNoTracking();
         }
     }

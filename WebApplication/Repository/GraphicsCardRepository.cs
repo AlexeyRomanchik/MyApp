@@ -19,6 +19,7 @@ namespace WebApplication.Repository
             return RepositoryContext.Set<GraphicsCard>().
                 Include(x => x.Product)
                 .ThenInclude(x => x.Manufacturer)
+                .Include("Product.Ratings")
                 .AsNoTracking();
         }
 
@@ -31,6 +32,8 @@ namespace WebApplication.Repository
                 .Include("Product.Category")
                 .Include("Interface")
                 .Include("MemoryType")
+                .Include("Product.Ratings")
+                .Include("Product.Ratings.User")
                 .AsNoTracking();
         }
     }
