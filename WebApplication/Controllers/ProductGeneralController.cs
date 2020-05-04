@@ -10,6 +10,7 @@ namespace WebApplication.Controllers
     public class ProductGeneralController : Controller
     {
         private readonly IRatingRepository _ratingRepository;
+        private readonly IReviewRepository _reviewRepository;
         private readonly IRepositoryWrapper _repositoryWrapper;
         private readonly UserManager<User> _userManager;
 
@@ -18,6 +19,41 @@ namespace WebApplication.Controllers
             _repositoryWrapper = repositoryWrapper;
             _ratingRepository = repositoryWrapper.RatingRepository;
             _userManager = userManager;
+            _reviewRepository = repositoryWrapper.ReviewRepository;
+        }
+
+        public IActionResult AddReview(string text, Guid id)
+        {
+            var review = new Review
+            {
+                Id = Guid.NewGuid(),
+                ProductId = id,
+                Text = text,
+                PublicationDate = DateTime.Now,
+                UserId = _userManager.GetUserId(User),
+                ReviewVerified = true
+            };
+
+            _reviewRepository.Create(review);
+            _repositoryWrapper.Save();
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        public IActionResult ChangeReview(string text, Guid id)
+        {
+            var review = _reviewRepository.FindByCondition(
+                x => x.UserId == _userManager.GetUserId(User) && x.ProductId == id
+                ).FirstOrDefault();
+
+            if(review == null)
+                return RedirectToAction("Index", "Home");
+
+            review.Text = text;
+            _reviewRepository.Update(review);
+            _repositoryWrapper.Save();
+
+            return RedirectToAction("Index", "Home");
         }
 
         public IActionResult Rate(int rating, Guid id)
@@ -42,9 +78,10 @@ namespace WebApplication.Controllers
                 x => x.User.Id == _userManager.GetUserId(User) && x.ProductId == id
                      ).FirstOrDefault();
 
-            if (productRating != null)
-                productRating.Value = rating;
-
+            if (productRating == null)
+                return RedirectToAction("Index", "Home");
+            
+            productRating.Value = rating;
             _ratingRepository.Update(productRating);
             _repositoryWrapper.Save();
 

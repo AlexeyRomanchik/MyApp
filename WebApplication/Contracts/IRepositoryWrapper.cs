@@ -11,6 +11,8 @@
         IMotherboardRepository MotherboardRepository { get; set; }
         IManufacturerRepository ManufacturerRepository { get; set; }
         IRatingRepository RatingRepository { get; set; }
+        IReviewRepository ReviewRepository { get; set; }
+        IOrderRepository OrderRepository { get; set; }
         void Save();
     }
 }

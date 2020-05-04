@@ -18,7 +18,9 @@ namespace WebApplication.Repository
         {
             return RepositoryContext.Set<Product>()
                 .Where(expression)
+                .Include(x => x.Manufacturer)
                 .Include(x => x.Ratings)
+                .Include(x => x.Reviews)
                 .AsNoTracking();
         }
 

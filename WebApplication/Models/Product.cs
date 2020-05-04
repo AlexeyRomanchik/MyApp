@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using Newtonsoft.Json;
 
 
 namespace WebApplication.Models
@@ -36,8 +37,14 @@ namespace WebApplication.Models
         public int CategoryId { get; set; }
 
         public Category Category { get; set; }
+
+        [JsonIgnore]
         public Manufacturer Manufacturer { get; set; }
+
+        [JsonIgnore]
         public List<Rating> Ratings { get; set; }
+
+        [JsonIgnore]
         public List<Review> Reviews { get; set; }
 
         public bool IsAvailable() => 0 < QuantityInStock;
