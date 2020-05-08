@@ -17,6 +17,7 @@ namespace WebApplication.Services
             {
                 Text = message
             };
+            
 
             using var client = new SmtpClient();
             await client.ConnectAsync("smtp.gmail.com", 465, true);

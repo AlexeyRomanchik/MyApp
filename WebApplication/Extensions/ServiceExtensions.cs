@@ -27,6 +27,11 @@ namespace WebApplication.Extensions
             services.AddTransient<IEmailService, EmailService>();
         }
 
+        public static void ConfigureMailingSystem(this IServiceCollection services)
+        {
+            services.AddTransient<IMailingSystem, MailingSystem>();
+        }
+
         public static void ConfigureRepositoryWrapper(this IServiceCollection services)
         {
             services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();

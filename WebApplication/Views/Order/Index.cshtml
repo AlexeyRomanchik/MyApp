@@ -4,6 +4,9 @@
     Layout = "_StartPage";
 }
 
+
+
+
 <main class="mt-5 pt-4">
     <div class="content wow fadeIn">
         <h2 class="my-5 h2 text-center">Оформление заказа</h2>
@@ -59,46 +62,67 @@
                             <label class="">Номер телефона</label>
                         </div>
 
+                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home"
+                                   aria-selected="true">Адрес/Форма</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile"
+                                   aria-selected="false">Адрес/Карты</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="myTabContent">
+                            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                                <!--address-->
+                                <div class="md-form mb-5">
+                                    <input id="region" type="text" asp-for="Order.Customer.Address.Region" class="form-control" placeholder="Минская">
+                                    <label class="">Область</label>
+                                </div>
 
+                                <hr>
 
+                                <div class="row">
 
-                        <!--address-->
-                        <div class="md-form mb-5">
-                            <input type="text" asp-for="Order.Customer.Address.Region" class="form-control" placeholder="Минская">
-                            <label class="">Область</label>
-                        </div>
+                                    <!--Grid column-->
+                                    <div class="col-lg-4 col-md-12 mb-4">
+                                        <label >Город</label>
+                                        <input class="form-control d-block w-100" id="city" type="text" asp-for="Order.Customer.Address.City" placeholder="Минск">
+                                    </div>
+                                    <div class="col-lg-4 col-md-12 mb-4">
+                                        <label>Улица</label>
+                                        <input class="form-control d-block w-100" id="street" type="text" asp-for="Order.Customer.Address.Street" placeholder="Ленинская">
+                                    </div>
+                                    <div class="col-lg-4 col-md-12 mb-4">
+                                        <label>Дом/Квартира</label>
+                                        <input class="form-control d-block w-100" id="house" type="text" asp-for="Order.Customer.Address.HouseOrFlat" placeholder="кв. 5">
+                                    </div>
 
-                        <hr>
+                                </div>
 
-                        <div class="row">
-
-                            <!--Grid column-->
-                            <div class="col-lg-4 col-md-12 mb-4">
-                                <label for="country">Город</label>
-                                <input class="form-control d-block w-100" type="text" asp-for="Order.Customer.Address.City" placeholder="Минск">
                             </div>
-                            <div class="col-lg-4 col-md-12 mb-4">
-                                <label for="country">Улица</label>
-                                <input class="form-control d-block w-100" type="text" asp-for="Order.Customer.Address.Street" placeholder="Ленинская">
+                            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                                <div id="mop" class="z-depth-1-half map-container-6" style="height: 400px"></div>
                             </div>
-                            <div class="col-lg-4 col-md-12 mb-4">
-                                <label for="country">Дом/Квартира</label>
-                                <input class="form-control d-block w-100" type="text" asp-for="Order.Customer.Address.HouseOrFlat" placeholder="кв. 5">
+                        </div>
+                            
+
+                           
+
+                            <hr>
+
+                            <div class="md-form mb-5">
+                                <input type="text" asp-for="Order.Customer.Address.Region" class="form-control">
+                                <label class="">Пожелания к заказу</label>
                             </div>
 
-                        </div>
+                            <hr>
 
+                            <div id="map2"></div>
 
-                        <hr>
+                            <hr>
 
-                        <div class="md-form mb-5">
-                            <input type="text" asp-for="Order.Customer.Address.Region" class="form-control">
-                            <label class="">Пожелания к заказу</label>
-                        </div>
-
-                        <hr>
-
-                        <button class="btn btn-primary btn-lg btn-block" type="submit">Continue to checkout</button>
+                            <button class="btn btn-primary btn-lg btn-block" type="submit">Continue to checkout</button>
 
                     </form>
 
@@ -132,9 +156,14 @@
                     </li>
                 </ul>
             </div>
-  
+
         </div>
         <!--Grid row-->
 
     </div>
 </main>
+
+<script type="text/javascript">
+
+
+</script>

@@ -7,6 +7,7 @@ using Microsoft.Extensions.Hosting;
 using WebApplication.Data;
 using WebApplication.Extensions;
 using WebApplication.Models;
+using WebApplication.Services;
 
 namespace WebApplication
 {
@@ -39,6 +40,7 @@ namespace WebApplication
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
                 );
 
+
             services.AddSession();
             services.AddDistributedMemoryCache();
 
@@ -52,6 +54,9 @@ namespace WebApplication
 
             services.ConfigureFileService();
             services.ConfigureFiltersService();
+            services.ConfigureMailingSystem();
+
+            services.Configure<SmsOptions>(Configuration);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -75,6 +80,7 @@ namespace WebApplication
 
             app.UseAuthentication();
             app.UseAuthorization();
+
 
             app.UseEndpoints(
                 endpoints =>

@@ -13,7 +13,7 @@ namespace WebApplication.Models
 
         [Display(Name = "Итоговая цена")]
         [Required(ErrorMessage = "Не указана итоговая цена")]
-        public double FinalPrice { get; set; }
+        public decimal FinalPrice { get; set; }
 
         public Guid OrderId { get; set; }
         public Order Order { get; set; }
@@ -34,6 +34,8 @@ namespace WebApplication.Models
             {
                 finalPrice += cartItem.Product.Price * cartItem.Quantity;
             }
+
+            FinalPrice = finalPrice;
 
             return finalPrice;
         }
