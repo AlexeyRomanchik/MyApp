@@ -4,8 +4,8 @@
     ViewData["Title"] = "Index";
     Layout = "_AdminPanel";
 }
-<div class="elegant-color" style="margin: 0px; padding: 0px;">
-    <nav class="navbar navbar-expand-lg navbar-dark elegant-color">
+<div class="elegant-color" style="margin: 0px; padding-top: 100px; background: #007bff">
+    <nav class="navbar navbar-expand-lg navbar-dark elegant-color" style="background: #007bff">
 
         <span class="navbar-brand">Сортировать:</span>
 
@@ -15,7 +15,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        <div class="collapse navbar-collapse" id="basicExampleNav">
+        <div class="collapse navbar-collapse" id="basicExampleNav" style="background: #007bff">
 
             <ul class="navbar-nav mr-auto">
                 @if (Model.SortBaseViewModel.CurrentSortState == SortState.PriceAsc || Model.SortBaseViewModel.CurrentSortState == SortState.PriceDesc)
@@ -96,9 +96,9 @@
 
             </ul>
 
-            <form class="form-inline" asp-action="Table" asp-controller="Hdd">
+            <form class="form-inline" asp-action="Table" asp-controller="Ram">
                 <div class="md-form my-0">
-                    <input class="form-control mr-sm-2" type="text" placeholder="Search" id="name" name="name" aria-label="Search">
+                    <input class="form-control mr-sm-2" type="text" placeholder="Search" id="name" name="name" aria-label="Search" style="background: white; font-family: Arial;">
                 </div>
             </form>
         </div>
@@ -107,30 +107,31 @@
     <div class="accordion md-accordion elegant-color w-100" id="accordionEx" role="tablist" aria-multiselectable="true">
 
         <!-- Accordion card -->
-        <div class="card  elegant-color" style="color: white; margin: 0px; padding: 0px; width: 100%;">
+        <div class="card  elegant-color" style="color: white; margin: 0px; padding: 0px; width: 100%; background: #007bff;">
 
             <!-- Card header -->
             <div class="card-header" role="tab" id="headingOne1">
-                <a data-toggle="collapse" data-parent="#accordionEx" href="#collapseOne1" aria-expanded="true"
-                   aria-controls="collapseOne1">
-                    <h5 class="mb-0 white-text">
-                        Фильтры <i class="fas fa-angle-down rotate-icon"></i>
+                <a data-toggle="collapse" data-parent="#accordionEx" href="#collapseOne1" aria-expanded="False"
+                   aria-controls="collapseOne1" class="collapsed">
+                    <h5 class="mb-0 white-text" style="font-family: Arial;">
+                        Фильтры
                     </h5>
                 </a>
             </div>
 
             <!-- Card body -->
-            <div id="collapseOne1" class="collapse show" role="tabpanel" aria-labelledby="headingOne1" data-parent="#accordionEx">
+            <div id="collapseOne1" class="show collapse" role="tabpanel" aria-expanded="False" aria-labelledby="headingOne1" data-parent="#accordionEx">
                 <div class="card-body">
-                    <form asp-controller="Hdd" asp-action="Table">
-                        <label class="control-label">Производитель: </label>
+                    <form asp-controller="Ram" asp-action="Table">
+                        <label class="control-label" style="font-family: Arial;">Производитель: </label>
                         @Html.DropDownList("Manufacturer", Model.BaseFilterViewModel.Manufacturers,
-                            new {@class = "form-control", style = "width:20%;"})
-                        <br/>
+                            new { @class = "form-control", style = "width:20%; background:white;font-family:Arial; color: #6B6B6B;" })
+                        <br />
                         <button class="btn btn-elegant"
                                 asp-route-page="@(Model.PageViewModel.PageNumber)"
                                 asp-route-sortState="@Model.SortBaseViewModel.CurrentSortState"
-                                type="submit">
+                                type="submit"
+                                style="        background: #006FE6;  color: white;   font-family: Arial;">
                             Установить фильтр
                         </button>
                     </form>
@@ -143,168 +144,171 @@
     <!-- Accordion wrapper -->
 </div>
 
+
 <div>
-    <a href="#" class="btn btn-blue tocart"> Добавить <i class="fas fa-plus-circle" style="padding: 5px"></i></a>
-</div>
-<table class="table table-hover">
-    <thead>
-    <tr>
-        <th scope="col">Id</th>
-        <th scope="col">Название</th>
-        <th scope="col">Цена</th>
-        <th scope="col">Количество на складе</th>
-        <th scope="col">Дата добавления</th>
-        <th scope="col">Объём</th>
-        <th scope="col">Форм-фактор</th>
-        <th scope="col">Скорость вращения шпинделя</th>
-        <th scope="col">Буфер</th>
-        <th scope="col">Размер сектора</th>
-        <th scope="col">Скорость последовательного чтения</th>
-        <th scope="col">Скорость последовательной записи</th>
-        <th scope="col">Энергопотребление (Чтение/Запись)</th>
-        <th scope="col">Энергопотребление (Ожидание)</th>
-        <th scope="col">Уровень шума (Чтение/Запись)</th>
-        <th scope="col">Уровень шума (Ожидание)</th>
-        <th scope="col">Редактировать</th>
-        <th scope="col">Удалить</th>
-    </tr>
-    </thead>
-    <tbody>
-    @foreach (var product in Model.Products)
-    {
-        <tr>
-            <td>@product.Id</td>
-            <td>@product.Product.Name</td>
-            <td>@product.Product.Price</td>
-            <td>@product.Product.QuantityInStock</td>
-            <td>@product.Product.DateAdded</td>
-            <td>@product.Volume</td>
-            <td>@product.FormFactor</td>
-            <td>@product.SpindleSpeed</td>
-            <td>@product.Buffer</td>
-            <td>@product.SectorSize</td>
-            <td>@product.SequentialReadSpeed</td>
-            <td>@product.SequentialWriteSpeed</td>
-            <td>@product.PowerConsumptionForReadWrite</td>
-            <td>@product.PowerConsumptionStandby</td>
-            <td>@product.NoiseReadingWriting</td>
-            <td>@product.NoiseStandby</td>
-            <td>
-                <form asp-action="Remove" asp-controller="Hdd" asp-route-id="@product.Id" method="post">
-                    <button type="submit" class="btn btn-teal tocart">
-                        <i class="fas fa-pencil-alt mt-0" style="display: inline; padding: 1px;"></i>
-                    </button>
-                </form>
-            </td>
-            <td>
-                <form asp-action="Remove" asp-controller="Hdd" asp-route-id="@product.Id" method="post">
-                    <button type="submit" class="btn btn-red tocart">
-                        <i class="far fa-trash-alt mt-0" style="display: inline; padding: 1px;"></i>
-                    </button>
-                </form>
-            </td>
-        </tr>
-    }
-    </tbody>
-</table>
+    <button class="btn" style="background: #006FE6;  color: white;   font-family: Arial; margin: 18px;">
+        Добавить
+    </button>
 
-<nav class="d-flex justify-content-center wow fadeIn">
-    <ul class="pagination pg-blue">
-        @if (Model.PageViewModel.HasPreviousPage)
-        {
-            <li class="page-item">
-                <a asp-action="Table"
-                   asp-route-manufacturer="@Model.BaseFilterViewModel.SelectedManufacturer"
-                   asp-route-page="@(Model.PageViewModel.PageNumber - 1)"
-                   asp-controller="Hdd"
-                   asp-route-sortState="@Model.SortBaseViewModel.CurrentSortState"
-                   class="page-link" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                    <span class="sr-only">Previous</span>
-                </a>
-            </li>
-        }
-        else
-        {
-            <li class="page-item disabled">
-                <a href="#"
-                   class="page-link" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                    <span class="sr-only">Previous</span>
-                </a>
-            </li>
-        }
-        @{
-            var index = 1;
-            if (Model.PageViewModel.PageNumber > 3)
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Название</th>
+                <th scope="col">Цена</th>
+                <th scope="col">Количество на складе</th>
+                <th scope="col">Дата добавления</th>
+                <th scope="col">Объём</th>
+                <th scope="col">Форм-фактор</th>
+                <th scope="col">Скорость вращения шпинделя</th>
+                <th scope="col">Буфер</th>
+                <th scope="col">Размер сектора</th>
+                <th scope="col">Скорость последовательного чтения</th>
+                <th scope="col">Скорость последовательной записи</th>
+                <th scope="col">Энергопотребление (Чтение/Запись)</th>
+                <th scope="col">Энергопотребление (Ожидание)</th>
+                <th scope="col">Уровень шума (Чтение/Запись)</th>
+                <th scope="col">Уровень шума (Ожидание)</th>
+                <th scope="col">Редактировать</th>
+                <th scope="col">Удалить</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in Model.Products)
             {
-                index = Model.PageViewModel.PageNumber - 3;
+            <tr>
+                <td>@product.Id</td>
+                <td>@product.Product.Name</td>
+                <td>@product.Product.Price</td>
+                <td>@product.Product.QuantityInStock</td>
+                <td>@product.Product.DateAdded</td>
+                <td>@product.Volume</td>
+                <td>@product.FormFactor</td>
+                <td>@product.SpindleSpeed</td>
+                <td>@product.Buffer</td>
+                <td>@product.SectorSize</td>
+                <td>@product.SequentialReadSpeed</td>
+                <td>@product.SequentialWriteSpeed</td>
+                <td>@product.PowerConsumptionForReadWrite</td>
+                <td>@product.PowerConsumptionStandby</td>
+                <td>@product.NoiseReadingWriting</td>
+                <td>@product.NoiseStandby</td>
+                <td>
+                    <form asp-action="Remove" asp-controller="Ram" asp-route-id="@product.Id" method="post">
+                        <button type="submit" class="btn" style="background: #006400; color: white; font-family: Arial;">
+                            Изменить
+                        </button>
+                    </form>
+                </td>
+                <td>
+                    <form asp-action="Remove" asp-controller="Ram" asp-route-id="@product.Id" method="post">
+                        <button type="submit" class="btn" style="background: #CC0605;  color: white;   font-family: Arial;">
+                            Удалить
+                        </button>
+                    </form>
+                </td>
+            </tr>
             }
+        </tbody>
+    </table>
 
-            for (var i = index; i < Model.PageViewModel.PageNumber; i++)
+    <nav class="d-flex justify-content-center wow fadeIn">
+        <ul class="pagination pg-blue">
+            @if (Model.PageViewModel.HasPreviousPage)
             {
                 <li class="page-item">
                     <a asp-action="Table"
                        asp-route-manufacturer="@Model.BaseFilterViewModel.SelectedManufacturer"
-                       asp-route-page="@i"
+                       asp-route-page="@(Model.PageViewModel.PageNumber - 1)"
                        asp-controller="Hdd"
                        asp-route-sortState="@Model.SortBaseViewModel.CurrentSortState"
-                       class="page-link">
-                        @i
+                       class="page-link" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                        <span class="sr-only">Previous</span>
                     </a>
                 </li>
             }
-        }
-        <li class="page-item active">
-            <a class="page-link" asp-action="Table"
-               asp-route-sortState="@Model.SortBaseViewModel.CurrentSortState"
-               asp-route-manufacturer="@Model.BaseFilterViewModel.SelectedManufacturer"
-               asp-route-page="@Model.PageViewModel.PageNumber"
-               asp-controller="Hdd">
-                @Model.PageViewModel.PageNumber
-                <span class="sr-only">(current)</span>
-            </a>
-        </li>
-        @{
-            var indexNext = Model.PageViewModel.PageNumber + 1;
+            else
+            {
+                <li class="page-item disabled">
+                    <a href="#"
+                       class="page-link" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                </li>
+            }
+            @{
+                var index = 1;
+                if (Model.PageViewModel.PageNumber > 3)
+                {
+                    index = Model.PageViewModel.PageNumber - 3;
+                }
 
-            for (var i = indexNext; i <= Model.PageViewModel.TotalPages && i < indexNext + 3; i++)
+                for (var i = index; i < Model.PageViewModel.PageNumber; i++)
+                {
+                    <li class="page-item">
+                        <a asp-action="Table"
+                           asp-route-manufacturer="@Model.BaseFilterViewModel.SelectedManufacturer"
+                           asp-route-page="@i"
+                           asp-controller="Hdd"
+                           asp-route-sortState="@Model.SortBaseViewModel.CurrentSortState"
+                           class="page-link">
+                            @i
+                        </a>
+                    </li>
+                }
+            }
+            <li class="page-item active">
+                <a class="page-link" asp-action="Table"
+                   asp-route-sortState="@Model.SortBaseViewModel.CurrentSortState"
+                   asp-route-manufacturer="@Model.BaseFilterViewModel.SelectedManufacturer"
+                   asp-route-page="@Model.PageViewModel.PageNumber"
+                   asp-controller="Hdd">
+                    @Model.PageViewModel.PageNumber
+                    <span class="sr-only">(current)</span>
+                </a>
+            </li>
+            @{
+                var indexNext = Model.PageViewModel.PageNumber + 1;
+
+                for (var i = indexNext; i <= Model.PageViewModel.TotalPages && i < indexNext + 3; i++)
+                {
+                    <li class="page-item">
+                        <a asp-action="Table"
+                           asp-route-page="@i"
+                           asp-route-manufacturer="@Model.BaseFilterViewModel.SelectedManufacturer"
+                           asp-route-sortState="@Model.SortBaseViewModel.CurrentSortState"
+                           asp-controller="Hdd"
+                           class="page-link">
+                            @i
+                        </a>
+                    </li>
+                }
+            }
+
+            @if (Model.PageViewModel.HasNextPage)
             {
                 <li class="page-item">
                     <a asp-action="Table"
-                       asp-route-page="@i"
+                       asp-route-page="@(Model.PageViewModel.PageNumber + 1)"
+                       asp-controller="Hdd"
                        asp-route-manufacturer="@Model.BaseFilterViewModel.SelectedManufacturer"
                        asp-route-sortState="@Model.SortBaseViewModel.CurrentSortState"
-                       asp-controller="Hdd"
-                       class="page-link">
-                        @i
+                       class="page-link" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                        <span class="sr-only">Next</span>
                     </a>
                 </li>
             }
-        }
-
-        @if (Model.PageViewModel.HasNextPage)
-        {
-            <li class="page-item">
-                <a asp-action="Table"
-                   asp-route-page="@(Model.PageViewModel.PageNumber + 1)"
-                   asp-controller="Hdd"
-                   asp-route-manufacturer="@Model.BaseFilterViewModel.SelectedManufacturer"
-                   asp-route-sortState="@Model.SortBaseViewModel.CurrentSortState"
-                   class="page-link" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                    <span class="sr-only">Next</span>
-                </a>
-            </li>
-        }
-        else
-        {
-            <li class="page-item disabled">
-                <a class="page-link" href="#" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                    <span class="sr-only">Next</span>
-                </a>
-            </li>
-        }
-    </ul>
-</nav>
+            else
+            {
+                <li class="page-item disabled">
+                    <a class="page-link" href="#" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </li>
+            }
+        </ul>
+    </nav>
