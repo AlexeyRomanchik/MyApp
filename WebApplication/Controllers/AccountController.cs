@@ -27,6 +27,13 @@ namespace WebApplication.Controllers
             _emailService = emailService;
         }
 
+        public IActionResult Index()
+        {
+            return View();
+        }
+
+
+
         [HttpGet]
         public IActionResult Register()
         {

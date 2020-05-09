@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.Facebook;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -50,6 +51,14 @@ namespace WebApplication
                     options.ClientId = "425736496155-pfq97jct0gcbjm8kp2jlf41km06vfq2j.apps.googleusercontent.com";
                     options.ClientSecret = "wwjkpXvNLyICdwfklAVzp6RW";
                 });
+
+            services.AddAuthentication().
+                AddFacebook(options =>
+                {
+                    options.ClientId = "266017901438969";
+                    options.ClientSecret = "d41bc037d24cfd3beff9fca4b6210637";
+                });
+
             services.ConfigureSortWrapper();
 
             services.ConfigureFileService();
