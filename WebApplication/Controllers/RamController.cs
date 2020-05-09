@@ -78,6 +78,29 @@ namespace WebApplication.Controllers
             return View();
         }
 
+        [HttpGet]
+        [Authorize(Roles = "admin")]
+        public IActionResult Edit(Guid id)
+        {
+            var product = _ramRepository.FindByCondition(x => x.Product.Id == id).FirstOrDefault();
+
+            if (product == null)
+                return RedirectToAction("Table");
+
+            return View(product);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "admin")]
+        public IActionResult Edit(Ram ram)
+        {
+            _ramRepository.Update(ram);
+            _repositoryWrapper.Save();
+
+            return RedirectToAction("Table");
+        }
+
+
         [HttpPost]
         [Authorize(Roles = "admin")]
         public IActionResult Add(AddRamViewModel ramViewModel)

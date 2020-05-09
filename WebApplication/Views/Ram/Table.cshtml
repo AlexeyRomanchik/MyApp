@@ -188,7 +188,7 @@
             <td>@product.Throughput</td>
             <td>@product.SupplyVoltage</td>
             <td>
-                <form asp-action="Remove" asp-controller="Ram" asp-route-id="@product.Id" method="post">
+                <form asp-action="Edit" asp-controller="Ram" asp-route-id="@product.Id" method="get">
                     <button type="submit" class="btn" style="background: #006400; color: white; font-family: Arial;">
                         Изменить
                     </button>
