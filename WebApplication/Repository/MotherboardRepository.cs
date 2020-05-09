@@ -21,6 +21,8 @@ namespace WebApplication.Repository
                 .ThenInclude(x => x.Manufacturer)
                 .Include("SocketType")
                 .Include("Product.Ratings")
+                .Include("Product.Reviews")
+                .Include("Product.Reviews.User")
                 .AsNoTracking();
         }
 
@@ -36,6 +38,8 @@ namespace WebApplication.Repository
                 .Include("SocketType")
                 .Include("Product.Ratings")
                 .Include("Product.Ratings.User")
+                .Include("Product.Reviews")
+                .Include("Product.Reviews.User")
                 .AsNoTracking();
         }
 

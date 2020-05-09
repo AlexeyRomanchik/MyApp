@@ -47,6 +47,16 @@ namespace WebApplication.Models
         [JsonIgnore]
         public List<Review> Reviews { get; set; }
 
+        public Product()
+        {
+            Category = new Category();
+            Manufacturer = new Manufacturer();
+            Ratings = new List<Rating>();
+            Reviews = new List<Review>();
+        }
+
+        public int GetCountReviews() => Reviews.Count;
+
         public bool IsAvailable() => 0 < QuantityInStock;
 
         public bool IsIndicatedRating()
@@ -69,7 +79,5 @@ namespace WebApplication.Models
                 return 0;
             return (double)Ratings.Sum(x => x.Value) / Ratings.Count;
         }
-            
-
     }
 }

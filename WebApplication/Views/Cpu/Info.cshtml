@@ -4,239 +4,296 @@
     Layout = "_StartPage";
 }
 
-<div class="container dark-grey-text mt-5">
+    <div class="container dark-grey-text mt-5">
 
-    <!--Grid row-->
-    <div class="row wow fadeIn">
+        <!--Grid row-->
+        <div class="row wow fadeIn">
 
-        <!--Grid column-->
-        <div class="col-md-6 mb-4" style="margin: auto; text-align: center;">
-            @if (Model.Product.Product.IsIndicatedRating())
-            {
-                <div class="@string.Format($"rating-wrapper value-color{Math.Round(Model.Product.Product.GetAverageRating())}")"
-                     title="Количество голосов: @Model.Product.Product.NumberOfRatings()"
-                     style="float: left; margin: 5px;">
-                    <div class="rating">
-                        <span class="value">@Math.Round(Model.Product.Product.GetAverageRating(), 1)</span>
-                    </div>
-                </div>
-            }
-            else
-            {
-                <div class="@string.Format($"rating-wrapper value-color{Math.Round(Model.Product.Product.GetAverageRating())}")"
-                     title="Пока никто не паставли рейтинг, станьте первым"
-                     style="float: left; margin: 5px;">
-                    <div class="rating">
-                        <span class="value">?</span>
-                    </div>
-                </div>
-            }
-            <img src="@Model.Product.Product.ImageUrl" class="img-fluid w-75" alt="">
-
-        </div>
-        <!--Grid column-->
-        <!--Grid column-->
-        <div class="col-md-6 mb-4">
-
-            <!--Content-->
-            <div class="p-4">
-
-                <div class="mb-3">
-                    <a href="">
-                        <span class="badge purple mr-1">@Model.Product.Product.Category.Name</span>
-                    </a>
-                    <a href="">
-                        <span class="badge blue mr-1">New</span>
-                    </a>
-                </div>
-
-                <p class="lead">
-                    <span>$@Model.Product.Product.Price</span>
-                </p>
-
-                <p class="lead font-weight-bold">@Model.Product.Product.Name</p>
-
-                <p>
-                    Производитель: @Model.Product.Product.Manufacturer.Name
-                </p>
-                <p>
-                    Дата выхода на рынок: @Model.Product.Product.DateAdded
-                </p>
-
-                <p>
-                    <form class="d-flex justify-content-left">
-                        <input type="number" value="1" aria-label="Search" class="form-control" style="width: 100px">
-                        <button class="btn btn-red  btn-md my-0 p" type="submit">
-                            Add to cart
-                            <i class="fas fa-shopping-cart ml-1"></i>
-                        </button>
-                    </form>
-                </p>
-
-
-                @if (User.Identity.IsAuthenticated)
-                {
-                    @if (Model.Product.Product.Ratings.All(x => x.User.UserName != User.Identity.Name))
-                    {
-                        <p>
-                            <form class="d-flex justify-content-left" asp-controller="ProductGeneral" asp-action="Rate">
-                                <input type="number" min="1" max="10" value="1" aria-label="Search" name="rating" class="form-control" style="width: 100px" />
-                                <input type="hidden" value="@Model.Product.Id" name="id" />
-                                <button class="btn btn-primary btn-md my-0 p" type="submit">
-                                    Поставить оценку
-                                </button>
-                            </form>
-                        </p>
-                    }
-                    else
-                    {
-                        <p>
-                            <form class="d-flex justify-content-left" asp-controller="ProductGeneral" asp-action="ChangeRating">
-                                <input type="number" min="1" max="10"
-                                       value="@Model.Product.Product.Ratings.FirstOrDefault(x => x.User.UserName == User.Identity.Name)?.Value"
-                                       aria-label="Search" name="rating" class="form-control" style="width: 100px" />
-                                <input type="hidden" value="@Model.Product.Id" name="id" />
-                                <button class="btn btn-primary btn-md my-0 p" type="submit">
-                                    Изменить оценку
-                                </button>
-                            </form>
-                        </p>
-                    }
-
-                }
-
+            <!--Grid column-->
+            <div class="col-md-6 mb-4" style="margin: auto; text-align: center;">
+              
+                <img src="@Model.Product.Product.ImageUrl" class="img-fluid w-75" alt="">
 
             </div>
-            <!--Content-->
+            <!--Grid column-->
+            <!--Grid column-->
+            <div class="col-md-6 mb-4">
 
-        </div>
-        <!--Grid column-->
+                <!--Content-->
+                <div class="p-4">
 
-    </div>
-    <!--Grid row-->
+                    <div class="mb-3">
+                        <a href="">
+                            <span class="badge purple mr-1">@Model.Product.Product.Category.Name</span>
+                        </a>
+                        <a href="">
+                            <span class="badge blue mr-1">New</span>
+                        </a>
+                    </div>
 
-    <hr>
-    <p class="lead font-weight-bold">Технические характеристики</p>
-    <table class="table table-hover">
-        <tbody>
-        <tr>
-            <th scope="row">1</th>
-            <td>Сокет</td>
-            <td>@Model.Product.Socket</td>
+                    <p class="lead">
+                        <span>$@Model.Product.Product.Price</span>
+                    </p>
 
-        </tr>
-        <tr>
-            <th scope="row">2</th>
-            <td>Количество ядер</td>
-            <td>@Model.Product.NumberCores</td>
+                    <p class="lead font-weight-bold">@Model.Product.Product.Name</p>
 
-        </tr>
-        <tr>
-            <th scope="row">3</th>
-            <td>Максимальное количество потоков</td>
-            <td>@Model.Product.MaximumNumberThreads</td>
-        </tr>
-        <tr>
-            <th scope="row">4</th>
-            <td>Базовая тактовая частота</td>
-            <td>@Math.Round(Model.Product.BaseClock, 2) Гц</td>
-        </tr>
-        <tr>
-            <th scope="row">5</th>
-            <td>Максимальная частота</td>
-            <td>@Math.Round(Model.Product.MaximumFrequency, 2) Гц</td>
-        </tr>
-        <tr>
-            <th scope="row">6</th>
-            <td>Кэш L2 </td>
-            <td>@Model.Product.L2Cache МБ</td>
-        </tr>
-        <tr>
-            <th scope="row">7</th>
-            <td>Кэш L3</td>
-            <td>@Model.Product.L3Cache</td>
-        </tr>
-        <tr>
-            <th scope="row">8</th>
-            <td>Поддержка памяти</td>
-            <td>@Model.Product.MemorySupport</td>
-        </tr>
-        <tr>
-            <th scope="row">9</th>
-            <td>Количество каналов памяти</td>
-            <td>@Model.Product.NumberMemoryChannels</td>
-        </tr>
-        <tr>
-            <th scope="row">10</th>
-            <td>Максимальная частота памяти</td>
-            <td>@Math.Round(Model.Product.MaxMemoryFrequency, 2) Гц</td>
-        </tr>
-        <tr>
-            <th scope="row">11</th>
-            <td>Расчетная тепловая мощность </td>
-            <td>@Math.Round(Model.Product.Tdp, 2) Вт</td>
-        </tr>
-        </tbody>
-    </table>
-
-    <hr>
-
-    <!--Grid row-->
-    <div class="row d-flex justify-content-center wow fadeIn">
-
-        <!--Grid column-->
-        <div class="col-md-6 text-center">
-
-            <h4 class="my-4 h4">Рекомендуемые товары</h4>
-
-        </div>
-        <!--Grid column-->
-
-    </div>
-    <section class="text-center mb-4">
-        @foreach (var product in Model.PopularGoods)
-        {
-            <div class="card" style="width: 20%">
-
-                <!-- Card image -->
-                <img class="card-img-top" src="@product.Product.ImageUrl" alt="Card image cap">
-
-                <!-- Card content -->
-                <div class="card-body">
-
-                    <!-- Title -->
-                    <h6 class="card-title">
-                        <a>@product.Product.Name</a>
-                    </h6>
-
-                    <!-- Text -->
-                    <p class="card-text">
-                        Кэш L2 уровня @product.L2Cache, кэш L3 уровня @product.L3Cache,
-                        частота процессора: @product.MaximumFrequency,
-                        производитель: @product.Product.Manufacturer.Name
-
-                        <h4 class="font-weight-bold red-text">
-                            <strong>
-                                @Math.Round(product.Product.Price, 2)$
-                            </strong>
-                        </h4>
-
-                        @if (product.Product.IsAvailable())
+                    <p>
+                        Производитель: @Model.Product.Product.Manufacturer.Name
+                    </p>
+                    <p>
+                        Дата выхода на рынок: @Model.Product.Product.DateAdded
+                    </p>
+                    <p>
+                        @if (Model.Product.Product.IsIndicatedRating())
                         {
+
+                            <i class="far fa-star" style="padding: 5px 5px; margin: 5px 0px;" title="Количество голосов: @Model.Product.Product.NumberOfRatings()">@Math.Round(Model.Product.Product.GetAverageRating(), 1)</i>
+                        }
+                        else
+                        {
+                            <i class="far fa-star p-1" style="padding: 5px 5px; margin: 5px 0px;" title="Количество голосов: 0">?</i>
+                        }
+
+                        <i class="far fa-comment p-1 m-1" style="padding: 5px 5px; margin: 5px 0px;" title="Количество отзывов">@Model.Product.Product.GetCountReviews()</i>
+
+                    </p>
+
+                    <p>
+                        <form class="d-flex justify-content-left">
+                            <input type="number" value="1" aria-label="Search" class="form-control" style="width: 100px">
+                            <button class="btn btn-red  btn-md my-0 p" type="submit">
+                                Add to cart
+                                <i class="fas fa-shopping-cart ml-1"></i>
+                            </button>
+                        </form>
+                    </p>
+
+
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        @if (Model.Product.Product.Ratings.All(x => x.User.UserName != User.Identity.Name))
+                        {
+                            <p>
+                                <form class="d-flex justify-content-left" asp-controller="ProductGeneral" asp-action="Rate">
+                                    <input type="number" min="1" max="10" value="1" aria-label="Search" name="rating" class="form-control" style="width: 100px" />
+                                    <input type="hidden" value="@Model.Product.Id" name="id" />
+                                    <button class="btn btn-primary btn-md my-0 p" type="submit">
+                                        Поставить оценку
+                                    </button>
+                                </form>
+                            </p>
+                        }
+                        else
+                        {
+                            <p>
+                                <form class="d-flex justify-content-left" asp-controller="ProductGeneral" asp-action="ChangeRating">
+                                    <input type="number" min="1" max="10"
+                                           value="@Model.Product.Product.Ratings.FirstOrDefault(x => x.User.UserName == User.Identity.Name)?.Value"
+                                           aria-label="Search" name="rating" class="form-control" style="width: 100px" />
+                                    <input type="hidden" value="@Model.Product.Id" name="id" />
+                                    <button class="btn btn-primary btn-md my-0 p" type="submit">
+                                        Изменить оценку
+                                    </button>
+                                </form>
+                            </p>
+                        }
+
+                    }
+
+
+                </div>
+                <!--Content-->
+
+            </div>
+            <!--Grid column-->
+
+        </div>
+        <!--Grid row-->
+
+        <hr>
+        <p class="lead font-weight-bold">Технические характеристики</p>
+        <table class="table table-hover">
+            <tbody>
+                <tr>
+                    <th scope="row">1</th>
+                    <td>Сокет</td>
+                    <td>@Model.Product.Socket</td>
+
+                </tr>
+                <tr>
+                    <th scope="row">2</th>
+                    <td>Количество ядер</td>
+                    <td>@Model.Product.NumberCores</td>
+
+                </tr>
+                <tr>
+                    <th scope="row">3</th>
+                    <td>Максимальное количество потоков</td>
+                    <td>@Model.Product.MaximumNumberThreads</td>
+                </tr>
+                <tr>
+                    <th scope="row">4</th>
+                    <td>Базовая тактовая частота</td>
+                    <td>@Math.Round(Model.Product.BaseClock, 2) Гц</td>
+                </tr>
+                <tr>
+                    <th scope="row">5</th>
+                    <td>Максимальная частота</td>
+                    <td>@Math.Round(Model.Product.MaximumFrequency, 2) Гц</td>
+                </tr>
+                <tr>
+                    <th scope="row">6</th>
+                    <td>Кэш L2 </td>
+                    <td>@Model.Product.L2Cache МБ</td>
+                </tr>
+                <tr>
+                    <th scope="row">7</th>
+                    <td>Кэш L3</td>
+                    <td>@Model.Product.L3Cache</td>
+                </tr>
+                <tr>
+                    <th scope="row">8</th>
+                    <td>Поддержка памяти</td>
+                    <td>@Model.Product.MemorySupport</td>
+                </tr>
+                <tr>
+                    <th scope="row">9</th>
+                    <td>Количество каналов памяти</td>
+                    <td>@Model.Product.NumberMemoryChannels</td>
+                </tr>
+                <tr>
+                    <th scope="row">10</th>
+                    <td>Максимальная частота памяти</td>
+                    <td>@Math.Round(Model.Product.MaxMemoryFrequency, 2) Гц</td>
+                </tr>
+                <tr>
+                    <th scope="row">11</th>
+                    <td>Расчетная тепловая мощность </td>
+                    <td>@Math.Round(Model.Product.Tdp, 2) Вт</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <hr>
+
+        <div class="row d-flex justify-content-center wow fadeIn">
+
+
+            <div class="col-md-6 text-center">
+
+                <h4 class="my-4 h4">Отзывы о товаре</h4>
+
+            </div>
+
+
+        </div>
+        <hr>
+        <div class="row d-flex justify-content-center wow fadeIn">
+
+
+            <div class="text-center w-100">
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <h4 class="my-4 h4">Оставить отзыв</h4>
+                    <form asp-controller="ProductGeneral" asp-action="AddReview" method="post">
+                        <div class="md-form amber-textarea active-amber-textarea">
+                            <i class="fas fa-pencil-alt prefix"></i>
+                            <textarea name="text" id="form22" class="md-textarea form-control" rows="4"></textarea>
+                            <label for="form22">Ваш текст</label>
+                            <input type="hidden" name="id" value="@Model.Product.Id" />
+                        </div>
+                        <button class="btn btn-primary btn-md my-0" type="submit">
+                            Оставить отзыв
+                        </button>
+                    </form>
+                }
+            </div>
+
+
+        </div>
+
+        <hr>
+        <div class="card-comments mb-3 wow fadeIn">
+            <div class="card-header font-weight-bold">@Model.Product.Product.GetCountReviews() comments</div>
+            <div class="card-body">
+                @foreach (var review in Model.Product.Product.Reviews)
+                {
+                    if (review.ReviewVerified)
+                    {
+                        <div class="media d-block d-md-flex mt-4">
+                            <div class="media-body text-center text-md-left ml-md-3 ml-0">
+                                <h5 class="mt-0 font-weight-bold">
+                                    @review.User.UserName
+                                    <a href="" class="pull-right">
+                                        <i class="fas fa-reply"></i>
+                                    </a>
+                                </h5>
+                                @review.Text
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+
+        <hr>
+
+        <!--Grid row-->
+        <div class="row d-flex justify-content-center wow fadeIn">
+
+            <!--Grid column-->
+            <div class="col-md-6 text-center">
+
+                <h4 class="my-4 h4">Рекомендуемые товары</h4>
+
+            </div>
+            <!--Grid column-->
+
+        </div>
+        <section class="text-center mb-4">
+            @foreach (var product in Model.PopularGoods)
+            {
+                <div class="card" style="width: 20%">
+
+                    <!-- Card image -->
+                    <img class="card-img-top" src="@product.Product.ImageUrl" alt="Card image cap">
+
+                    <!-- Card content -->
+                    <div class="card-body">
+
+                        <!-- Title -->
+                        <h6 class="card-title">
+                            <a>@product.Product.Name</a>
+                        </h6>
+
+                        <!-- Text -->
+                        <p class="card-text">
+                            Кэш L2 уровня @product.L2Cache, кэш L3 уровня @product.L3Cache,
+                            частота процессора: @product.MaximumFrequency,
+                            производитель: @product.Product.Manufacturer.Name
+
+                            <h4 class="font-weight-bold red-text">
+                                <strong>
+                                    @Math.Round(product.Product.Price, 2)$
+                                </strong>
+                            </h4>
+
+                            @if (product.Product.IsAvailable())
+                            {
                             <p>В наличии</p>
                         }
                         else
                         {
                             <p>Нет в наличии</p>
                         }
-                    </p>
-                    <p>
-                        <a href="/Cpu/Info?id=@product.Product.Id">Подробнее...</a>
-                    </p>
-                    <a id="@product.Id" class="btn btn-red tocart">В корзину</a>
-                </div>
-            </div>
-        }
+                            </p>
+                            <p>
+                                <a href="/Cpu/Info?id=@product.Product.Id">Подробнее...</a>
+                            </p>
+                            <a id="@product.Id" class="btn btn-red tocart">В корзину</a>
+                        </div>
+                    </div>
+                }
 
-    </section>
-</div>
+        </section>
+    </div>

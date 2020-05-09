@@ -1,0 +1,75 @@
+﻿active-pink-textarea.md-form label.active {
+    color: #f48fb1;
+}
+
+.pink-textarea textarea.md-textarea:focus:not([readonly]) {
+    border-bottom: 1px solid #f48fb1;
+    box-shadow: 0 1px 0 0 #f48fb1;
+}
+
+.pink-textarea.md-form .prefix.active {
+    color: #f48fb1;
+}
+
+.active-pink-textarea.md-form textarea.md-textarea:focus:not([readonly]) + label {
+    color: #f48fb1;
+}
+
+.active-amber-textarea.md-form label.active {
+    color: #403A3A;
+}
+
+.amber-textarea textarea.md-textarea:focus:not([readonly]) {
+    border-bottom: 1px solid #403A3A;
+    box-shadow: 0 1px 0 0 #403A3A;
+}
+
+.amber-textarea.md-form .prefix.active {
+    color: #403A3A;
+}
+
+.active-amber-textarea.md-form textarea.md-textarea:focus:not([readonly]) + label {
+    color: #403A3A;
+}
+
+.active-pink-textarea-2 textarea.md-textarea {
+    border-bottom: 1px solid #f48fb1;
+    box-shadow: 0 1px 0 0 #f48fb1;
+}
+
+.active-pink-textarea-2.md-form label.active {
+    color: #f48fb1;
+}
+
+.active-pink-textarea-2.md-form label {
+    color: #f48fb1;
+}
+
+.active-pink-textarea-2.md-form .prefix {
+    color: #f48fb1;
+}
+
+.active-pink-textarea-2.md-form textarea.md-textarea:focus:not([readonly]) + label {
+    color: #f48fb1;
+}
+
+.active-amber-textarea-2 textarea.md-textarea {
+    border-bottom: 1px solid #403A3A;
+    box-shadow: 0 1px 0 0 #403A3A;
+}
+
+.active-amber-textarea-2.md-form label.active {
+    color: #403A3A;
+}
+
+.active-amber-textarea-2.md-form label {
+    color: #403A3A;
+}
+
+.active-amber-textarea-2.md-form .prefix {
+    color: #403A3A;
+}
+
+.active-amber-textarea-2.md-form textarea.md-textarea:focus:not([readonly]) + label {
+    color: #403A3A;
+}

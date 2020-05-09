@@ -20,6 +20,8 @@ namespace WebApplication.Repository
                 Include(x => x.Product)
                 .ThenInclude(x => x.Manufacturer)
                 .Include("Product.Ratings")
+                .Include("Product.Reviews")
+                .Include("Product.Reviews.User")
                 .AsNoTracking();
         }
 
@@ -33,6 +35,8 @@ namespace WebApplication.Repository
                 .Include("Interface")
                 .Include("Product.Ratings")
                 .Include("Product.Ratings.User")
+                .Include("Product.Reviews")
+                .Include("Product.Reviews.User")
                 .AsNoTracking();
         }
     }

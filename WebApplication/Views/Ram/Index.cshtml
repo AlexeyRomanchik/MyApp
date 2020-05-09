@@ -255,24 +255,6 @@
     {
 
     <div class="card" style="width: 20%">
-        @if (product.Product.IsIndicatedRating())
-        {
-            <div class="@string.Format($"rating-wrapper value-color{Math.Round(product.Product.GetAverageRating())}")" title="Количество голосов: @product.Product.NumberOfRatings()">
-                <div class="rating">
-                    <span class="value">@Math.Round(product.Product.GetAverageRating(),1)</span>
-                </div>
-            </div>
-        }
-        else
-        {
-            <div class="@string.Format($"rating-wrapper value-color{Math.Round(product.Product.GetAverageRating())}")" title="Пока никто не паставли рейтинг, станьте первым">
-                <div class="rating">
-                    <span class="value">?</span>
-                </div>
-            </div>
-        }
-
-
         <img class="card-img-top" src="@product.Product.ImageUrl" alt="Card image cap">
 
         <!-- Card content -->
@@ -294,13 +276,27 @@
 
                 @if (product.Product.IsAvailable())
                 {
-                <p>В наличии</p>
-            }
-            else
-            {
-                <p>Нет в наличии</p>
-            }
-                </p>
+                    <p>В наличии</p>
+                }
+                else
+                {
+                    <p>Нет в наличии</p>
+                }
+            </p>
+            <p>
+                @if (product.Product.IsIndicatedRating())
+                {
+
+                    <i class="far fa-star" style="padding: 5px 5px; margin: 5px 0px;" title="Количество голосов: @product.Product.NumberOfRatings()">@Math.Round(product.Product.GetAverageRating(), 1)</i>
+                }
+                else
+                {
+                    <i class="far fa-star p-1" style="padding: 5px 5px; margin: 5px 0px;" title="Количество голосов: 0">?</i>
+                }
+
+                <i class="far fa-comment p-1 m-1" style="padding: 5px 5px; margin: 5px 0px;" title="Количество отзывов">@product.Product.GetCountReviews()</i>
+
+            </p>
                 <p>
                     <a href="/Ram/Info?id=@product.Product.Id">Подробнее...</a>
                 </p>

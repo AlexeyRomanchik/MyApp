@@ -1,4 +1,5 @@
-﻿@model WebApplication.ViewModels.RamInfoViewModel
+﻿@using Microsoft.AspNetCore.Identity
+@model WebApplication.ViewModels.RamInfoViewModel
 @{
     ViewData["Title"] = "Info";
     Layout = "_StartPage";
@@ -11,26 +12,7 @@
 
             <!--Grid column-->
             <div class="col-md-6 mb-4" style="margin: auto; text-align: center;">
-                @if (Model.Ram.Product.IsIndicatedRating())
-                {
-                    <div class="@string.Format($"rating-wrapper value-color{Math.Round(Model.Ram.Product.GetAverageRating())}")"
-                         title="Количество голосов: @Model.Ram.Product.NumberOfRatings()"
-                         style="float: left; margin: 5px;">
-                        <div class="rating">
-                            <span class="value">@Math.Round(Model.Ram.Product.GetAverageRating(), 1)</span>
-                        </div>
-                    </div>
-                }
-                else
-                {
-                    <div class="@string.Format($"rating-wrapper value-color{Math.Round(Model.Ram.Product.GetAverageRating())}")"
-                         title="Пока никто не паставли рейтинг, станьте первым"
-                         style="float: left; margin: 5px;">
-                        <div class="rating">
-                            <span class="value">?</span>
-                        </div>
-                    </div>
-                }
+               
                 <img src="@Model.Ram.Product.ImageUrl" class="img-fluid w-75" alt="">
 
             </div>
@@ -61,6 +43,20 @@
                     </p>
                     <p>
                         Дата выхода на рынок: @Model.Ram.Product.DateAdded
+                    </p>
+                    <p>
+                        @if (Model.Ram.Product.IsIndicatedRating())
+                        {
+
+                            <i class="far fa-star" style="padding: 5px 5px; margin: 5px 0px;" title="Количество голосов: @Model.Ram.Product.NumberOfRatings()">@Math.Round(Model.Ram.Product.GetAverageRating(), 1)</i>
+                        }
+                        else
+                        {
+                            <i class="far fa-star p-1" style="padding: 5px 5px; margin: 5px 0px;" title="Количество голосов: 0">?</i>
+                        }
+
+                        <i class="far fa-comment p-1 m-1" style="padding: 5px 5px; margin: 5px 0px;" title="Количество отзывов">@Model.Ram.Product.GetCountReviews()</i>
+
                     </p>
                     <p>
                         <form class="d-flex justify-content-left">
@@ -169,51 +165,51 @@
 
         </div>
         <hr>
+            <div class="row d-flex justify-content-center wow fadeIn">
+
+
+                <div class="text-center w-100">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <h4 class="my-4 h4">Оставить отзыв</h4>
+                        <form asp-controller="ProductGeneral" asp-action="AddReview" method="post">
+                            <div class="md-form amber-textarea active-amber-textarea">
+                                <i class="fas fa-pencil-alt prefix"></i>
+                                <textarea name="text" id="form22" class="md-textarea form-control" rows="4"></textarea>
+                                <label for="form22">Ваш текст</label>
+                                <input type="hidden" name="id" value="@Model.Ram.Id"/>
+                            </div>
+                            <button class="btn btn-primary btn-md my-0" type="submit">
+                                Оставить отзыв
+                            </button>
+                        </form>
+                    }
+                </div>
+
+
+            </div>
+
+        <hr>
         <div class="card-comments mb-3 wow fadeIn">
-            <div class="card-header font-weight-bold">3 comments</div>
+            <div class="card-header font-weight-bold">@Model.Ram.Product.GetCountReviews() comments</div>
             <div class="card-body">
-
-                <div class="media d-block d-md-flex mt-4">
-                    <div class="media-body text-center text-md-left ml-md-3 ml-0">
-                        <h5 class="mt-0 font-weight-bold">
-                            Miley Steward
-                            <a href="" class="pull-right">
-                                <i class="fas fa-reply"></i>
-                            </a>
-                        </h5>
-                        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                        cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                    </div>
-                </div>
-
-
-                <div class="media d-block d-md-flex mt-4">
-                    <div class="media-body text-center text-md-left ml-md-3 ml-0">
-                        <h5 class="mt-0 font-weight-bold">
-                            Miley Steward
-                            <a href="" class="pull-right">
-                                <i class="fas fa-reply"></i>
-                            </a>
-                        </h5>
-                        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                        cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                    </div>
-                </div>
-
-                <div class="media d-block d-md-flex mt-4">
-                    <div class="media-body text-center text-md-left ml-md-3 ml-0">
-                        <h5 class="mt-0 font-weight-bold">
-                            Miley Steward
-                            <a href="" class="pull-right">
-                                <i class="fas fa-reply"></i>
-                            </a>
-                        </h5>
-                        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                        cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                    </div>
-                </div>
-
-
+                @foreach (var review in Model.Ram.Product.Reviews)
+                {
+                    if (review.ReviewVerified)
+                    {
+                        <div class="media d-block d-md-flex mt-4">
+                            <div class="media-body text-center text-md-left ml-md-3 ml-0">
+                                <h5 class="mt-0 font-weight-bold">
+                                    @review.User.UserName
+                                    <a href="" class="pull-right">
+                                        <i class="fas fa-reply"></i>
+                                    </a>
+                                </h5>
+                                @review.Text
+                            </div>
+                        </div>
+                    }
+                }
             </div>
         </div>
 
