@@ -52,6 +52,11 @@ namespace WebApplication.Extensions
             services.AddScoped<IFileService, FileService>();
         }
 
+        public static void ConfigureVerificationCodeGenerator(this IServiceCollection services)
+        {
+            services.AddScoped<IVerificationCodeGenerator, VerificationCodeGenerator>();
+        }
+
         public static void ConfigureFiltersService(this IServiceCollection services)
         {
             services.AddScoped<IRamFilter, RamFilter>();

@@ -12,7 +12,7 @@ namespace WebApplication.Services
         
             var accountSid = "AC1e438713a2701b0d47f0ed8af51bac87";
     
-            var authToken = "e2d0bb0b780c93f45a088fc5d634e593";
+            var authToken = "b7d9e642d0f8a99f977b258a03ee1a66";
 
             TwilioClient.Init(accountSid, authToken);
 

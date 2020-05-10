@@ -19,6 +19,7 @@ namespace WebApplication.Repository
         private IReviewRepository _reviewRepository;
         private IOrderRepository _orderRepository;
         private IUserRepository _userRepository;
+        private IVerificationCodeRepository _verificationCodeRepository;
 
         public RepositoryWrapper(ApplicationContext applicationContext)
         {
@@ -96,6 +97,11 @@ namespace WebApplication.Repository
             set => throw new NotImplementedException();
         }
 
+        public IVerificationCodeRepository VerificationCodeRepository
+        {
+            get { return _verificationCodeRepository ??= new VerificationCodeRepository(_applicationContext); }
+            set => throw new NotImplementedException();
+        }
 
         public void Save()
         {

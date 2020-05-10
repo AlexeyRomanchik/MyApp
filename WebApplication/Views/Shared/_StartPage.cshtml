@@ -519,6 +519,20 @@
 <!-- Initializations -->
 <script type="text/javascript">
     // Animations initialization
+
+    $(function () {
+        $('.phoneNumberButton').bind('click',
+            function() {
+                var phoneNumber = $('.phoneNumberText').val();
+                $.post("/Verification/AddPhoneNumber?phoneNumber=" + phoneNumber,
+                    null,
+                    null,
+                    "json");
+            });
+    });
+
+
+
     new WOW().init();
 
     $(function() {

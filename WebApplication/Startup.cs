@@ -67,6 +67,7 @@ namespace WebApplication
             services.ConfigureMailingSystem();
             services.AddSignalR();
             services.Configure<SmsOptions>(Configuration);
+            services.ConfigureVerificationCodeGenerator();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
