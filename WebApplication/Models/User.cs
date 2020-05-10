@@ -9,15 +9,18 @@ namespace WebApplication.Models
         public List<Rating> Ratings { get; set; }
         public List<Order> Orders { get; set; }
         public UserAccountState UserAccountState { get; set; }
-        public UserSettings UserSettings { get; set; }
-        public bool PhoneNumberVerified { get; set; }
-        public bool UserSettingsFilled { get; set; }
+        public string Name { get; set; }
+        public string Surname { get; set; }
+        public Address Address { get; set; }
+        public bool ReceiveProductNotifications { get; set; }
+        public string UserImageUrl { get; set; }
 
         public User()
         {
+            Orders = new List<Order>();
             Reviews = new List<Review>();
             Ratings = new List<Rating>();
-            UserSettings = new UserSettings();
+            Address = new Address();
         }
     }
 }

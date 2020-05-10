@@ -18,6 +18,7 @@ namespace WebApplication.Repository
         private IRatingRepository _ratingRepository;
         private IReviewRepository _reviewRepository;
         private IOrderRepository _orderRepository;
+        private IUserRepository _userRepository;
 
         public RepositoryWrapper(ApplicationContext applicationContext)
         {
@@ -86,6 +87,12 @@ namespace WebApplication.Repository
         public IReviewRepository ReviewRepository
         {
             get { return _reviewRepository ??= new ReviewRepository(_applicationContext); }
+            set => throw new NotImplementedException();
+        }
+
+        public IUserRepository UserRepository
+        {
+            get { return _userRepository ??= new UserRepository(_applicationContext); }
             set => throw new NotImplementedException();
         }
 

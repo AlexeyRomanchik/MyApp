@@ -13,6 +13,7 @@
         IRatingRepository RatingRepository { get; set; }
         IReviewRepository ReviewRepository { get; set; }
         IOrderRepository OrderRepository { get; set; }
+        IUserRepository UserRepository { get; set; }
         void Save();
     }
 }

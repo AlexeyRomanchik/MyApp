@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using WebApplication.Contracts;
 using WebApplication.Data;
 using WebApplication.Models;
+using WebApplication.Services;
 using WebApplication.ViewModels;
 
 namespace WebApplication.Controllers
@@ -17,19 +18,128 @@ namespace WebApplication.Controllers
         private readonly IEmailService _emailService;
         private readonly SignInManager<User> _signInManager;
         private readonly UserManager<User> _userManager;
+        private readonly IUserRepository _userRepository;
+        private readonly IRepositoryWrapper _repositoryWrapper;
 
         public AccountController(SignInManager<User> signInManager, UserManager<User> userManager,
-            ApplicationContext appDbContext, IEmailService emailService)
+            ApplicationContext appDbContext, IEmailService emailService, IRepositoryWrapper repositoryWrapper)
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _appDbContext = appDbContext;
             _emailService = emailService;
+            _userRepository = repositoryWrapper.UserRepository;
+            _repositoryWrapper = repositoryWrapper;
         }
 
-        public IActionResult Index()
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult ForgotPassword()
         {
             return View();
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.FindByEmailAsync(model.Email);
+                if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
+                {
+                    return View("ForgotPasswordConfirmation");
+                }
+
+                var code = await _userManager.GeneratePasswordResetTokenAsync(user);
+                var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
+                var emailService = new EmailService();
+                await emailService.SendEmailAsync(model.Email, "Reset Password",
+                    $"Для сброса пароля пройдите по ссылке: <a href='{callbackUrl}'>link</a>");
+                return View("ForgotPasswordConfirmation");
+            }
+            return View(model);
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult ResetPassword(string code = null)
+        {
+            return code == null ? View("Error") : View();
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            if (user == null)
+            {
+                return View("ResetPasswordConfirmation");
+            }
+            var result = await _userManager.ResetPasswordAsync(user, model.Code, model.Password);
+            if (result.Succeeded)
+            {
+                return View("ResetPasswordConfirmation");
+            }
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error.Description);
+            }
+            return View(model);
+        }
+
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> EditProfile(AccountViewModel accountViewModel)
+        {
+            var user = await _userManager.GetUserAsync(User);
+
+            user.Name = accountViewModel.User.Name;
+            user.Surname = accountViewModel.User.Surname;
+            user.Email = accountViewModel.User.Email;
+
+            user.Address = new Address
+            {
+                Region = accountViewModel.User.Address.Region,
+                City = accountViewModel.User.Address.City,
+                Street = accountViewModel.User.Address.Street,
+                HouseOrFlat = accountViewModel.User.Address.HouseOrFlat
+            };
+
+
+            _userRepository.Update(user);
+            _repositoryWrapper.Save();
+
+            return RedirectToAction("Index");
+        }
+
+
+
+        [HttpGet]
+        [Authorize]
+        public IActionResult Index()
+        {
+            var user = _userRepository
+                .FindByCondition(x => x.Id == _userManager.GetUserId(User))
+                .FirstOrDefault();
+
+            if (user == null)
+                return RedirectToAction("Index", "Home");
+
+            var accountViewModel = new AccountViewModel
+            {
+                User = user
+            };
+
+            return View(accountViewModel);
         }
 
 

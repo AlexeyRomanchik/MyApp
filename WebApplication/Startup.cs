@@ -9,6 +9,7 @@ using WebApplication.Data;
 using WebApplication.Extensions;
 using WebApplication.Models;
 using WebApplication.Services;
+using WebApplication.SignalR;
 
 namespace WebApplication
 {
@@ -64,7 +65,7 @@ namespace WebApplication
             services.ConfigureFileService();
             services.ConfigureFiltersService();
             services.ConfigureMailingSystem();
-
+            services.AddSignalR();
             services.Configure<SmsOptions>(Configuration);
         }
 
@@ -91,15 +92,11 @@ namespace WebApplication
             app.UseAuthorization();
 
 
-            app.UseEndpoints(
-                endpoints =>
-                {
-                    endpoints.MapControllerRoute(
-                        "default",
-                        "{controller=Home}/{action=Index}/{id?}"
-                        );
-                }
-                );
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapHub<ChatHub>("/chat");
+                endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
+            });
         }
     }
 }
