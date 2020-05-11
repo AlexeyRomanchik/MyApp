@@ -1,7 +1,9 @@
-﻿using System.Linq;
+﻿using System.IO;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using WebApplication.Contracts;
@@ -20,9 +22,12 @@ namespace WebApplication.Controllers
         private readonly UserManager<User> _userManager;
         private readonly IUserRepository _userRepository;
         private readonly IRepositoryWrapper _repositoryWrapper;
+        private readonly IFileService _fileService;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
         public AccountController(SignInManager<User> signInManager, UserManager<User> userManager,
-            ApplicationContext appDbContext, IEmailService emailService, IRepositoryWrapper repositoryWrapper)
+            ApplicationContext appDbContext, IEmailService emailService, IRepositoryWrapper repositoryWrapper,
+            IFileService fileService, IWebHostEnvironment webHostEnvironment)
         {
             _signInManager = signInManager;
             _userManager = userManager;
@@ -30,6 +35,8 @@ namespace WebApplication.Controllers
             _emailService = emailService;
             _userRepository = repositoryWrapper.UserRepository;
             _repositoryWrapper = repositoryWrapper;
+            _fileService = fileService;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         [HttpGet]
@@ -105,6 +112,8 @@ namespace WebApplication.Controllers
             user.Name = accountViewModel.User.Name;
             user.Surname = accountViewModel.User.Surname;
             user.Email = accountViewModel.User.Email;
+            user.TwoFactorEnabled = accountViewModel.User.TwoFactorEnabled;
+            user.ReceiveProductNotifications = accountViewModel.User.ReceiveProductNotifications;
 
             user.Address = new Address
             {
@@ -114,6 +123,15 @@ namespace WebApplication.Controllers
                 HouseOrFlat = accountViewModel.User.Address.HouseOrFlat
             };
 
+            if (accountViewModel.UploadedFile != null)
+            {
+                var fileExtension = Path.GetExtension(accountViewModel.UploadedFile.FileName);
+                var fileName = Path.GetFileNameWithoutExtension(accountViewModel.UploadedFile.FileName);
+                var filePath = "/userImages/" + fileName + user.Id + fileExtension;
+                _fileService.SaveUploadedFile(accountViewModel.UploadedFile, _webHostEnvironment.WebRootPath + filePath);
+
+                user.UserImageUrl = filePath;
+            }
 
             _userRepository.Update(user);
             _repositoryWrapper.Save();

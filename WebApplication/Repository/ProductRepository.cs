@@ -21,7 +21,6 @@ namespace WebApplication.Repository
                 .Include(x => x.Manufacturer)
                 .Include(x => x.Ratings)
                 .Include(x => x.Reviews)
-                .Include("Review.User")
                 .AsNoTracking();
         }
 

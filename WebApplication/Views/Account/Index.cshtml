@@ -65,10 +65,9 @@
                     </div>
                 </div>
                 <div class="card-footer text-center">
-                    <a href="#" class="btn-social btn-facebook waves-effect waves-light m-1"><i class="fa fa-facebook"></i></a>
-                    <a href="#" class="btn-social btn-google-plus waves-effect waves-light m-1"><i class="fa fa-google-plus"></i></a>
-                    <a href="#" class="list-inline-item btn-social btn-behance waves-effect waves-light"><i class="fa fa-behance"></i></a>
-                    <a href="#" class="list-inline-item btn-social btn-dribbble waves-effect waves-light"><i class="fa fa-dribbble"></i></a>
+                   
+                    
+
                 </div>
             </div>
         </div>
@@ -81,17 +80,20 @@
                         <a href="#" data-target="#profile" data-toggle="pill" class="nav-link active show"><i class="icon-user"></i> <span class="hidden-xs">Profile</span></a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" data-target="#messages" data-toggle="pill" class="nav-link"><i class="icon-envelope-open"></i> <span class="hidden-xs">Messages</span></a>
+                        <a href="#" data-target="#review_ratings" data-toggle="pill" class="nav-link"><i class="icon-envelope-open"></i> <span class="hidden-xs">Отзывы/Оценки</span></a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" data-target="#edit" data-toggle="pill" class="nav-link"><i class="icon-note"></i> <span class="hidden-xs">Edit</span></a>
+                        <a href="#" data-target="#orders" data-toggle="pill" class="nav-link"><i class="icon-note"></i> <span class="hidden-xs">Заказы</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" data-target="#favoriteproducts" data-toggle="pill" class="nav-link"><i class="icon-note"></i> <span class="hidden-xs">Любимые товары</span></a>
                     </li>
                 </ul>
                 <div class="tab-content p-3">
                     <div class="tab-pane active show" id="profile">
                         <h5 class="mb-3">User Profile</h5>
                         <div class="row">
-                            <form asp-controller="Account" method="post" asp-action="EditProfile" style="width: 100%;">
+                            <form asp-controller="Account" method="post" asp-action="EditProfile" enctype="multipart/form-data" style="width: 100%;">
                                 <div class="form-group row">
                                     <label class="col-lg-3 col-form-label form-control-label">Имя</label>
                                     <div class="col-lg-9">
@@ -119,19 +121,19 @@
                                 <div class="form-group row">
                                     <label class="col-lg-3 col-form-label form-control-label">Адрес</label>
                                     <div class="col-lg-9">
-                                        <input class="form-control" type="text" value="" placeholder="@(Model.User.Address.Region ?? "Область")" asp-for="User.Address.Region">
+                                        <input class="form-control" type="text" value="@Model.User.Address.Region" placeholder="Область" asp-for="User.Address.Region">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-lg-3 col-form-label form-control-label"></label>
                                     <div class="col-lg-3">
-                                        <input class="form-control" type="text" value="" placeholder="@(Model.User.Address.City ?? "Город")" asp-for="User.Address.City">
+                                        <input class="form-control" type="text" value="@Model.User.Address.City" placeholder="Город" asp-for="User.Address.City">
                                     </div>
                                     <div class="col-lg-3">
-                                        <input class="form-control" type="text" value="" placeholder="@(Model.User.Address.Street ?? "Улица")" asp-for="User.Address.Street">
+                                        <input class="form-control" type="text" value="@Model.User.Address.Street" placeholder="Улица" asp-for="User.Address.Street">
                                     </div>
                                     <div class="col-lg-3">
-                                        <input class="form-control" type="text" value="" placeholder="@(Model.User.Address.HouseOrFlat ?? "Дом/Квартира")" asp-for="User.Address.HouseOrFlat">
+                                        <input class="form-control" type="text" value="@Model.User.Address.HouseOrFlat" placeholder="Дом/Квартира" asp-for="User.Address.HouseOrFlat">
                                     </div>
                                 </div>
 
@@ -167,6 +169,16 @@
                                 </div>
                                 <hr />
                                 <h5 class="mb-3">Дополнительно</h5>
+                                <input class="checkbox" checked="@Model.User.ReceiveProductNotifications" type="checkbox" asp-for="User.ReceiveProductNotifications">
+
+                                <label class="col-lg-9 col-form-label form-control-label">Получать уведомления о выходе новых товаров на нашем сейте</label>
+                                <br />
+                                @if (Model.User.PhoneNumberConfirmed)
+                                {
+                                    <input class="checkbox" checked="@Model.User.TwoFactorEnabled" type="checkbox" asp-for="User.TwoFactorEnabled">
+                                    <label class="col-lg-9 col-form-label form-control-label">Использовать двухфакторную аутентификацию при входе в систему (При авторизации будет отправлятся код на привязанный номер телефона)</label>
+                                }
+
                                 <hr />
 
 
@@ -189,136 +201,155 @@
                             <form style="width: 100%;">
                                 <hr />
                                 <h5 class="mb-3">Привязать телефон</h5>
+                                <p>
+                                    После успешной привязки телефона вам станет доступна функция двухфакторной аутентификации (в пункте настроек Дополнительно)
+                                </p>
                                 <div class="form-group row">
                                     <label class="col-lg-3 col-form-label form-control-label">Номер телефона</label>
                                     <div class="col-lg-9">
-                                        <input class="form-control phoneNumberText" type="text" placeholder="@Model.User.PhoneNumber">
+                                        <input class="form-control phoneNumberText" type="text" value="@Model.User.PhoneNumber" placeholder="+375XXXXXXXXX">
                                     </div>
                                 </div>
 
                                 <button type="button" class="btn btn-primary phoneNumberButton" data-toggle="modal" data-target="#basicExampleModal">
                                     Привязать телефон
                                 </button>
-                              
+
                                 <hr />
                             </form>
                         </div>
                         <!--/row-->
                     </div>
-                    <div class="tab-pane" id="messages">
-                        <div class="alert alert-info alert-dismissible" role="alert">
-                            <button type="button" class="close" data-dismiss="alert">×</button>
-                            <div class="alert-icon">
-                                <i class="icon-info"></i>
-                            </div>
-                            <div class="alert-message">
-                                <span><strong>Info!</strong> Lorem Ipsum is simply dummy text.</span>
+                    <div class="tab-pane" id="review_ratings">
+                        <h5 class="mb-3">Ваши отзывы товарам</h5>
+                        <div class="row">
+                            <div class="card-body">
+                                @foreach (var reivew in Model.User.Reviews)
+                                {
+                                    <div class="media d-block d-md-flex mt-4">
+                                        <div class="media-body text-center text-md-left ml-md-3 ml-0">
+                                            <h5 class="mt-0 font-weight-bold">
+                                                @reivew.User.UserName
+                                                <a href="" class="pull-right">
+                                                    <i class="fas fa-reply"></i>
+                                                </a>
+                                            </h5>
+                                            @reivew.Text
+                                        </div>
+                                        <a class="link-default p-1" href="#">Удалить</a>
+                                        <a class="link-default p-1" href="#">Изменить</a>
+                                    </div>
+                                }
                             </div>
                         </div>
-                        <table class="table table-hover table-striped">
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <span class="float-right font-weight-bold">3 hrs ago</span> Here is your a link to the latest summary report from the..
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <span class="float-right font-weight-bold">Yesterday</span> There has been a request on your account since that was..
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <span class="float-right font-weight-bold">9/10</span> Porttitor vitae ultrices quis, dapibus id dolor. Morbi venenatis lacinia rhoncus.
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <span class="float-right font-weight-bold">9/4</span> Vestibulum tincidunt ullamcorper eros eget luctus.
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <span class="float-right font-weight-bold">9/4</span> Maxamillion ais the fix for tibulum tincidunt ullamcorper eros.
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="tab-pane" id="edit">
-                        <form>
-                            <div class="form-group row">
-                                <label class="col-lg-3 col-form-label form-control-label">First name</label>
-                                <div class="col-lg-9">
-                                    <input class="form-control" type="text" value="Mark">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-lg-3 col-form-label form-control-label">Last name</label>
-                                <div class="col-lg-9">
-                                    <input class="form-control" type="text" value="Jhonsan">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-lg-3 col-form-label form-control-label">Email</label>
-                                <div class="col-lg-9">
-                                    <input class="form-control" type="email" value="mark@example.com">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-lg-3 col-form-label form-control-label">Change profile</label>
-                                <div class="col-lg-9">
-                                    <input class="form-control" type="file">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-lg-3 col-form-label form-control-label">Website</label>
-                                <div class="col-lg-9">
-                                    <input class="form-control" type="url" value="">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-lg-3 col-form-label form-control-label">Address</label>
-                                <div class="col-lg-9">
-                                    <input class="form-control" type="text" value="" placeholder="Street">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-lg-3 col-form-label form-control-label"></label>
-                                <div class="col-lg-6">
-                                    <input class="form-control" type="text" value="" placeholder="City">
-                                </div>
-                                <div class="col-lg-3">
-                                    <input class="form-control" type="text" value="" placeholder="State">
-                                </div>
-                            </div>
+                        <hr />
+                        <h5 class="mb-3">Ваши оценки товарам</h5>
+                        <div class="row">
+                            <div class="card-body">
 
-                            <div class="form-group row">
-                                <label class="col-lg-3 col-form-label form-control-label">Username</label>
-                                <div class="col-lg-9">
-                                    <input class="form-control" type="text" value="jhonsanmark">
-                                </div>
+
+                                <table class="w-100">
+                                    @foreach (var rating in Model.User.Ratings)
+                                    {
+                                        <tr>
+                                            <td><img src="@rating.Product.ImageUrl" class="p-2" style="width: 150px; float: left" /></td>
+                                            <td>
+                                                <h6>@rating.Product.Name</h6>
+                                                <p>Цена: @rating.Product.Price, производитель: @rating.Product.Manufacturer.Name</p>
+                                            </td>
+                                            <td>
+                                                <h6>Ваша оценка: <span class="badge purple mr-1"> 10 </span></h6>
+
+                                            </td>
+                                            <td>
+                                                <a class="link-default p-1" href="#">Удалить</a>
+                                                <a class="link-default p-1" href="#">Изменить</a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </table>
                             </div>
-                            <div class="form-group row">
-                                <label class="col-lg-3 col-form-label form-control-label">Password</label>
-                                <div class="col-lg-9">
-                                    <input class="form-control" type="password" value="11111122333">
-                                </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="orders">
+                        <h5 class="mb-3">Ваши заказы</h5>
+                        <div class="row">
+                            <div class="card-body">
+                                <table class="w-100">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                Id заказа
+                                            </th>
+                                            <th>
+                                                Дата заказа
+                                            </th>
+                                            <th>
+                                                Корзина
+                                            </th>
+                                            <th>
+                                                Цена
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var oreder in Model.User.Orders)
+                                        {
+                                        <tr>
+                                            <td>
+                                                @oreder.Id
+                                            </td>
+                                            <td>
+                                                @oreder.Date
+                                            </td>
+                                            <td>
+                                                @foreach (var item in oreder.Cart.CartItems)
+                                                {
+                                                    <p>@item.Product.Name</p>
+                                                }
+                                            </td>
+                                            <td>
+                                                @oreder.Cart.FinalPrice
+                                            </td>
+                                        </tr>
+                                        }
+                                    </tbody>
+                                </table>
                             </div>
-                            <div class="form-group row">
-                                <label class="col-lg-3 col-form-label form-control-label">Confirm password</label>
-                                <div class="col-lg-9">
-                                    <input class="form-control" type="password" value="11111122333">
-                                </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="favoriteproducts">
+                        <h5 class="mb-3">Ваши избранные товары</h5>
+                        <div class="row">
+                            <div class="card-body">
+
+
+                                <table class="w-100">
+                                    @foreach (var rating in Model.User.Ratings)
+                                    {
+                                        <tr>
+                                            <td><img src="@rating.Product.ImageUrl" class="p-2" style="width: 150px; float: left" /></td>
+                                            <td>
+                                                <h6>@rating.Product.Name</h6>
+                                                <p>
+                                                    Цена: @rating.Product.Price, производитель: @rating.Product.Manufacturer.Name
+                                                </p>
+                                                <p>
+                                                    Категория <span class="badge purple mr-2"> @rating.Product.Category.Name</span>
+                                                </p>
+                                                <p>
+                                                    Дата выхода на рынок: @rating.Product.DateAdded.ToString("dd MM yyyy")
+                                                </p>
+                                            </td>
+                                           
+                                            <td>
+                                                <a class="link-default p-1" href="#">Удалить из избранных</a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </table>
                             </div>
-                            <div class="form-group row">
-                                <label class="col-lg-3 col-form-label form-control-label"></label>
-                                <div class="col-lg-9">
-                                    <input type="reset" class="btn btn-secondary" value="Cancel">
-                                    <input type="button" class="btn btn-primary" value="Save Changes">
-                                </div>
-                            </div>
-                        </form>
+                        </div>
                     </div>
                 </div>
             </div>

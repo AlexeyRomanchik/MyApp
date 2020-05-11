@@ -221,6 +221,7 @@
                     if (review.ReviewVerified)
                     {
                         <div class="media d-block d-md-flex mt-4">
+                              <img class="d-flex mb-3 mx-auto " style="width: 80px" src="@(review.User.UserImageUrl ?? "/userImages/user.png")" alt="Generic placeholder image">
                             <div class="media-body text-center text-md-left ml-md-3 ml-0">
                                 <h5 class="mt-0 font-weight-bold">
                                     @review.User.UserName

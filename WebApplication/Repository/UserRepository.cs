@@ -22,6 +22,12 @@ namespace WebApplication.Repository
                 .Include(x => x.Orders)
                 .Include(x => x.Ratings)
                 .Include(x => x.Reviews)
+                .Include("Ratings.Product")
+                .Include("Ratings.Product.Manufacturer")
+                .Include("Ratings.Product.Category")
+                .Include("Orders.Cart")
+                .Include("Orders.Cart.CartItems")
+                .Include("Orders.Cart.CartItems.Product")
                 .AsNoTracking();
         }
     }
