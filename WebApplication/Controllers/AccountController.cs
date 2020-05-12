@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -24,10 +25,13 @@ namespace WebApplication.Controllers
         private readonly IRepositoryWrapper _repositoryWrapper;
         private readonly IFileService _fileService;
         private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly IVerificationCodeGenerator _verificationCodeGenerator;
+        private readonly IVerificationCodeRepository _verificationCodeRepository;
+        private readonly AuthMessageSender _authMessageSender;
 
         public AccountController(SignInManager<User> signInManager, UserManager<User> userManager,
             ApplicationContext appDbContext, IEmailService emailService, IRepositoryWrapper repositoryWrapper,
-            IFileService fileService, IWebHostEnvironment webHostEnvironment)
+            IFileService fileService, IWebHostEnvironment webHostEnvironment, IVerificationCodeGenerator verificationCodeGenerator)
         {
             _signInManager = signInManager;
             _userManager = userManager;
@@ -37,6 +41,9 @@ namespace WebApplication.Controllers
             _repositoryWrapper = repositoryWrapper;
             _fileService = fileService;
             _webHostEnvironment = webHostEnvironment;
+            _verificationCodeGenerator = verificationCodeGenerator;
+            _verificationCodeRepository = _repositoryWrapper.VerificationCodeRepository;
+            _authMessageSender = new AuthMessageSender();
         }
 
         [HttpGet]
@@ -299,6 +306,62 @@ namespace WebApplication.Controllers
             return new ChallengeResult(provider, properties);
         }
 
+        [HttpGet]
+        public IActionResult TwoFactorAuthentication(LoginViewModel model)
+        {
+
+
+            var verificationCode = new VerificationCode
+            {
+                UserId = _userManager.GetUserId(User),
+                AttemptsNumber = 3,
+                Code = _verificationCodeGenerator.GenerateVerificationCode(
+                    10000, 100000, DateTime.Now.Millisecond
+                    ),
+                SendingDate = DateTime.Now,
+                NextSendingDate = DateTime.Now.AddHours(5),
+                PhoneNumber = "+375297751690"
+            };
+
+
+            _authMessageSender.SendSmsAsync("+" + "+375297751690", verificationCode.Code.ToString());
+
+            _verificationCodeRepository.Create(verificationCode);
+            _repositoryWrapper.Save();
+
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> TwoFactorAuthentication(int code, LoginViewModel model)
+        {
+            var verificationCode = _verificationCodeRepository
+                .FindByCondition(x => x.UserId == _userManager.GetUserId(User))
+                .OrderByDescending(x => x.SendingDate)
+                .FirstOrDefault();
+
+            if (verificationCode == null)
+                return RedirectToAction("Index", "Home");
+
+            if (verificationCode.AttemptsNumber > 0)
+            {
+                verificationCode.AttemptsNumber--;
+                if (verificationCode.SendingDate.AddMinutes(5) > DateTime.Now)
+                {
+                    if (verificationCode.Code == code)
+                    {
+                        var result = await _signInManager.PasswordSignInAsync(
+                            model.Email, model.Password, model.RememberMe, false
+                            );
+                        if (result.Succeeded)
+                            return RedirectToAction("Index", "Home");
+                    }
+                }
+            }
+
+            return RedirectToAction("Index", "Account");
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -314,6 +377,9 @@ namespace WebApplication.Controllers
                         ModelState.AddModelError(string.Empty, "Вы не подтвердили свой email");
                         return View(model);
                     }
+
+                if (user.TwoFactorEnabled)
+                    return RedirectToAction("TwoFactorAuthentication", model);
 
                 var result = await _signInManager.PasswordSignInAsync(
                     model.Email, model.Password, model.RememberMe, false

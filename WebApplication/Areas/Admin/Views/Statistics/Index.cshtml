@@ -1,0 +1,70 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "_AdminPanel";
+}
+
+
+
+<style>
+    #mainstat {
+        margin-top: 250px;
+    }
+    #chartdiv {
+        width: 100%;
+        height: 500px;
+    }
+</style>
+
+<div id="mainstat">
+    <div id="chartdiv"></div>
+   
+</div>
+
+
+<script>
+    am4core.ready(function () {
+
+        // Themes begin
+
+        // Themes end
+
+        // Create chart instance
+
+
+        let xhr = new XMLHttpRequest();
+        xhr.open('GET', '/Api/BasicStatistics/GetRamsByPrice');
+        xhr.send();
+
+        xhr.onload = function () {
+            if (xhr.status != 200) { // анализируем HTTP-статус ответа, если статус не 200, то произошла ошибка
+                alert("Неудачяа");
+            } else {
+
+                am4core.useTheme(am4themes_animated);
+                var chart = am4core.create("chartdiv", am4charts.PieChart);
+                chart.data = JSON.parse(xhr.response);
+         
+                var pieSeries = chart.series.push(new am4charts.PieSeries());
+                pieSeries.dataFields.value = "count";
+                pieSeries.dataFields.category = "type";
+                pieSeries.slices.template.stroke = am4core.color("#fff");
+                pieSeries.slices.template.strokeWidth = 2;
+                pieSeries.slices.template.strokeOpacity = 1;
+
+// This creates initial animation
+                pieSeries.hiddenState.properties.opacity = 1;
+                pieSeries.hiddenState.properties.endAngle = -90;
+                pieSeries.hiddenState.properties.startAngle = -90;
+            }
+        };
+
+       
+
+
+
+        // Add and configure Series
+
+
+    }); // end am4core.ready()
+</script>
