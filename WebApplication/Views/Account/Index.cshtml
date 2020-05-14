@@ -65,8 +65,8 @@
                     </div>
                 </div>
                 <div class="card-footer text-center">
-                   
-                    
+
+
 
                 </div>
             </div>
@@ -236,8 +236,8 @@
                                             </h5>
                                             @reivew.Text
                                         </div>
-                                        <a class="link-default p-1" href="#">Удалить</a>
-                                        <a class="link-default p-1" href="#">Изменить</a>
+                                        <a class="link-default p-1 deleteReviewlink" href="#" id="@reivew.Id" data-toggle="modal" data-target="#deleteReview">Удалить</a>
+                                        <a class="link-default p-1 editReviewLink" id="@reivew.Id" href="#" data-toggle="modal" data-target="#editReview">Изменить</a>
                                     </div>
                                 }
                             </div>
@@ -258,12 +258,12 @@
                                                 <p>Цена: @rating.Product.Price, производитель: @rating.Product.Manufacturer.Name</p>
                                             </td>
                                             <td>
-                                                <h6>Ваша оценка: <span class="badge purple mr-1"> 10 </span></h6>
+                                                <h6>Ваша оценка: <span class="badge purple mr-1"> @rating.Value </span></h6>
 
                                             </td>
                                             <td>
-                                                <a class="link-default p-1" href="#">Удалить</a>
-                                                <a class="link-default p-1" href="#">Изменить</a>
+                                                <a class="link-default p-1 deleteRatingLink" href="#" id="@rating.Id" data-toggle="modal" data-target="#deleteRating">Удалить</a>
+                                                <a class="link-default p-1 e etidRatingLink" id="@rating.Id" href="#" data-toggle="modal" data-target="#editRating">Изменить</a>
                                             </td>
                                         </tr>
                                     }
@@ -295,23 +295,23 @@
                                     <tbody>
                                         @foreach (var oreder in Model.User.Orders)
                                         {
-                                        <tr>
-                                            <td>
-                                                @oreder.Id
-                                            </td>
-                                            <td>
-                                                @oreder.Date
-                                            </td>
-                                            <td>
-                                                @foreach (var item in oreder.Cart.CartItems)
-                                                {
-                                                    <p>@item.Product.Name</p>
-                                                }
-                                            </td>
-                                            <td>
-                                                @oreder.Cart.FinalPrice
-                                            </td>
-                                        </tr>
+                                            <tr>
+                                                <td>
+                                                    @oreder.Id
+                                                </td>
+                                                <td>
+                                                    @oreder.Date
+                                                </td>
+                                                <td>
+                                                    @foreach (var item in oreder.Cart.CartItems)
+                                                    {
+                                                        <p>@item.Product.Name</p>
+                                                    }
+                                                </td>
+                                                <td>
+                                                    @oreder.Cart.FinalPrice
+                                                </td>
+                                            </tr>
                                         }
                                     </tbody>
                                 </table>
@@ -341,7 +341,7 @@
                                                     Дата выхода на рынок: @rating.Product.DateAdded.ToString("dd MM yyyy")
                                                 </p>
                                             </td>
-                                           
+
                                             <td>
                                                 <a class="link-default p-1" href="#">Удалить из избранных</a>
                                             </td>
@@ -380,6 +380,105 @@
                         <button type="submit" class="btn btn-primary">Подтвердить</button>
                     </div>
                 </form>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteReview" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Удаление отзыва</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Ваш комментарий будет удален.
+                <div>
+                    <button type="reset" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    <button type="button" class="btn btn-primary deleteReviewBotton">Удалить</button>
+                </div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="editReview" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Изменение отзыва</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                При изменении отзыва он будет отправлен на сервер и отобразится после проверки модератеров.
+                <div class="col-lg-9">
+                    <textarea name="text" class="md-textarea form-control editReviewText" rows="4"></textarea>
+                    <button type="reset" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    <button type="submit" class="btn btn-primary editReviewBotton">Изменить</button>
+                </div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="deleteRating" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Удаление рейтинга</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Рейтинг выставленный вами данному товару будет удален
+                <div>
+                    <button type="reset" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    <button type="button" class="btn btn-primary deleteRatingButton">Удалить</button>
+                </div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="editRating" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Изменение рейтинга</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Рейтинг выставленный вами данному товару будет изменен
+                <div class="col-lg-9">
+                    <input type="number" class="form-control editRationgNumber"/>
+                    <button type="reset" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    <button type="submit" class="btn btn-primary editRationgButton">Изменить</button>
+                </div>
             </div>
             <div class="modal-footer">
             </div>

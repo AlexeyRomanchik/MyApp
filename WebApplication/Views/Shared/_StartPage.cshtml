@@ -520,6 +520,83 @@
 <script type="text/javascript">
     // Animations initialization
 
+
+    $(function () {
+        $('.editRationgButton').bind('click',
+            function () {
+                $('#editRating').modal('hide');
+                var rating = $('.editRationgNumber').val();
+                var id = $('.etidRatingLink').attr('id');
+                $.post("/ProductGeneral/ChangeRating?rating=" + rating + "&id=" + id,
+                    null,
+                    null,
+                    "json");
+            });
+    });
+
+
+    $(function () {
+        $('.deleteRatingButton').bind('click',
+            function () {
+                $('#deleteRating').modal('hide')
+                var id = $('.deleteRatingLink').attr('id');
+                $.post("/ProductGeneral/DeleteRating?id=" + id,
+                    null,
+                    null,
+                    "json");
+            });
+    });
+
+
+
+
+
+    $(function () {
+        $('.editReviewBotton').bind('click',
+            function () {
+                $('#editReview').modal('hide');
+                var review = $('.editReviewText').val();
+                var id = $('.editReviewLink').attr('id');
+                $.post("/ProductGeneral/ChangeReview?text=" + review + "&id=" + id,
+                    null,
+                    null,
+                    "json");
+            });
+    });
+
+
+    $(function () {
+        $('.deleteReviewBotton').bind('click',
+            function () {
+                $('#deleteReview').modal('hide')
+                var id = $('.deleteReviewlink').attr('id');
+                $.post("/ProductGeneral/DeleteReview?id=" + id,
+                    null,
+                    null,
+                    "json");
+            });
+    });
+
+
+
+
+    $(function () {
+        $('.reviewbutton').bind('click',
+            function () {
+                $('#reviewModel').modal('hide');
+                var review = $('.reviewText').val();
+                var id = $('.reviewText').attr('id');
+                $.post("/ProductGeneral/AddReview?text=" + review + "&id=" + id,
+                    null,
+                    null,
+                    "json");
+            });
+    });
+
+
+
+
+
     $(function () {
         $('.phoneNumberButton').bind('click',
             function() {

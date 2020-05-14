@@ -40,16 +40,33 @@ namespace WebApplication.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        public void DeleteReview(Guid id)
+        {
+            var review = _reviewRepository.FindByCondition(x => x.Id == id).FirstOrDefault();
+
+            _reviewRepository.Delete(review);
+            _repositoryWrapper.Save();
+        }
+
+        public void DeleteRating(Guid id)
+        {
+            var rating = _ratingRepository.FindByCondition(x => x.Id == id).FirstOrDefault();
+
+            _ratingRepository.Delete(rating);
+            _repositoryWrapper.Save();
+        }
+
+
+
         public IActionResult ChangeReview(string text, Guid id)
         {
-            var review = _reviewRepository.FindByCondition(
-                x => x.UserId == _userManager.GetUserId(User) && x.ProductId == id
-                ).FirstOrDefault();
+            var review = _reviewRepository.FindByCondition(x => x.Id == id).FirstOrDefault();
 
             if(review == null)
                 return RedirectToAction("Index", "Home");
 
             review.Text = text;
+            review.PublicationDate = DateTime.Now;
             _reviewRepository.Update(review);
             _repositoryWrapper.Save();
 
@@ -74,9 +91,7 @@ namespace WebApplication.Controllers
 
         public IActionResult ChangeRating(int rating, Guid id)
         {
-            var productRating = _ratingRepository.FindByCondition(
-                x => x.User.Id == _userManager.GetUserId(User) && x.ProductId == id
-                     ).FirstOrDefault();
+            var productRating = _ratingRepository.FindByCondition(x => x.Id == id).FirstOrDefault();
 
             if (productRating == null)
                 return RedirectToAction("Index", "Home");
