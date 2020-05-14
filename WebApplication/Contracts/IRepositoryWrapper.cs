@@ -15,6 +15,7 @@
         IOrderRepository OrderRepository { get; set; }
         IUserRepository UserRepository { get; set; }
         IVerificationCodeRepository VerificationCodeRepository { get; set; }
+        ICartItemRepository CartItemRepository { get; set; }
         void Save();
     }
 }

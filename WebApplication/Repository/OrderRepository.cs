@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using WebApplication.Contracts;
 using WebApplication.Data;
@@ -12,11 +13,19 @@ namespace WebApplication.Repository
         {
         }
 
+        public IQueryable<IGrouping<DateTime, Order>> FindAllGroupBy()
+        {
+            return RepositoryContext.Set<Order>().GroupBy(x => x.Date)
+                .AsNoTracking();
+        }
+
         public override IQueryable<Order> FindAll()
         {
             return RepositoryContext.Set<Order>()
                 .Include("Customer")
                 .Include("Customer.Address")
+                .Include("Cart")
+                .Include("Cart.CartItems")
                 .AsNoTracking();
         }
     }

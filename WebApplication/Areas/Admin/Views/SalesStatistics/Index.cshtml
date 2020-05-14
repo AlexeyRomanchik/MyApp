@@ -4,5 +4,342 @@
     Layout = "_AdminPanel";
 }
 
+<style>
+    #mainstat {
+        margin: 250px 100px;
+    
+    }
+
+    #chartdiv {
+        width: 100%;
+        height: 500px;
+    }
+
+    #chartdiv2 {
+        width: 100%;
+        height: 500px;
+    }
+
+    #chartdiv3 {
+        width: 50%;
+        height: 500px;
+        float: left;
+    }
+
+    #chartdiv4 {
+        width: 50%;
+        height: 500px;
+        float: left;
+    }
+   
+</style>
+
+<!-- Resources -->
+<script src="https://www.amcharts.com/lib/4/core.js"></script>
+<script src="https://www.amcharts.com/lib/4/charts.js"></script>
+<script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
+
+<div id="mainstat">
+    <h3>Статистика доходов в зависимости от даты</h3>
+    <div id="chartdiv"></div>
+    <h3>Статистика количества проданных товаров в зависимости от категории</h3>
+    <div id="chartdiv2"></div>
+    <h3>Диаграммы процентного соотношения количества и стоимости проданной продукции от ее категории</h3>
+    <div id="chartdiv3"></div>
+    <div id="chartdiv4"></div>
+</div>
+
+<!-- Chart code -->
+<script>
+    am4core.ready(function () {
+
+        am4core.useTheme(am4themes_animated);
+
+        // Create chart instance
+        var chart = am4core.create("chartdiv", am4charts.XYChart);
+       
+
+        let xhr = new XMLHttpRequest();
+        xhr.open('GET', '/Statistics/SalesStatistics/GetProductsSoldByDay');
+        xhr.send();
+
+        xhr.onload = function () {
+            if (xhr.status != 200) { // анализируем HTTP-статус ответа, если статус не 200, то произошла ошибка
+                alert("Неудачяа");
+            } else {
+
+                chart.data = JSON.parse(xhr.response);
+         
+                chart.dateFormatter.inputDateFormat = "yyyy-MM-dd";
+
+                // Create axes
+                var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+                var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+
+                // Create series
+                var series = chart.series.push(new am4charts.LineSeries());
+                series.dataFields.valueY = "value";
+                series.dataFields.dateX = "date";
+                series.tooltipText = "{value}"
+                series.strokeWidth = 2;
+                series.minBulletDistance = 15;
+
+                // Drop-shaped tooltips
+                series.tooltip.background.cornerRadius = 20;
+                series.tooltip.background.strokeOpacity = 0;
+                series.tooltip.pointerOrientation = "vertical";
+                series.tooltip.label.minWidth = 40;
+                series.tooltip.label.minHeight = 40;
+                series.tooltip.label.textAlign = "middle";
+                series.tooltip.label.textValign = "middle";
+
+                // Make bullets grow on hover
+                var bullet = series.bullets.push(new am4charts.CircleBullet());
+                bullet.circle.strokeWidth = 2;
+                bullet.circle.radius = 4;
+                bullet.circle.fill = am4core.color("#fff");
+
+                var bullethover = bullet.states.create("hover");
+                bullethover.properties.scale = 1.3;
+
+                // Make a panning cursor
+                chart.cursor = new am4charts.XYCursor();
+                chart.cursor.behavior = "panXY";
+                chart.cursor.xAxis = dateAxis;
+                chart.cursor.snapToSeries = series;
+
+                // Create vertical scrollbar and place it before the value axis
+                chart.scrollbarY = new am4core.Scrollbar();
+                chart.scrollbarY.parent = chart.leftAxesContainer;
+                chart.scrollbarY.toBack();
+
+                // Create a horizontal scrollbar with previe and place it underneath the date axis
+                chart.scrollbarX = new am4charts.XYChartScrollbar();
+                chart.scrollbarX.series.push(series);
+                chart.scrollbarX.parent = chart.bottomAxesContainer;
+
+                dateAxis.start = 0.79;
+                dateAxis.keepSelection = true;
+            }
+        };
+
+    });
+</script>
+<script>
+    am4core.ready(function () {
+
+        am4core.useTheme(am4themes_animated);
+
+        // Create chart instance
+        var chart = am4core.create("chartdiv2", am4charts.XYChart);
+       
+
+        let xhr = new XMLHttpRequest();
+        xhr.open('GET', '/Statistics/SalesStatistics/GetQuantityProductsSoldByType');
+        xhr.send();
+
+        xhr.onload = function () {
+            if (xhr.status != 200) { // анализируем HTTP-статус ответа, если статус не 200, то произошла ошибка
+                alert("Неудачяа");
+            } else {
+
+                var chart = am4core.create("chartdiv2", am4charts.XYChart);
+                chart.scrollbarX = new am4core.Scrollbar();
+
+                // Add data
+                chart.data = JSON.parse(xhr.response);
+
+                var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+                categoryAxis.dataFields.category = "category";
+                categoryAxis.renderer.grid.template.location = 0;
+                categoryAxis.renderer.minGridDistance = 30;
+                categoryAxis.renderer.labels.template.horizontalCenter = "right";
+                categoryAxis.renderer.labels.template.verticalCenter = "middle";
+                categoryAxis.renderer.labels.template.rotation = 270;
+                categoryAxis.tooltip.disabled = true;
+                categoryAxis.renderer.minHeight = 110;
+
+                var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+                valueAxis.renderer.minWidth = 50;
+
+                // Create series
+                var series = chart.series.push(new am4charts.ColumnSeries());
+                series.sequencedInterpolation = true;
+                series.dataFields.valueY = "quantity";
+                series.dataFields.categoryX = "category";
+                series.tooltipText = "[{categoryX}: bold]{valueY}[/]";
+                series.columns.template.strokeWidth = 0;
+
+                series.tooltip.pointerOrientation = "vertical";
+
+                series.columns.template.column.cornerRadiusTopLeft = 10;
+                series.columns.template.column.cornerRadiusTopRight = 10;
+                series.columns.template.column.fillOpacity = 0.8;
+
+                // on hover, make corner radiuses bigger
+                var hoverState = series.columns.template.column.states.create("hover");
+                hoverState.properties.cornerRadiusTopLeft = 0;
+                hoverState.properties.cornerRadiusTopRight = 0;
+                hoverState.properties.fillOpacity = 1;
+
+                series.columns.template.adapter.add("fill", function (fill, target) {
+                    return chart.colors.getIndex(target.dataItem.index);
+                });
+
+                // Cursor
+                chart.cursor = new am4charts.XYCursor();
+
+                
+            }
+        };
+
+    }); 
+
+</script>
+
+
+<script>
+    am4core.ready(function () {
+
+        // Themes begin
+        am4core.useTheme(am4themes_animated);
+        // Themes end
+
+        // Create chart instance
+
+        let xhr = new XMLHttpRequest();
+        xhr.open('GET', '/Statistics/SalesStatistics/GetQuantityProductsSoldByType');
+        xhr.send();
+
+        xhr.onload = function () {
+            if (xhr.status != 200) { // анализируем HTTP-статус ответа, если статус не 200, то произошла ошибка
+                alert("Неудачяа");
+            } else {
+
+                var chart = am4core.create("chartdiv3", am4charts.PieChart);
+                chart.scrollbarX = new am4core.Scrollbar();
+
+                // Add data
+                chart.data = JSON.parse(xhr.response);
+
+                var pieSeries = chart.series.push(new am4charts.PieSeries());
+                pieSeries.dataFields.value = "quantity";
+                pieSeries.dataFields.category = "category";
+
+                // Let's cut a hole in our Pie chart the size of 30% the radius
+                chart.innerRadius = am4core.percent(30);
+
+                // Put a thick white border around each Slice
+                pieSeries.slices.template.stroke = am4core.color("#fff");
+                pieSeries.slices.template.strokeWidth = 2;
+                pieSeries.slices.template.strokeOpacity = 1;
+                pieSeries.slices.template
+                    // change the cursor on hover to make it apparent the object can be interacted with
+                    .cursorOverStyle = [
+                        {
+                            "property": "cursor",
+                            "value": "pointer"
+                        }
+                    ];
+
+                pieSeries.alignLabels = false;
+                pieSeries.labels.template.bent = true;
+                pieSeries.labels.template.radius = 3;
+                pieSeries.labels.template.padding(0, 0, 0, 0);
+
+                pieSeries.ticks.template.disabled = true;
+
+                // Create a base filter effect (as if it's not there) for the hover to return to
+                var shadow = pieSeries.slices.template.filters.push(new am4core.DropShadowFilter);
+                shadow.opacity = 0;
+
+                // Create hover state
+                var hoverState = pieSeries.slices.template.states.getKey("hover"); // normally we have to create the hover state, in this case it already exists
+
+                // Slightly shift the shadow and make it more prominent on hover
+                var hoverShadow = hoverState.filters.push(new am4core.DropShadowFilter);
+                hoverShadow.opacity = 0.7;
+                hoverShadow.blur = 5;
+
+                // Add a legend
+                chart.legend = new am4charts.Legend();
+
+            }
+        };
+
+    }); // end am4core.ready()
+</script>
+
+<script>
+    am4core.ready(function () {
+
+        // Themes begin
+        am4core.useTheme(am4themes_animated);
+        // Themes end
+
+        // Create chart instance
+
+        let xhr = new XMLHttpRequest();
+        xhr.open('GET', '/Statistics/SalesStatistics/GetPriceProductsSoldByType');
+        xhr.send();
+
+        xhr.onload = function () {
+            if (xhr.status != 200) { // анализируем HTTP-статус ответа, если статус не 200, то произошла ошибка
+                alert("Неудачяа");
+            } else {
+
+                var chart = am4core.create("chartdiv4", am4charts.PieChart);
+                chart.scrollbarX = new am4core.Scrollbar();
+
+                // Add data
+                chart.data = JSON.parse(xhr.response);
+
+                var pieSeries = chart.series.push(new am4charts.PieSeries());
+                pieSeries.dataFields.value = "quantity";
+                pieSeries.dataFields.category = "category";
+
+                // Let's cut a hole in our Pie chart the size of 30% the radius
+                chart.innerRadius = am4core.percent(30);
+
+                // Put a thick white border around each Slice
+                pieSeries.slices.template.stroke = am4core.color("#fff");
+                pieSeries.slices.template.strokeWidth = 2;
+                pieSeries.slices.template.strokeOpacity = 1;
+                pieSeries.slices.template
+                    // change the cursor on hover to make it apparent the object can be interacted with
+                    .cursorOverStyle = [
+                        {
+                            "property": "cursor",
+                            "value": "pointer"
+                        }
+                    ];
+
+                pieSeries.alignLabels = false;
+                pieSeries.labels.template.bent = true;
+                pieSeries.labels.template.radius = 3;
+                pieSeries.labels.template.padding(0, 0, 0, 0);
+
+                pieSeries.ticks.template.disabled = true;
+
+                // Create a base filter effect (as if it's not there) for the hover to return to
+                var shadow = pieSeries.slices.template.filters.push(new am4core.DropShadowFilter);
+                shadow.opacity = 0;
+
+                // Create hover state
+                var hoverState = pieSeries.slices.template.states.getKey("hover"); // normally we have to create the hover state, in this case it already exists
+
+                // Slightly shift the shadow and make it more prominent on hover
+                var hoverShadow = hoverState.filters.push(new am4core.DropShadowFilter);
+                hoverShadow.opacity = 0.7;
+                hoverShadow.blur = 5;
+
+                // Add a legend
+                chart.legend = new am4charts.Legend();
+
+            }
+        };
+
+    }); // end am4core.ready()
+</script>
 
 

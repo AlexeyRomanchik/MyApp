@@ -20,6 +20,7 @@ namespace WebApplication.Repository
         private IOrderRepository _orderRepository;
         private IUserRepository _userRepository;
         private IVerificationCodeRepository _verificationCodeRepository;
+        private ICartItemRepository _cartItemRepository;
 
         public RepositoryWrapper(ApplicationContext applicationContext)
         {
@@ -100,6 +101,11 @@ namespace WebApplication.Repository
         public IVerificationCodeRepository VerificationCodeRepository
         {
             get { return _verificationCodeRepository ??= new VerificationCodeRepository(_applicationContext); }
+            set => throw new NotImplementedException();
+        }
+        public ICartItemRepository CartItemRepository
+        {
+            get { return _cartItemRepository ??= new CartItemRepository(_applicationContext); }
             set => throw new NotImplementedException();
         }
 
