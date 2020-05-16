@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Material Design Bootstrap</title>
+    <title>Store</title>
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
     <!-- Bootstrap core CSS -->
@@ -48,7 +48,7 @@
     <div class="container">
 
         <!-- Brand -->
-        <a class="navbar-brand" href="https://mdbootstrap.com/docs/jquery/" target="_blank">
+        <a class="navbar-brand" target="_blank"  asp-controller="Home" asp-action="Index">
             <strong>STORE</strong>
         </a>
 
@@ -64,7 +64,7 @@
             <!-- Left -->
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" asp-controller="Home" asp-action="Index">
                         Home
                         <span class="sr-only">(current)</span>
                     </a>
@@ -76,12 +76,12 @@
                     <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown"
                        aria-haspopup="true" aria-expanded="false">Список товаров</a>
                     <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
-                        <a class="dropdown-item" href="#">Видеокарты</a>
-                        <a class="dropdown-item" href="#">Оперативная память</a>
-                        <a class="dropdown-item" href="#">Процессоры</a>
-                        <a class="dropdown-item" href="#">Жесткие диски</a>
-                        <a class="dropdown-item" href="#">Материнские платы</a>
-                        <a class="dropdown-item" href="#">Блоки питания</a>
+                        <a class="dropdown-item" asp-controller="GraphicsCard" asp-action="Index">Видеокарты</a>
+                        <a class="dropdown-item" asp-controller="Ram" asp-action="Index">Оперативная память</a>
+                        <a class="dropdown-item" asp-controller="Cpu"  asp-action="Index">Процессоры</a>
+                        <a class="dropdown-item" asp-controller="Hdd"  asp-action="Index">Жесткие диски</a>
+                        <a class="dropdown-item" asp-controller="Motherboard"  asp-action="Index">Материнские платы</a>
+                        <a class="dropdown-item" asp-controller="PowerSupply" asp-action="Index">Блоки питания</a>
                     </div>
                    
                 </li>
@@ -395,22 +395,22 @@
         <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3">
             <h6 class="text-uppercase mb-4 font-weight-bold">Products</h6>
             <p>
-                <a href="#!">Оперативная память</a>
+                <a asp-controller="Ram" asp-action="Index">Оперативная память</a>
             </p>
             <p>
-                <a href="#!">Видеокарты</a>
+                <a asp-controller="GraphicsCard" asp-action="Index">Видеокарты</a>
             </p>
             <p>
-                <a href="#!">Материнские платы</a>
+                <a asp-controller="Motherboard" asp-action="Index">Материнские платы</a>
             </p>
             <p>
-                <a href="#!">Жесткие диски</a>
+                <a asp-controller="Hdd" asp-action="Index">Жесткие диски</a>
             </p>
             <p>
-                <a href="#!">Блоки питания</a>
+                <a asp-controller="PowerSupply" asp-action="Index">Блоки питания</a>
             </p>
             <p>
-                <a href="#!">Процессоры</a>
+                <a asp-controller="Cpu" asp-action="Index">Процессоры</a>
             </p>
         </div>
         <!-- Grid column -->

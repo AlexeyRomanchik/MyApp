@@ -9,7 +9,7 @@
         <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown"
            aria-haspopup="true" aria-expanded="false">@User.Identity.Name</a>
         <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
-            <a class="dropdown-item" href="#">Мой аккаунт</a>
+            <a class="dropdown-item" asp-controller="Account" asp-action="Index">Мой аккаунт</a>
             <a class="dropdown-item" href="~/Account/LogOff">Log out</a>
         </div>
     </li>
