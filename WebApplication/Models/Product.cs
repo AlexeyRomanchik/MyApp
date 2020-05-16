@@ -47,6 +47,8 @@ namespace WebApplication.Models
         [JsonIgnore]
         public List<Review> Reviews { get; set; }
 
+        public List<UserFavoriteProducts> FavoriteProducts { get; set; }
+
         public Product()
         {
             Category = new Category();

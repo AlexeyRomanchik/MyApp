@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Security.Claims;
@@ -45,6 +46,48 @@ namespace WebApplication.Controllers
             _verificationCodeRepository = _repositoryWrapper.VerificationCodeRepository;
             _authMessageSender = new AuthMessageSender();
         }
+
+        public void AddToFavoriteProducts(Guid id)
+        {
+            var userFavoriteProduct = new UserFavoriteProducts()
+            {
+                ProductId = id,
+                UserId = _userManager.GetUserId(User)
+            };
+
+            var user = _userRepository.FindByCondition(
+                x => x.Id == _userManager.GetUserId(User)
+                ).FirstOrDefault();
+
+            if (user != null)
+            {
+                _repositoryWrapper.UserFavoriteProductsRepository.Create(userFavoriteProduct);
+            }
+
+            _repositoryWrapper.Save();
+        }
+
+        public IActionResult DeleteFromFavoriteProducts(Guid id)
+        {
+            var userFavoriteProduct = new UserFavoriteProducts()
+            {
+                ProductId = id,
+                UserId = _userManager.GetUserId(User)
+            };
+            var user = _userRepository.FindByCondition(
+                x => x.Id == _userManager.GetUserId(User)
+                ).FirstOrDefault();
+
+            if (user != null)
+            {
+                _repositoryWrapper.UserFavoriteProductsRepository.Delete(userFavoriteProduct);
+            }
+
+            _repositoryWrapper.Save();
+
+            return RedirectToAction("Index", "Account");
+        }
+
 
         [HttpGet]
         [AllowAnonymous]

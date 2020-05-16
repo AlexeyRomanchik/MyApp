@@ -16,6 +16,7 @@
         IUserRepository UserRepository { get; set; }
         IVerificationCodeRepository VerificationCodeRepository { get; set; }
         ICartItemRepository CartItemRepository { get; set; }
+        IUserFavoriteProductsRepository UserFavoriteProductsRepository { get; set; }
         void Save();
     }
 }

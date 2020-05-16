@@ -8,6 +8,7 @@ namespace WebApplication.Models
         public List<Review> Reviews { get; set; }
         public List<Rating> Ratings { get; set; }
         public List<Order> Orders { get; set; }
+        public List<UserFavoriteProducts> FavoriteProducts { get; set; }
         public UserAccountState UserAccountState { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
@@ -22,6 +23,7 @@ namespace WebApplication.Models
             Reviews = new List<Review>();
             Ratings = new List<Rating>();
             Address = new Address();
+            FavoriteProducts = new List<UserFavoriteProducts>();
         }
     }
 }

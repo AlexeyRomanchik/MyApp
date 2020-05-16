@@ -325,25 +325,26 @@
 
 
                                 <table class="w-100">
-                                    @foreach (var rating in Model.User.Ratings)
+                                    @foreach (var favoriteProduct in Model.User.FavoriteProducts)
                                     {
                                         <tr>
-                                            <td><img src="@rating.Product.ImageUrl" class="p-2" style="width: 150px; float: left" /></td>
+                                            <td><img src="@favoriteProduct.Product.ImageUrl" class="p-2" style="width: 150px; float: left" /></td>
                                             <td>
-                                                <h6>@rating.Product.Name</h6>
+                                                <h6>@favoriteProduct.Product.Name</h6>
                                                 <p>
-                                                    Цена: @rating.Product.Price, производитель: @rating.Product.Manufacturer.Name
+                                                    Цена: @favoriteProduct.Product.Price, производитель: @favoriteProduct.Product.Manufacturer.Name
                                                 </p>
                                                 <p>
-                                                    Категория <span class="badge purple mr-2"> @rating.Product.Category.Name</span>
+                                                    Категория <span class="badge purple mr-2"> @favoriteProduct.Product.Category.Name</span>
                                                 </p>
                                                 <p>
-                                                    Дата выхода на рынок: @rating.Product.DateAdded.ToString("dd MM yyyy")
+                                                    Дата выхода на рынок: @favoriteProduct.Product.DateAdded.ToString("dd MM yyyy")
                                                 </p>
                                             </td>
 
                                             <td>
-                                                <a class="link-default p-1" href="#">Удалить из избранных</a>
+                                                <a asp-controller="Account" asp-action="DeleteFromFavoriteProducts" asp-route-id="@favoriteProduct.Product.Id" 
+                                                   class="link-default p-1">Удалить из избранных</a>
                                             </td>
                                         </tr>
                                     }

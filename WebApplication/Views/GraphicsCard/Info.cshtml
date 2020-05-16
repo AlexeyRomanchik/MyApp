@@ -99,6 +99,13 @@
                         }
 
                     }
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <button class="btn btn-deep-orange  btn-md my-0 p addToFavorite" id="@Model.Product.Id" type="submit">
+                            Добавить в избранное<i class="far fa-thumbs-up ml-1"></i>
+                        </button>
+
+                    }
 
 
                 </div>

@@ -72,8 +72,18 @@
                 <li class="nav-item">
                     <a class="nav-link" href="https://mdbootstrap.com/docs/jquery/" target="_blank">About STORE</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="https://mdbootstrap.com/docs/jquery/getting-started/download/" target="_blank">Список товаров</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">Список товаров</a>
+                    <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="#">Видеокарты</a>
+                        <a class="dropdown-item" href="#">Оперативная память</a>
+                        <a class="dropdown-item" href="#">Процессоры</a>
+                        <a class="dropdown-item" href="#">Жесткие диски</a>
+                        <a class="dropdown-item" href="#">Материнские платы</a>
+                        <a class="dropdown-item" href="#">Блоки питания</a>
+                    </div>
+                   
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="https://mdbootstrap.com/education/bootstrap/" target="_blank">Контакты</a>
@@ -519,6 +529,17 @@
 <!-- Initializations -->
 <script type="text/javascript">
     // Animations initialization
+
+    $(function () {
+        $('.addToFavorite').bind('click',
+            function () {
+                var id = $('.addToFavorite').attr('id');
+                $.post("/Account/AddToFavoriteProducts?id=" + id,
+                    null,
+                    null,
+                    "json");
+            });
+    });
 
 
     $(function () {

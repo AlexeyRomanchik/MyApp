@@ -21,6 +21,7 @@ namespace WebApplication.Repository
         private IUserRepository _userRepository;
         private IVerificationCodeRepository _verificationCodeRepository;
         private ICartItemRepository _cartItemRepository;
+        private IUserFavoriteProductsRepository _userFavoriteProductsRepository;
 
         public RepositoryWrapper(ApplicationContext applicationContext)
         {
@@ -106,6 +107,12 @@ namespace WebApplication.Repository
         public ICartItemRepository CartItemRepository
         {
             get { return _cartItemRepository ??= new CartItemRepository(_applicationContext); }
+            set => throw new NotImplementedException();
+        }
+
+        public IUserFavoriteProductsRepository UserFavoriteProductsRepository
+        {
+            get { return _userFavoriteProductsRepository ??= new UserFavoriteProductsRepository(_applicationContext); }
             set => throw new NotImplementedException();
         }
 

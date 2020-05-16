@@ -37,6 +37,7 @@ namespace WebApplication.Data
             builder.ApplyConfiguration(new PowerSupplyInterfaceConfiguration());
             builder.ApplyConfiguration(new ManufacturerCategoryConfiguration());
             builder.ApplyConfiguration(new VerificationCodeConfiguration());
+            builder.ApplyConfiguration(new UserFavoriteProductsConfiguration());
         }
     }
 }
