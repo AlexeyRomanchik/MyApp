@@ -16,6 +16,10 @@ namespace WebApplication.Models
         public bool ReceiveProductNotifications { get; set; }
         public bool TwoFactorAuthenticationEnabled { get; set; }
         public string UserImageUrl { get; set; }
+        public string VkLink { get; set; }
+        public string TelegramLink { get; set; }
+        public string InstagramLink { get; set; }
+        public string TwitterLink{ get; set; }
 
         public User()
         {

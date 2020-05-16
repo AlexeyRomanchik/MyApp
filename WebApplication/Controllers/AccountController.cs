@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Security.Claims;
@@ -110,7 +109,7 @@ namespace WebApplication.Controllers
                 }
 
                 var code = await _userManager.GeneratePasswordResetTokenAsync(user);
-                var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
+                var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code }, protocol: HttpContext.Request.Scheme);
                 var emailService = new EmailService();
                 await emailService.SendEmailAsync(model.Email, "Reset Password",
                     $"Для сброса пароля пройдите по ссылке: <a href='{callbackUrl}'>link</a>");
@@ -164,6 +163,11 @@ namespace WebApplication.Controllers
             user.Email = accountViewModel.User.Email;
             user.TwoFactorAuthenticationEnabled = accountViewModel.User.TwoFactorAuthenticationEnabled;
             user.ReceiveProductNotifications = accountViewModel.User.ReceiveProductNotifications;
+
+            user.VkLink = accountViewModel.User.VkLink;
+            user.TelegramLink = accountViewModel.User.TelegramLink;
+            user.InstagramLink = accountViewModel.User.InstagramLink;
+            user.TwitterLink = accountViewModel.User.TwitterLink;
 
             user.Address = new Address
             {

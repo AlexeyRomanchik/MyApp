@@ -173,29 +173,29 @@
 
         </div>
         <hr>
-            <div class="row d-flex justify-content-center wow fadeIn">
+        <div class="row d-flex justify-content-center wow fadeIn">
 
 
-                <div class="text-center w-100">
-                    @if (User.Identity.IsAuthenticated)
-                    {
-                        <h4 class="my-4 h4">Оставить отзыв</h4>
-                        <form asp-controller="ProductGeneral" asp-action="AddReview" method="post">
-                            <div class="md-form amber-textarea active-amber-textarea">
-                                <i class="fas fa-pencil-alt prefix"></i>
-                                <textarea name="text" id="form22" class="md-textarea form-control" rows="4"></textarea>
-                                <label for="form22">Ваш текст</label>
-                                <input type="hidden" name="id" value="@Model.Ram.Id"/>
-                            </div>
-                            <button class="btn btn-primary btn-md my-0" type="submit">
-                                Оставить отзыв
-                            </button>
-                        </form>
-                    }
-                </div>
+            <div class="text-center w-100">
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <h4 class="my-4 h4">Оставить отзыв</h4>
+                    <form>
+                        <div class="md-form amber-textarea active-amber-textarea">
+                            <i class="fas fa-pencil-alt prefix"></i>
+                            <textarea name="text" id="@Model.Ram.Id" class="md-textarea form-control reviewText" rows="4"></textarea>
+                            <label for="form22">Ваш текст</label>
 
-
+                        </div>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#reviewModel">
+                            Отправить отзыв
+                        </button>
+                    </form>
+                }
             </div>
+
+
+        </div>
 
         <hr>
         <div class="card-comments mb-3 wow fadeIn">
