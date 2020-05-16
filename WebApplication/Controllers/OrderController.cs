@@ -20,14 +20,16 @@ namespace WebApplication.Controllers
         private readonly IMailingSystem _mailingSystem;
         private readonly UserManager<User> _userManager;
         private readonly IUserRepository _userRepository;
+        private readonly IShoppingCartService _shoppingCartService;
 
         public OrderController(IHttpContextAccessor httpContextAccessor, IRepositoryWrapper repositoryWrapper, IMailingSystem mailingSystem, 
-            UserManager<User> userManager)
+            UserManager<User> userManager, IShoppingCartService shoppingCartService)
         {
             _httpContext = httpContextAccessor.HttpContext;
             _repositoryWrapper = repositoryWrapper;
             _mailingSystem = mailingSystem;
             _userManager = userManager;
+            _shoppingCartService = shoppingCartService;
             _orderRepository = _repositoryWrapper.OrderRepository;
             _userRepository = _repositoryWrapper.UserRepository;
         }
@@ -60,6 +62,7 @@ namespace WebApplication.Controllers
             _orderRepository.Create(orderViewModel.Order);
             _repositoryWrapper.Save();
 
+            _shoppingCartService.Clear();
 
             return View("SuccessfulOrder", orderViewModel.Order);
         }

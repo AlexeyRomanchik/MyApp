@@ -175,7 +175,7 @@
                                 <br />
                                 @if (Model.User.PhoneNumberConfirmed)
                                 {
-                                    <input class="checkbox" checked="@Model.User.TwoFactorEnabled" type="checkbox" asp-for="User.TwoFactorEnabled">
+                                    <input class="checkbox" checked="@Model.User.TwoFactorAuthenticationEnabled" type="checkbox" asp-for="User.TwoFactorAuthenticationEnabled">
                                     <label class="col-lg-9 col-form-label form-control-label">Использовать двухфакторную аутентификацию при входе в систему (При авторизации будет отправлятся код на привязанный номер телефона)</label>
                                 }
 

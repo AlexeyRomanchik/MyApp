@@ -1,4 +1,4 @@
-﻿@model WebApplication.ViewModels.LoginViewModel
+﻿@model WebApplication.ViewModels.VerificationViewModel
 @{
     ViewData["Title"] = "TwoFactorAuthentication";
 }
@@ -9,12 +9,12 @@
         <p class="h4 mb-4">Sign in</p>
 
         <label>Введите код отправленный на ваш номер телефона в течении 5 мин. для авторизации</label>
-        <input name="code" id="defaultLoginFormEmail" class="form-control mb-4" placeholder="code">
-        <input type="hidden" asp-for="Email" value="@Model.Email" />
-        <input type="hidden" asp-for="ExternalLogins" value="@Model.ExternalLogins" />
-        <input type="hidden" asp-for="Password" value="@Model.Password" />
-        <input type="hidden" asp-for="RememberMe" value="@Model.RememberMe" />
-        <input type="hidden" asp-for="ReturnUrl" value="@Model.ReturnUrl" />
+        <input asp-for="Code" id="defaultLoginFormEmail" class="form-control mb-4" placeholder="code">
+        <input type="hidden" asp-for="Email" value="@ViewBag.Email" />
+        <input type="hidden" asp-for="ExternalLogins" value="@ViewBag.ExternalLogins" />
+        <input type="hidden" asp-for="Password" value="@ViewBag.Password" />
+        <input type="hidden" asp-for="RememberMe" value="@ViewBag.RememberMe" />
+        <input type="hidden" asp-for="ReturnUrl" value="@ViewBag.ReturnUrl" />
 
 
         <button class="btn btn-info btn-block my-4 w-50" type="submit" style="margin: auto">Sign in</button>

@@ -119,7 +119,7 @@ namespace WebApplication.Controllers
             user.Name = accountViewModel.User.Name;
             user.Surname = accountViewModel.User.Surname;
             user.Email = accountViewModel.User.Email;
-            user.TwoFactorEnabled = accountViewModel.User.TwoFactorEnabled;
+            user.TwoFactorAuthenticationEnabled = accountViewModel.User.TwoFactorAuthenticationEnabled;
             user.ReceiveProductNotifications = accountViewModel.User.ReceiveProductNotifications;
 
             user.Address = new Address
@@ -307,37 +307,47 @@ namespace WebApplication.Controllers
         }
 
         [HttpGet]
-        public IActionResult TwoFactorAuthentication(LoginViewModel model)
+        public async Task<IActionResult> TwoFactorAuthentication(LoginViewModel model)
         {
 
-
+            var user = await _userManager.FindByNameAsync(model.Email);
+           
             var verificationCode = new VerificationCode
             {
-                UserId = _userManager.GetUserId(User),
+                UserId = user.Id,
                 AttemptsNumber = 3,
                 Code = _verificationCodeGenerator.GenerateVerificationCode(
                     10000, 100000, DateTime.Now.Millisecond
                     ),
                 SendingDate = DateTime.Now,
                 NextSendingDate = DateTime.Now.AddHours(5),
-                PhoneNumber = "+375297751690"
+                PhoneNumber = user.PhoneNumber
             };
 
 
-            _authMessageSender.SendSmsAsync("+" + "+375297751690", verificationCode.Code.ToString());
+
+            await _authMessageSender.SendSmsAsync("+" + user.PhoneNumber, verificationCode.Code.ToString());
 
             _verificationCodeRepository.Create(verificationCode);
             _repositoryWrapper.Save();
+            
 
+            ViewBag.Email= model.Email;
+            ViewBag.Password = model.Password;
+            ViewBag.ExternalLogins = model.ExternalLogins;
+            ViewBag.ReturnUrl = model.ReturnUrl;
+            ViewBag.RememberMe = model.RememberMe;
 
-            return View(model);
+            return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> TwoFactorAuthentication(int code, LoginViewModel model)
+        public async Task<IActionResult> TwoFactorAuthentication(VerificationViewModel model)
         {
+            var user = await _userManager.FindByNameAsync(model.Email);
+
             var verificationCode = _verificationCodeRepository
-                .FindByCondition(x => x.UserId == _userManager.GetUserId(User))
+                .FindByCondition(x => x.UserId == user.Id)
                 .OrderByDescending(x => x.SendingDate)
                 .FirstOrDefault();
 
@@ -349,7 +359,7 @@ namespace WebApplication.Controllers
                 verificationCode.AttemptsNumber--;
                 if (verificationCode.SendingDate.AddMinutes(5) > DateTime.Now)
                 {
-                    if (verificationCode.Code == code)
+                    if (verificationCode.Code == model.Code)
                     {
                         var result = await _signInManager.PasswordSignInAsync(
                             model.Email, model.Password, model.RememberMe, false
@@ -358,8 +368,11 @@ namespace WebApplication.Controllers
                             return RedirectToAction("Index", "Home");
                     }
                 }
-            }
+                _verificationCodeRepository.Update(verificationCode);
+                _repositoryWrapper.Save();
 
+            }
+           
             return RedirectToAction("Index", "Account");
         }
 
@@ -371,6 +384,7 @@ namespace WebApplication.Controllers
             {
                 var user = await _userManager.FindByNameAsync(model.Email);
                 if (user != null)
+                {
                     // проверяем, подтвержден ли email
                     if (!await _userManager.IsEmailConfirmedAsync(user))
                     {
@@ -378,15 +392,16 @@ namespace WebApplication.Controllers
                         return View(model);
                     }
 
-                if (user.TwoFactorEnabled)
-                    return RedirectToAction("TwoFactorAuthentication", model);
+                    if (user.TwoFactorAuthenticationEnabled)
+                        return RedirectToAction("TwoFactorAuthentication", model);
 
-                var result = await _signInManager.PasswordSignInAsync(
-                    model.Email, model.Password, model.RememberMe, false
-                    );
-                if (result.Succeeded)
-                    return RedirectToAction("Index", "Home");
-                ModelState.AddModelError("", "Неправильный логин и (или) пароль");
+                    var result = await _signInManager.PasswordSignInAsync(
+                        model.Email, model.Password, model.RememberMe, false
+                        );
+                    if (result.Succeeded)
+                        return RedirectToAction("Index", "Home");
+                    ModelState.AddModelError("", "Неправильный логин и (или) пароль");
+                }
             }
 
             return View(model);

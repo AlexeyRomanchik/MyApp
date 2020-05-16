@@ -13,6 +13,7 @@ namespace WebApplication.Models
         public string Surname { get; set; }
         public Address Address { get; set; }
         public bool ReceiveProductNotifications { get; set; }
+        public bool TwoFactorAuthenticationEnabled { get; set; }
         public string UserImageUrl { get; set; }
 
         public User()

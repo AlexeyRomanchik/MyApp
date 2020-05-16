@@ -21,5 +21,6 @@ namespace WebApplication.ViewModels
         public List<AuthenticationScheme> ExternalLogins { get; set; }
 
         public string ReturnUrl { get; set; }
+
     }
 }
