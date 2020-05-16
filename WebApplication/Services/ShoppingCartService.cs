@@ -28,6 +28,19 @@ namespace WebApplication.Services
                 cartItem.Quantity += quantity;
         }
 
+        public void RemoveItem(Product product, int quantity)
+        {
+            var cartItem = Cart.CartItems
+                .FirstOrDefault(x => x.ProductId == product.Id);
+
+            if (cartItem != null && cartItem.Quantity > 0)
+                cartItem.Quantity -= quantity;
+            else 
+            {
+                RemoveLine(product);
+            }
+        }
+
         public void Clear()
         {
             Cart.CartItems.Clear();

@@ -54,6 +54,32 @@ namespace WebApplication.Controllers
             return Json(_shoppingCartService.Cart.GetTotalItemsCount());
         }
 
+        public IActionResult DeleteProductFromLine(Guid id)
+        {
+            var product = _repositoryWrapper.ProductRepository
+                .FindByCondition(x => x.Id == id).FirstOrDefault();
+
+            if (product != null)
+                _shoppingCartService.RemoveItem(product, 1);
+
+            SaveCart(_shoppingCartService.Cart);
+
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult AddProductToLine(Guid id)
+        {
+            var product = _repositoryWrapper.ProductRepository
+                .FindByCondition(x => x.Id == id).FirstOrDefault();
+
+            if (product != null)
+                _shoppingCartService.AddItem(product, 1);
+
+            SaveCart(_shoppingCartService.Cart);
+
+            return RedirectToAction("Index");
+        }
+
         public IActionResult RemoveFromCart(Guid id)
         {
             var product = _repositoryWrapper.ProductRepository

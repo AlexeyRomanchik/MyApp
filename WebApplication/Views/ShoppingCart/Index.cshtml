@@ -51,15 +51,19 @@
             <td>
                 <div style="width: 150px">
                     <div class="col-lg-6 col-lg-offset-3">
-                            <div class="input-group">
+                        <div class="input-group">
+                            <form asp-controller="ShoppingCart" asp-action="DeleteProductFromLine" asp-route-id="@cartItem.Product.Id">
                                 <span class="input-group-btn">
-                                    <button id="minus" class="btn btn-danger" type="button">-</button>
+                                    <button id="minus" class="btn btn-danger" type="submit">-</button>
                                 </span>
-                                <input id="calc" type="text" class="form-control text-center" style="width: 80px" value="@cartItem.Quantity">
+                            </form>
+                            <input id="calc" type="text" class="form-control text-center" style="width: 80px" value="@cartItem.Quantity">
+                            <form  asp-controller="ShoppingCart" asp-action="AddProductToLine" asp-route-id="@cartItem.Product.Id">
                                 <span class="input-group-btn">
-                                    <button id="plus" class="btn btn-success" type="button">+</button>
+                                    <button id="plus" class="btn btn-success" type="submit">+</button>
                                 </span>
-                            </div>
+                            </form>
+                        </div>
                         </div>
           
 
@@ -73,7 +77,9 @@
                 </h4>
             </td>
             <td>
-                <a id="@cartItem.Product.Id" class="btn btn-red tocart">Удалить</a>
+                <form asp-controller="ShoppingCart" asp-action="RemoveFromCart" asp-route-id="@cartItem.Product.Id">
+                    <button type="submit" id="@cartItem.Product.Id" class="btn btn-red tocart">Удалить</button>
+                </form>
             </td>
 
         </tr>

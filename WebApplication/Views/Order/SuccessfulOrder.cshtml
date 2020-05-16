@@ -1,0 +1,23 @@
+﻿@model Order;
+@{
+    ViewData["Title"] = "SuccessfulOrder";
+    Layout = "_StartPage";
+}
+
+<div class="section-body contain-lg" style="padding: 200px 0px">
+    <div class="row">
+        <div class="col-lg-12 text-center">
+            <h1><span class="text-xxxl green-text">Поздравляем, вы успешно оформили заказ!</span></h1>
+            <h2 class="green-text">Наши работники свяжутся с вами для уточнения деталей по заказу в течении часа, удачи)</h2>
+            <h5 class="text-black-50">
+                Заказ # @Model.Id, полная стоимость : @Model.Cart.FinalPrice, дата заказа: @Model.Date.ToString("dd MM yyyy")<br/>
+            </h5>
+            <form asp-action="Index" asp-controller="Home"> 
+            <button type="submit" style="margin: 100px; font-size: 25px; padding: 10px 25px;" class="btn btn-dark-green">На главную</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+

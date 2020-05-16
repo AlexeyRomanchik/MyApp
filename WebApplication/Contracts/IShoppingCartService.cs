@@ -9,6 +9,7 @@ namespace WebApplication.Contracts
         Cart Cart { get; set; }
         IEnumerable<CartItem> Items { get; }
         void AddItem(Product product, int quantity);
+        void RemoveItem(Product product, int quantity);
         void Clear();
         void RemoveLine(Product product);
     }

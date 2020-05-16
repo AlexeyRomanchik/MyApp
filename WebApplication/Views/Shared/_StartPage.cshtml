@@ -759,6 +759,13 @@
                         // В качестве контента балуна задаем строку с адресом объекта.
                         balloonContent: firstGeoObject.getAddressLine()
                     });
+
+                $("#region").val(firstGeoObject.getAdministrativeAreas()); 
+                $("#city").val(firstGeoObject.getLocalities()); 
+                $("#street").val(firstGeoObject.getThoroughfare()); 
+                $("#house").val(firstGeoObject.getPremiseNumber()); 
+
+              
             });
         }
     }

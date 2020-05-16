@@ -61,7 +61,7 @@ namespace WebApplication.Controllers
             _repositoryWrapper.Save();
 
 
-            return RedirectToAction("Index");
+            return View("SuccessfulOrder", orderViewModel.Order);
         }
 
         [HttpGet]

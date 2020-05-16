@@ -9,15 +9,15 @@ namespace WebApplication.Data.Configurations
         public void Configure(EntityTypeBuilder<CartItem> builder)
         {
             builder.ToTable("CartItem");
-            builder.HasKey(x => new {x.CartId, x.ProductId});
+            builder.HasKey(x => x.Id);
 
             builder.HasOne(x => x.Cart)
                 .WithMany(t => t.CartItems)
                 .HasForeignKey(y => y.CartId);
 
             builder.HasOne(x => x.Product)
-                .WithOne()
-                .HasForeignKey("CartItem");
+                .WithMany()
+                .HasForeignKey(x => x.ProductId);
 
         }
     }
