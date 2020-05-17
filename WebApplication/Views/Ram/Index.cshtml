@@ -129,6 +129,7 @@
                 {
                     <li class="nav-item active">
                         <a class="nav-link" asp-action="Index" asp-route-page="@Model.PageViewModel.PageNumber"
+                           asp-route-name="@Model.SearchLine"
                            asp-route-sortState="@(Model.SortBaseViewModel.PriceSortState)">
                             Цена
                             @if(Model.SortBaseViewModel.CurrentSortState == SortState.PriceAsc)
@@ -145,7 +146,9 @@
                 else
                 {
                     <li class="nav-item">
-                        <a class="nav-link" asp-action="Index" asp-route-page="@Model.PageViewModel.PageNumber"
+                        <a class="nav-link" asp-action="Index"
+                           asp-route-name="@Model.SearchLine"
+                           asp-route-page="@Model.PageViewModel.PageNumber"
                            asp-route-sortState="@(Model.SortBaseViewModel.PriceSortState)">
                             Цена
                         </a>
@@ -154,7 +157,8 @@
                 @if (Model.SortBaseViewModel.CurrentSortState == SortState.NameAsc || Model.SortBaseViewModel.CurrentSortState == SortState.NameDesc)
                 {
                     <li class="nav-item active">
-                        <a class="nav-link" asp-action="Index" asp-route-page="@Model.PageViewModel.PageNumber"
+                        <a class="nav-link" asp-action="Index"
+                           asp-route-name="@Model.SearchLine" asp-route-page="@Model.PageViewModel.PageNumber"
                            asp-route-sortState="@(Model.SortBaseViewModel.NameSortState)">
                             Название
                             @if (Model.SortBaseViewModel.CurrentSortState == SortState.NameAsc)
@@ -171,13 +175,13 @@
                 else
                 {
                     <li class="nav-item">
-                        <a class="nav-link" asp-action="Index" asp-route-page="@Model.PageViewModel.PageNumber" asp-route-sortState="@(Model.SortBaseViewModel.NameSortState)">Название</a>
+                        <a class="nav-link" asp-action="Index" asp-route-name="@Model.SearchLine" asp-route-page="@Model.PageViewModel.PageNumber" asp-route-sortState="@(Model.SortBaseViewModel.NameSortState)">Название</a>
                     </li>
                 }
                 @if (Model.SortBaseViewModel.CurrentSortState == SortState.DateAddedAsc || Model.SortBaseViewModel.CurrentSortState == SortState.DateAddedDesc)
                 {
                     <li class="nav-item active">
-                        <a class="nav-link" asp-action="Index" asp-route-page="@Model.PageViewModel.PageNumber"
+                        <a class="nav-link" asp-action="Index" asp-route-name="@Model.SearchLine" asp-route-page="@Model.PageViewModel.PageNumber"
                            asp-route-sortState="@(Model.SortBaseViewModel.DateAddedSortState)">
                             Дата добавления
                             @if (Model.SortBaseViewModel.CurrentSortState == SortState.DateAddedAsc)
@@ -194,7 +198,7 @@
                 else
                 {
                     <li class="nav-item">
-                        <a class="nav-link" asp-action="Index" asp-route-page="@Model.PageViewModel.PageNumber"
+                        <a class="nav-link" asp-action="Index" asp-route-name="@Model.SearchLine" asp-route-page="@Model.PageViewModel.PageNumber"
                            asp-route-sortState="@(Model.SortBaseViewModel.DateAddedSortState)">
                             Дата добавления
                         </a>
@@ -205,7 +209,11 @@
 
             <form class="form-inline" asp-action="Index" asp-controller="Ram">
                 <div class="md-form my-0">
-                    <input class="form-control mr-sm-2" type="text" placeholder="Search" id="name" name="name" aria-label="Search">
+                    <input class="form-control mr-sm-2" type="text" placeholder="Search" id="name" name="name" aria-label="Search" list="commands" autocomplete="off" style="width: 300px" value="@Model.SearchLine">
+                    <datalist id="commands">
+                        <option value="@@тип">Тип оперативной памяти</option>
+                        <option value="@@объем">Обьем оперативной памяти</option>
+                    </datalist>
                 </div>
             </form>
         </div>
@@ -315,6 +323,7 @@
                 <a asp-action="Index"
                    asp-route-manufacturer ="@Model.BaseFilterViewModel.SelectedManufacturer"
                    asp-route-page="@(Model.PageViewModel.PageNumber - 1)"
+                   asp-route-name="@Model.SearchLine"
                    asp-controller="Ram"
                    asp-route-sortState="@Model.SortBaseViewModel.CurrentSortState"
                    class="page-link" aria-label="Previous">
@@ -347,6 +356,7 @@
                        asp-route-page="@i"
                        asp-route-manufacturer ="@Model.BaseFilterViewModel.SelectedManufacturer"
                        asp-controller="Ram"
+                       asp-route-name="@Model.SearchLine"
                        asp-route-sortState="@Model.SortBaseViewModel.CurrentSortState"
                        class="page-link">
                         @i</a>
@@ -358,6 +368,7 @@
                asp-route-page="@Model.PageViewModel.PageNumber"
                asp-route-sortState="@Model.SortBaseViewModel.CurrentSortState"
                asp-route-manufacturer ="@Model.BaseFilterViewModel.SelectedManufacturer"
+               asp-route-name="@Model.SearchLine"
                asp-controller="Ram">
                 @Model.PageViewModel.PageNumber
                 <span class="sr-only">(current)</span>
@@ -372,6 +383,7 @@
                     <a asp-action="Index"
                        asp-route-page="@i"
                        asp-route-manufacturer ="@Model.BaseFilterViewModel.SelectedManufacturer"
+                       asp-route-name="@Model.SearchLine"
                        asp-controller="Ram"
                        asp-route-sortState="@Model.SortBaseViewModel.CurrentSortState"
                        class="page-link">
@@ -387,6 +399,7 @@
                    asp-route-page="@(Model.PageViewModel.PageNumber + 1)"
                    asp-controller="Ram"
                    asp-route-manufacturer ="@Model.BaseFilterViewModel.SelectedManufacturer"
+                   asp-route-name="@Model.SearchLine"
                    asp-route-sortState="@Model.SortBaseViewModel.CurrentSortState"
                    class="page-link" aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>

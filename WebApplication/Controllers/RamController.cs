@@ -10,6 +10,7 @@ using WebApplication.Contracts;
 using WebApplication.Contracts.FiltersContracts;
 using WebApplication.Contracts.SortContracts;
 using WebApplication.Models;
+using WebApplication.Services;
 using WebApplication.ViewModels;
 using WebApplication.ViewModels.AddViewModels;
 using WebApplication.ViewModels.FilterViewModels;
@@ -26,6 +27,7 @@ namespace WebApplication.Controllers
         private readonly IRamSortService _ramSortService;
         private readonly IRepositoryWrapper _repositoryWrapper;
         private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly RamSearchService _ramSearchService;
 
         public RamController(IRepositoryWrapper repositoryWrapper, ISortServiceWrapper sortServiceWrapper,
             IRamFilter ramFilter, IFileService fileService, IWebHostEnvironment webHostEnvironment)
@@ -36,6 +38,7 @@ namespace WebApplication.Controllers
             _webHostEnvironment = webHostEnvironment;
             _ramSortService = sortServiceWrapper.RamSortService;
             _ramRepository = _repositoryWrapper.RamRepository;
+            _ramSearchService = new RamSearchService();
         }
 
         [ResponseCache(Location = ResponseCacheLocation.Any, Duration = 300)]
@@ -172,7 +175,11 @@ namespace WebApplication.Controllers
             var filterViewModel = new BaseFilterViewModel(manufacturers.ToList(), manufacturer);
 
 
-            if (name != null) ramProducts = ramProducts.Where(x => x.Product.Name.Contains(name));
+            if (name != null)
+            {
+
+                ramProducts = _ramSearchService.GetProductsByCommands(name, ramProducts);
+            }
 
             ramProducts = _ramFilter.ApplyBaseFilter(filterViewModel, ramProducts);
 
@@ -186,6 +193,7 @@ namespace WebApplication.Controllers
             var ramViewModel = new RamViewModel
             {
                 BaseFilterViewModel = filterViewModel,
+                SearchLine = name,
                 SortBaseViewModel = new SortBaseViewModel(sortState),
                 Products = items,
                 PageViewModel = pageViewModel,

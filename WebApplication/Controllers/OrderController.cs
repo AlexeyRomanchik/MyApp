@@ -62,8 +62,6 @@ namespace WebApplication.Controllers
             _orderRepository.Create(orderViewModel.Order);
             _repositoryWrapper.Save();
 
-            _shoppingCartService.Clear();
-
             return View("SuccessfulOrder", orderViewModel.Order);
         }
 

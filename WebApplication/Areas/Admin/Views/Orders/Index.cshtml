@@ -1,0 +1,70 @@
+﻿@model WebApplication.Areas.Admin.ViewModels.OrdersViewModel;
+@{
+    ViewData["Title"] = "Index";
+    Layout = "_AdminPanel";
+}
+
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Дата</th>
+                <th scope="col">Статус</th>
+                <th scope="col">Заказчик</th>
+                <th scope="col">Email</th>
+                <th scope="col">Номер телефона</th>
+                <th scope="col">Адрес</th>
+                <th scope="col">Корзина</th>
+                <th scope="col">Цена</th>
+                <th scope="col">Комментарий к заказу</th>
+                <th scope="col">Редактировать</th>
+                <th scope="col">Удалить</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in Model.Orders)
+            {
+                <tr>
+                    <td>@order.Id</td>
+                    <td>@order.Date</td>
+                    <td>@order.Status</td>
+                    <td>@order.Customer.Name @order.Customer.Surname</td>
+                    <td>@order.Customer.Email</td>
+                    <td>@order.Customer.PhoneNumber</td>
+                    <td>@order.Customer.Address.Region 
+                        @order.Customer.Address.City 
+                        @order.Customer.Address.Street 
+                        @order.Customer.Address.HouseOrFlat
+                    </td>
+                    <td>
+                        @foreach (var cartItem in order.Cart.CartItems)
+                        {
+                            <p>@cartItem.Product.Name</p>
+                            <p>@cartItem.Quantity</p>
+                        }
+                    </td>
+                    <td>
+                        @order.Cart.GetFinalPrice()
+                    </td>
+                    <td>@order.Comment</td>
+                    <td>
+                        <form asp-action="Edit" asp-controller="Orders" asp-route-id="@order.Id" method="get">
+                            <button type="submit" class="btn" style="background: #006400; color: white; font-family: Arial;">
+                                Изменить
+                            </button>
+                        </form>
+                    </td>
+                    <td>
+                        <form asp-action="Delete" asp-controller="Orders" asp-route-id="@order.Id" method="post">
+                            <button type="submit" class="btn" style="background: #CC0605;  color: white;   font-family: Arial;">
+                                Удалить
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+

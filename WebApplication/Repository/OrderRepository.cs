@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using WebApplication.Contracts;
 using WebApplication.Data;
@@ -26,7 +27,20 @@ namespace WebApplication.Repository
                 .Include("Customer.Address")
                 .Include("Cart")
                 .Include("Cart.CartItems")
+                .Include("Cart.CartItems.Product")
                 .AsNoTracking();
         }
+
+        public override IQueryable<Order> FindByCondition(Expression<Func<Order, bool>> expression)
+        {
+            return RepositoryContext.Set<Order>()
+                .Include("Customer")
+                .Include("Customer.Address")
+                .Include("Cart")
+                .Include("Cart.CartItems")
+                .Include("Cart.CartItems.Product")
+                .AsNoTracking();
+        }
+
     }
 }

@@ -11,5 +11,6 @@ namespace WebApplication.ViewModels
         public PageViewModel PageViewModel { get; set; }
         public SortBaseViewModel SortBaseViewModel { get; set; }
         public BaseFilterViewModel BaseFilterViewModel { get; set; }
+        public string SearchLine = null;
     }
 }
