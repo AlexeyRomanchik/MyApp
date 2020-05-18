@@ -15,7 +15,6 @@
   <ItemGroup>
     <ProjectReference Include="..\DataProvider\DataProvider.csproj" />
     <ProjectReference Include="..\Models\Models.csproj" />
-    <ProjectReference Include="..\WebApplication.Tests\WebApplication.Tests.csproj" />
   </ItemGroup>
 
 
