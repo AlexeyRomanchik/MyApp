@@ -94,7 +94,13 @@
                 @Math.Round(Model.TotalPrice, 2)$
             </strong>
         </h4></td>
-        <td> <a class="btn btn-blue tocart">Оформить заказ</a></td>
+        <td>
+            @if (Model.CartItems.Count > 0)
+            {
+                <a class="btn btn-blue tocart" asp-controller="Order" asp-action="Index">Оформить заказ</a>
+            }
+
+        </td>
     </tr>
 
     </tbody>

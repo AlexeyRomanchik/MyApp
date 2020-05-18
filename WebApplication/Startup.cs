@@ -1,15 +1,14 @@
-using Microsoft.AspNetCore.Authentication.Facebook;
+using DataProvider.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using WebApplication.Data;
+using Models.Authentication;
+using Models.User;
+using Newtonsoft.Json;
 using WebApplication.Extensions;
-using WebApplication.Models;
-using WebApplication.Services;
-using WebApplication.SignalR;
 
 namespace WebApplication
 {
@@ -38,27 +37,30 @@ namespace WebApplication
 
             services.AddHttpContextAccessor();
 
-            services.AddControllersWithViews().AddNewtonsoftJson( options =>
-                        options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            services.AddControllersWithViews().AddNewtonsoftJson(
+                options =>
+                    options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore
                 );
 
 
             services.AddSession();
             services.AddDistributedMemoryCache();
 
-            services.AddAuthentication().
-                AddGoogle(options =>
+            services.AddAuthentication().AddGoogle(
+                options =>
                 {
-                    options.ClientId = "425736496155-pfq97jct0gcbjm8kp2jlf41km06vfq2j.apps.googleusercontent.com";
-                    options.ClientSecret = "wwjkpXvNLyICdwfklAVzp6RW";
-                });
+                    options.ClientId = "524494328688-o94fuo0cb2odtqg83knlf3085n9ug738.apps.googleusercontent.com";
+                    options.ClientSecret = "v_5h7moqYxZBR6gkL5DXSEE8";
+                }
+                );
 
-            services.AddAuthentication().
-                AddFacebook(options =>
+            services.AddAuthentication().AddFacebook(
+                options =>
                 {
                     options.ClientId = "266017901438969";
                     options.ClientSecret = "d41bc037d24cfd3beff9fca4b6210637";
-                });
+                }
+                );
 
             services.ConfigureSortWrapper();
 
@@ -93,17 +95,20 @@ namespace WebApplication
             app.UseAuthorization();
 
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllerRoute(
-                    name: "Api",
-                    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
-                endpoints.MapHub<ChatHub>("/chat");
-                endpoints.MapControllerRoute(
-                    name: "Admin",
-                    pattern: "{area:exists}/{controller=Statistics}/{action=Index}/{id?}");
-                endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
-            });
+            app.UseEndpoints(
+                endpoints =>
+                {
+                    endpoints.MapControllerRoute(
+                        "Api",
+                        "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+                        );
+                    endpoints.MapControllerRoute(
+                        "Admin",
+                        "{area:exists}/{controller=Statistics}/{action=Index}/{id?}"
+                        );
+                    endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
+                }
+                );
         }
     }
 }

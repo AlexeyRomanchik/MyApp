@@ -2,14 +2,15 @@
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using DataProvider.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using WebApplication.Contracts;
-using WebApplication.Contracts.FiltersContracts;
-using WebApplication.Contracts.SortContracts;
-using WebApplication.Models;
+using Models.Product;
+using WebApplication.Interfaces;
+using WebApplication.Interfaces.FiltersContracts;
+using WebApplication.Interfaces.SortContracts;
 using WebApplication.ViewModels;
 using WebApplication.ViewModels.AddViewModels;
 using WebApplication.ViewModels.FilterViewModels;
@@ -19,12 +20,12 @@ namespace WebApplication.Controllers
     public class HddController : Controller
     {
         private const int PageSize = 20;
+        private readonly IFileService _fileService;
 
         private readonly IHddFilter _hddFilter;
         private readonly IHddRepository _hddRepository;
         private readonly IHddSortService _hddSortService;
         private readonly IRepositoryWrapper _repositoryWrapper;
-        private readonly IFileService _fileService;
         private readonly IWebHostEnvironment _webHostEnvironment;
 
         public HddController(IRepositoryWrapper repositoryWrapper, ISortServiceWrapper sortServiceWrapper,

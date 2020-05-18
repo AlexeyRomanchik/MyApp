@@ -10,6 +10,10 @@
            aria-haspopup="true" aria-expanded="false">@User.Identity.Name</a>
         <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
             <a class="dropdown-item" asp-controller="Account" asp-action="Index">Мой аккаунт</a>
+            @if (User.IsInRole("admin"))
+            {
+        <a class="dropdown-item" asp-area="Admin" asp-controller="SalesStatistics" asp-action="Index">Admin Dashboard</a>
+            }
             <a class="dropdown-item" href="~/Account/LogOff">Log out</a>
         </div>
     </li>

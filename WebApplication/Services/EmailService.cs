@@ -1,7 +1,7 @@
 ﻿using MimeKit;
 using MailKit.Net.Smtp;
 using System.Threading.Tasks;
-using WebApplication.Contracts;
+using WebApplication.Interfaces;
 
 namespace WebApplication.Services
 {

@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using WebApplication.Models;
+using Models.User;
 using WebApplication.ViewModels;
 
 namespace WebApplication.Controllers

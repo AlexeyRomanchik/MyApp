@@ -1,4 +1,4 @@
-﻿using WebApplication.Models;
+﻿using Models.Order;
 
 namespace WebApplication.ViewModels
 {

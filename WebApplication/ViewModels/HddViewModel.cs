@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using WebApplication.Models;
+﻿using Models.Product;
+
 
 namespace WebApplication.ViewModels
 {

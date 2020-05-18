@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
-using WebApplication.Models;
+using Models.User;
 
 namespace WebApplication.Services
 {

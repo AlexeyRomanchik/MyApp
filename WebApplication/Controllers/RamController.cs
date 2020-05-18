@@ -2,14 +2,15 @@
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using DataProvider.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using WebApplication.Contracts;
-using WebApplication.Contracts.FiltersContracts;
-using WebApplication.Contracts.SortContracts;
-using WebApplication.Models;
+using Models.Product;
+using WebApplication.Interfaces;
+using WebApplication.Interfaces.FiltersContracts;
+using WebApplication.Interfaces.SortContracts;
 using WebApplication.Services;
 using WebApplication.ViewModels;
 using WebApplication.ViewModels.AddViewModels;
@@ -24,10 +25,10 @@ namespace WebApplication.Controllers
         private readonly IFileService _fileService;
         private readonly IRamFilter _ramFilter;
         private readonly IRamRepository _ramRepository;
+        private readonly RamSearchService _ramSearchService;
         private readonly IRamSortService _ramSortService;
         private readonly IRepositoryWrapper _repositoryWrapper;
         private readonly IWebHostEnvironment _webHostEnvironment;
-        private readonly RamSearchService _ramSearchService;
 
         public RamController(IRepositoryWrapper repositoryWrapper, ISortServiceWrapper sortServiceWrapper,
             IRamFilter ramFilter, IFileService fileService, IWebHostEnvironment webHostEnvironment)
@@ -175,11 +176,7 @@ namespace WebApplication.Controllers
             var filterViewModel = new BaseFilterViewModel(manufacturers.ToList(), manufacturer);
 
 
-            if (name != null)
-            {
-
-                ramProducts = _ramSearchService.GetProductsByCommands(name, ramProducts);
-            }
+            if (name != null) ramProducts = _ramSearchService.GetProductsByCommands(name, ramProducts);
 
             ramProducts = _ramFilter.ApplyBaseFilter(filterViewModel, ramProducts);
 

@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using WebApplication.Contracts.SortContracts;
+using WebApplication.Interfaces.SortContracts;
 using WebApplication.ViewModels;
 
 namespace WebApplication.Services.SortServices

@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using WebApplication.Contracts;
-using WebApplication.Models;
+using Models.Order;
+using Models.Product;
+using WebApplication.Interfaces;
 
 namespace WebApplication.Services
 {

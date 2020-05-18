@@ -2,8 +2,8 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using WebApplication.Contracts;
-using WebApplication.Models;
+using Models.User;
+using WebApplication.Interfaces;
 using WebApplication.ViewModels;
 
 namespace WebApplication.Controllers

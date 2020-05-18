@@ -1,8 +1,6 @@
-﻿using System.Net.Mail;
-using System.Text;
-using System.Threading.Tasks;
-using WebApplication.Contracts;
-using WebApplication.Models;
+﻿using System.Text;
+using Models.Order;
+using WebApplication.Interfaces;
 
 namespace WebApplication.Services
 {

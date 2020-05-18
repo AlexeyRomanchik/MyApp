@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
-using WebApplication.Contracts.SortContracts;
-using WebApplication.Models;
+using Models.Product;
+using WebApplication.Interfaces.SortContracts;
 using WebApplication.ViewModels;
 
 namespace WebApplication.Services.SortServices

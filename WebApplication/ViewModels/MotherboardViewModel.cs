@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using WebApplication.Models;
+﻿using Models.Product;
 
 namespace WebApplication.ViewModels
 {

@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Linq;
+using DataProvider.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Org.BouncyCastle.Math.EC.Rfc7748;
-using WebApplication.Contracts;
-using WebApplication.Models;
+using Models.Order;
 
 namespace WebApplication.Areas.Statistics.Controllers
 {
@@ -16,7 +15,7 @@ namespace WebApplication.Areas.Statistics.Controllers
         {
             _repositoryWrapper = repositoryWrapper;
         }
-      
+
         public JsonResult GetProductsSoldByDay()
         {
             var orders = _repositoryWrapper.OrderRepository.FindAll().ToList();
@@ -30,13 +29,13 @@ namespace WebApplication.Areas.Statistics.Controllers
             foreach (var order in groupBy)
             {
                 var productsCount = order.Sum(products => products.Cart.FinalPrice);
-                soldProducts[index] = new { date = order.Key.Date, value = productsCount };
+                soldProducts[index] = new {date = order.Key.Date, value = productsCount};
                 index++;
             }
+
             return Json(soldProducts);
         }
-        
-        
+
 
         public JsonResult GetQuantityProductsSoldByType()
         {
@@ -59,12 +58,11 @@ namespace WebApplication.Areas.Statistics.Controllers
             var index = 0;
             foreach (var item in itemByCategory)
             {
-                quantityProductsSoldByType[index] = new { category = item.Key, quantity = item.Sum(selector) };
+                quantityProductsSoldByType[index] = new {category = item.Key, quantity = item.Sum(selector)};
                 index++;
             }
+
             return Json(quantityProductsSoldByType);
         }
-
-
     }
 }

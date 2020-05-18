@@ -2,14 +2,15 @@
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using DataProvider.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using WebApplication.Contracts;
-using WebApplication.Contracts.FiltersContracts;
-using WebApplication.Contracts.SortContracts;
-using WebApplication.Models;
+using Models.Product;
+using WebApplication.Interfaces;
+using WebApplication.Interfaces.FiltersContracts;
+using WebApplication.Interfaces.SortContracts;
 using WebApplication.ViewModels;
 using WebApplication.ViewModels.AddViewModels;
 using WebApplication.ViewModels.FilterViewModels;
@@ -19,12 +20,12 @@ namespace WebApplication.Controllers
     public class MotherboardController : Controller
     {
         private const int PageSize = 20;
+        private readonly IFileService _fileService;
 
         private readonly IMotherboardFilter _motherboardFilter;
         private readonly IMotherboardRepository _motherboardRepository;
         private readonly IMotherboardSortService _motherboardSortService;
         private readonly IRepositoryWrapper _repositoryWrapper;
-        private readonly IFileService _fileService;
         private readonly IWebHostEnvironment _webHostEnvironment;
 
         public MotherboardController(IRepositoryWrapper repositoryWrapper, ISortServiceWrapper sortServiceWrapper,
@@ -104,14 +105,16 @@ namespace WebApplication.Controllers
                 var fileExtension = Path.GetExtension(motherboardViewModel.UploadedFile.FileName);
                 var fileName = Path.GetFileNameWithoutExtension(motherboardViewModel.UploadedFile.FileName);
                 filePath = "/productsImages/Motherboard/" + fileName + guid + fileExtension;
-                _fileService.SaveUploadedFile(motherboardViewModel.UploadedFile, _webHostEnvironment.WebRootPath + filePath);
+                _fileService.SaveUploadedFile(
+                    motherboardViewModel.UploadedFile, _webHostEnvironment.WebRootPath + filePath
+                    );
             }
             else
             {
                 filePath = "/productsImages/default.jpg";
             }
 
-            var motherboard = new Motherboard()
+            var motherboard = new Motherboard
             {
                 Id = guid,
                 ChipSet = motherboardViewModel.ChipSet,
@@ -135,7 +138,6 @@ namespace WebApplication.Controllers
 
             return View();
         }
-
 
 
         private async Task<MotherboardViewModel> PrepareData(int page = 1, string name = null,

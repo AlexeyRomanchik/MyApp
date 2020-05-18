@@ -1,11 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using DataProvider.Data;
+using DataProvider.Interfaces;
+using DataProvider.Repository;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using WebApplication.Contracts;
-using WebApplication.Contracts.FiltersContracts;
-using WebApplication.Contracts.SortContracts;
-using WebApplication.Data;
-using WebApplication.Repository;
+using WebApplication.Interfaces;
+using WebApplication.Interfaces.FiltersContracts;
+using WebApplication.Interfaces.SortContracts;
 using WebApplication.Services;
 using WebApplication.Services.Filters;
 using WebApplication.Services.SortServices;
@@ -18,8 +19,10 @@ namespace WebApplication.Extensions
         {
             const string connectionString = "DefaultConnection";
 
-            services.AddDbContext<ApplicationContext>(options =>
-                options.UseSqlServer(config.GetConnectionString(connectionString)));
+            services.AddDbContext<ApplicationContext>(
+                options =>
+                    options.UseSqlServer(config.GetConnectionString(connectionString))
+                );
         }
 
         public static void ConfigureEmailService(this IServiceCollection services)
@@ -66,6 +69,5 @@ namespace WebApplication.Extensions
             services.AddScoped<IHddFilter, HddFilter>();
             services.AddScoped<IGraphicsCardFilter, GraphicsCardFilter>();
         }
-
     }
 }

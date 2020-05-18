@@ -1,6 +1,6 @@
 ﻿using System.Linq;
-using WebApplication.Contracts.FiltersContracts;
-using WebApplication.Models;
+using Models.Product;
+using WebApplication.Interfaces.FiltersContracts;
 using WebApplication.ViewModels.FilterViewModels;
 
 namespace WebApplication.Services.Filters

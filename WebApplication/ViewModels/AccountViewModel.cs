@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Http;
-using WebApplication.Models;
+using Models.Order;
+using Models.User;
 
 namespace WebApplication.ViewModels
 {

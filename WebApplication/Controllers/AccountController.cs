@@ -3,13 +3,15 @@ using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using DataProvider.Data;
+using DataProvider.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using WebApplication.Contracts;
-using WebApplication.Data;
-using WebApplication.Models;
+using Models.Authentication;
+using Models.User;
+using WebApplication.Interfaces;
 using WebApplication.Services;
 using WebApplication.ViewModels;
 

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using WebApplication.Models;
 
 namespace WebApplication.ViewModels.FilterViewModels
 {

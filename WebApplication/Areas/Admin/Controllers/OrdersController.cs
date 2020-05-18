@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
+using DataProvider.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Models.Order;
 using WebApplication.Areas.Admin.ViewModels;
-using WebApplication.Contracts;
-using WebApplication.Models;
 
 namespace WebApplication.Areas.Admin.Controllers
 {
@@ -11,7 +11,8 @@ namespace WebApplication.Areas.Admin.Controllers
     public class OrdersController : Controller
     {
         private readonly IOrderRepository _orderRepository;
-        private readonly IRepositoryWrapper _repositoryWrapper; 
+        private readonly IRepositoryWrapper _repositoryWrapper;
+
         public OrdersController(IRepositoryWrapper repositoryWrapper)
         {
             _repositoryWrapper = repositoryWrapper;
@@ -59,5 +60,4 @@ namespace WebApplication.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
     }
-
 }

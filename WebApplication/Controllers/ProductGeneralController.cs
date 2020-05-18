@@ -1,17 +1,18 @@
 ﻿using System;
 using System.Linq;
+using DataProvider.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using WebApplication.Contracts;
-using WebApplication.Models;
+using Models.Product;
+using Models.User;
 
 namespace WebApplication.Controllers
 {
     public class ProductGeneralController : Controller
     {
         private readonly IRatingRepository _ratingRepository;
-        private readonly IReviewRepository _reviewRepository;
         private readonly IRepositoryWrapper _repositoryWrapper;
+        private readonly IReviewRepository _reviewRepository;
         private readonly UserManager<User> _userManager;
 
         public ProductGeneralController(IRepositoryWrapper repositoryWrapper, UserManager<User> userManager)
@@ -57,12 +58,11 @@ namespace WebApplication.Controllers
         }
 
 
-
         public IActionResult ChangeReview(string text, Guid id)
         {
             var review = _reviewRepository.FindByCondition(x => x.Id == id).FirstOrDefault();
 
-            if(review == null)
+            if (review == null)
                 return RedirectToAction("Index", "Home");
 
             review.Text = text;
@@ -75,6 +75,7 @@ namespace WebApplication.Controllers
 
         public IActionResult Rate(int rating, Guid id)
         {
+            var productId = id;
             var productRating = new Rating
             {
                 Id = Guid.NewGuid(),
@@ -86,7 +87,7 @@ namespace WebApplication.Controllers
             _ratingRepository.Create(productRating);
             _repositoryWrapper.Save();
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Info", "ProductGeneral", new {id = productId});
         }
 
         public IActionResult ChangeRating(int rating, Guid id)
@@ -95,13 +96,31 @@ namespace WebApplication.Controllers
 
             if (productRating == null)
                 return RedirectToAction("Index", "Home");
-            
+
             productRating.Value = rating;
             _ratingRepository.Update(productRating);
             _repositoryWrapper.Save();
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Info", "ProductGeneral", id);
         }
 
+        public IActionResult Info(Guid id)
+        {
+            var product = _repositoryWrapper.ProductRepository.FindByCondition(x => x.Id == id).FirstOrDefault();
+
+            if (product == null)
+                return RedirectToAction("Index", "Home");
+
+            return product.Category.Name switch
+                {
+                "Видеокарты" => RedirectToAction("Info", "GraphicsCard", new {id}),
+                "Оперативная память" => RedirectToAction("Info", "Ram", new {id}),
+                "Процессоры" => RedirectToAction("Info", "Cpu", new {id}),
+                "Жесткие диски" => RedirectToAction("Info", "Hdd", new {id}),
+                "Материнские платы" => RedirectToAction("Info", "Motherboard", new {id}),
+                "Блоки питания" => RedirectToAction("Info", "PowerSupply", new {id}),
+                _ => RedirectToAction("Index", "Home"),
+                };
+        }
     }
 }

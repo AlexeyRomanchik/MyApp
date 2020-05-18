@@ -1,4 +1,4 @@
-﻿using WebApplication.Contracts.SortContracts;
+﻿using WebApplication.Interfaces.SortContracts;
 
 namespace WebApplication.Services.SortServices
 {

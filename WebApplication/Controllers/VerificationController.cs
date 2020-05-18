@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using DataProvider.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using WebApplication.Contracts;
-using WebApplication.Models;
+using Models.Authentication;
+using Models.User;
+using WebApplication.Interfaces;
 using WebApplication.Services;
 
 namespace WebApplication.Controllers

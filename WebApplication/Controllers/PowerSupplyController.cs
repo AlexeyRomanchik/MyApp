@@ -2,14 +2,15 @@
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using DataProvider.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using WebApplication.Contracts;
-using WebApplication.Contracts.FiltersContracts;
-using WebApplication.Contracts.SortContracts;
-using WebApplication.Models;
+using Models.Product;
+using WebApplication.Interfaces;
+using WebApplication.Interfaces.FiltersContracts;
+using WebApplication.Interfaces.SortContracts;
 using WebApplication.ViewModels;
 using WebApplication.ViewModels.AddViewModels;
 using WebApplication.ViewModels.FilterViewModels;
@@ -19,12 +20,12 @@ namespace WebApplication.Controllers
     public class PowerSupplyController : Controller
     {
         private const int PageSize = 20;
+        private readonly IFileService _fileService;
 
         private readonly IPowerSupplyFilter _powerSupplyFilter;
         private readonly IPowerSupplyRepository _powerSupplyRepository;
         private readonly IPowerSupplySortService _powerSupplySortService;
         private readonly IRepositoryWrapper _repositoryWrapper;
-        private readonly IFileService _fileService;
         private readonly IWebHostEnvironment _webHostEnvironment;
 
         public PowerSupplyController(IRepositoryWrapper repositoryWrapper, ISortServiceWrapper sortServiceWrapper,
@@ -91,7 +92,9 @@ namespace WebApplication.Controllers
                 var fileExtension = Path.GetExtension(powerSupplyViewModel.UploadedFile.FileName);
                 var fileName = Path.GetFileNameWithoutExtension(powerSupplyViewModel.UploadedFile.FileName);
                 filePath = "/productsImages/PowerSupply/" + fileName + guid + fileExtension;
-                _fileService.SaveUploadedFile(powerSupplyViewModel.UploadedFile, _webHostEnvironment.WebRootPath + filePath);
+                _fileService.SaveUploadedFile(
+                    powerSupplyViewModel.UploadedFile, _webHostEnvironment.WebRootPath + filePath
+                    );
             }
             else
             {

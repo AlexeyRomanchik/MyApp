@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using WebApplication.Models;
+using Models.Order;
 
 namespace WebApplication.ViewModels
 {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using Microsoft.AspNetCore.Http;
-using WebApplication.Contracts;
+using WebApplication.Interfaces;
 
 namespace WebApplication.Services
 {

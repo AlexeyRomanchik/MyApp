@@ -2,14 +2,15 @@
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using DataProvider.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using WebApplication.Contracts;
-using WebApplication.Contracts.FiltersContracts;
-using WebApplication.Contracts.SortContracts;
-using WebApplication.Models;
+using Models.Product;
+using WebApplication.Interfaces;
+using WebApplication.Interfaces.FiltersContracts;
+using WebApplication.Interfaces.SortContracts;
 using WebApplication.ViewModels;
 using WebApplication.ViewModels.AddViewModels;
 using WebApplication.ViewModels.FilterViewModels;
@@ -19,12 +20,12 @@ namespace WebApplication.Controllers
     public class GraphicsCardController : Controller
     {
         private const int PageSize = 20;
+        private readonly IFileService _fileService;
         private readonly IGraphicsCardFilter _graphicsCardFilter;
 
         private readonly IGraphicsCardRepository _graphicsCardRepository;
         private readonly IGraphicsCardSortService _graphicsCardSortService;
         private readonly IRepositoryWrapper _repositoryWrapper;
-        private readonly IFileService _fileService;
         private readonly IWebHostEnvironment _webHostEnvironment;
 
         public GraphicsCardController(IRepositoryWrapper repositoryWrapper, ISortServiceWrapper sortServiceWrapper,
@@ -101,7 +102,9 @@ namespace WebApplication.Controllers
                 var fileExtension = Path.GetExtension(graphicsCardViewModel.UploadedFile.FileName);
                 var fileName = Path.GetFileNameWithoutExtension(graphicsCardViewModel.UploadedFile.FileName);
                 filePath = "/productsImages/VideoCards/" + fileName + guid + fileExtension;
-                _fileService.SaveUploadedFile(graphicsCardViewModel.UploadedFile, _webHostEnvironment.WebRootPath + filePath);
+                _fileService.SaveUploadedFile(
+                    graphicsCardViewModel.UploadedFile, _webHostEnvironment.WebRootPath + filePath
+                    );
             }
             else
             {

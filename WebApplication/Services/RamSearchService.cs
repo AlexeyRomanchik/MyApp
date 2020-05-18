@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Globalization;
 using System.Linq;
-using WebApplication.Models;
+using Models.Product;
 
 namespace WebApplication.Services
 {

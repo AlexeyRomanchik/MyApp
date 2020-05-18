@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Linq;
+using DataProvider.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using WebApplication.Contracts;
-using WebApplication.Models;
+using Models.Order;
+using Models.User;
 using WebApplication.Extensions;
+using WebApplication.Interfaces;
 using WebApplication.ViewModels;
 
 namespace WebApplication.Controllers
@@ -15,14 +17,15 @@ namespace WebApplication.Controllers
     {
         private const string CartSessionKey = "CartSessionKey";
         private readonly HttpContext _httpContext;
+        private readonly IMailingSystem _mailingSystem;
         private readonly IOrderRepository _orderRepository;
         private readonly IRepositoryWrapper _repositoryWrapper;
-        private readonly IMailingSystem _mailingSystem;
+        private readonly IShoppingCartService _shoppingCartService;
         private readonly UserManager<User> _userManager;
         private readonly IUserRepository _userRepository;
-        private readonly IShoppingCartService _shoppingCartService;
 
-        public OrderController(IHttpContextAccessor httpContextAccessor, IRepositoryWrapper repositoryWrapper, IMailingSystem mailingSystem, 
+        public OrderController(IHttpContextAccessor httpContextAccessor, IRepositoryWrapper repositoryWrapper,
+            IMailingSystem mailingSystem,
             UserManager<User> userManager, IShoppingCartService shoppingCartService)
         {
             _httpContext = httpContextAccessor.HttpContext;
@@ -46,10 +49,7 @@ namespace WebApplication.Controllers
 
             _mailingSystem.OrderMessage(orderViewModel.Order);
 
-            foreach (var cartItem in orderViewModel.Order.Cart.CartItems)
-            {
-                cartItem.Product = null;
-            }
+            foreach (var cartItem in orderViewModel.Order.Cart.CartItems) cartItem.Product = null;
 
             var user = _userManager.GetUserAsync(User);
             if (user.Result != null)
@@ -73,15 +73,11 @@ namespace WebApplication.Controllers
             User user;
 
             if (userId != null)
-            {
                 user = _userRepository
                            .FindByCondition(x => x.Id == userId)
                            .FirstOrDefault() ?? new User();
-            }
             else
-            {
                 user = new User();
-            }
 
 
             var orderViewModel = new OrderViewModel
@@ -89,7 +85,7 @@ namespace WebApplication.Controllers
                 Order = new Order
                 {
                     Cart = _httpContext.Session.Get<Cart>(CartSessionKey),
-                    Customer = new Customer()
+                    Customer = new Customer
                     {
                         Name = user.Name,
                         Surname = user.Surname,
@@ -102,7 +98,6 @@ namespace WebApplication.Controllers
                             Region = user.Address.Region,
                             Street = user.Address.Street
                         }
-                        
                     }
                 }
             };
@@ -117,6 +112,5 @@ namespace WebApplication.Controllers
 
             return View(orders);
         }
-
     }
 }
