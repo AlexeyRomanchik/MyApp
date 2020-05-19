@@ -4,7 +4,7 @@ using System.Linq.Expressions;
 
 namespace DataProvider.Interfaces
 {
-    public interface IRepositoryBase<T>
+    public interface IRepositoryBase<T> where T : class
     {
         IQueryable<T> FindAll();
         IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression);

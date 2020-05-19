@@ -6,7 +6,6 @@ namespace Models.Product
 {
     public class Category
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         [Display(Name = "Категория")]
@@ -14,7 +13,6 @@ namespace Models.Product
         [MinLength(5)]
         [MaxLength(300)]
         public string Name { get; set; }
-
         public List<ManufacturerCategory> ManufacturerCategories { get; set; }
         public List<Product> Products { get; set; }
     }

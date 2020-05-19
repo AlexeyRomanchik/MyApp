@@ -209,6 +209,7 @@
 
             <form class="form-inline" asp-action="Index" asp-controller="Ram">
                 <div class="md-form my-0">
+                    <a class="btn elegant-color p-2 searchbutton"><i class="fas fa-microphone white-text"></i></a>
                     <input class="form-control mr-sm-2" type="text" placeholder="Search" id="name" name="name" aria-label="Search" list="commands" autocomplete="off" style="width: 300px" value="@Model.SearchLine">
                     <datalist id="commands">
                         <option value="@@тип">Тип оперативной памяти</option>
@@ -528,3 +529,33 @@
         </div>
     </div>
 </div>
+
+<script>
+ 
+    $(function() {
+        $('.searchbutton').bind('click',
+            function () {
+                alert('Все работает');
+                if(window.SpeechRecognition || window.webkitSpeechRecognition || window.mozSpeechRecognition || window.msSpeechRecognition){
+                    console.log('Браузер поддерживает данную технологию');
+                }else{
+                    console.log('Не поддерживается данным браузером');
+                }
+
+                var SpeechRecognition = new  window.webkitSpeechRecognition();
+
+                var SpeechRecognition = new  window.webkitSpeechRecognition();
+                SpeechRecognition.lang = "ru-RU";
+                SpeechRecognition.onresult = function(event){
+                    console.log(event.results[0][0].transcript);
+                    var searchText = event.results[0][0].transcript;
+                };
+                SpeechRecognition.onend = function(){
+                    SpeechRecognition.start();
+                };
+                SpeechRecognition.start();
+            });
+            });
+   
+
+</script>

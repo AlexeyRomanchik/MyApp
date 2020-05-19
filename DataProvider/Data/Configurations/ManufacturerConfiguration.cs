@@ -11,7 +11,7 @@ namespace DataProvider.Data.Configurations
             builder.ToTable("Manufacturer");
             builder.HasKey(x => x.Id);
 
-            builder.Property(x => x.Name).HasMaxLength(300);
+            builder.Property(x => x.Name).HasMaxLength(300).IsRequired();
 
             builder.HasMany(x => x.Products)
                 .WithOne(y => y.Manufacturer)
