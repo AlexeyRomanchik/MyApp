@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace WebApplication.Interfaces
+namespace Logic.Interfaces
 {
     public interface IEmailService
     {

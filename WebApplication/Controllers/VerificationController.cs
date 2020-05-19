@@ -2,13 +2,13 @@
 using System.Linq;
 using System.Threading.Tasks;
 using DataProvider.Interfaces;
+using Logic.Interfaces;
+using Logic.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Models.Authentication;
 using Models.User;
-using WebApplication.Interfaces;
-using WebApplication.Services;
 
 namespace WebApplication.Controllers
 {

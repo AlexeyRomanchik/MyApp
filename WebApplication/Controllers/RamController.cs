@@ -3,18 +3,19 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using DataProvider.Interfaces;
+using Logic.Interfaces;
+using Logic.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Models.Product;
-using WebApplication.Interfaces;
 using WebApplication.Interfaces.FiltersContracts;
 using WebApplication.Interfaces.SortContracts;
-using WebApplication.Services;
 using WebApplication.ViewModels;
 using WebApplication.ViewModels.AddViewModels;
 using WebApplication.ViewModels.FilterViewModels;
+using SortState = WebApplication.ViewModels.SortState;
 
 namespace WebApplication.Controllers
 {

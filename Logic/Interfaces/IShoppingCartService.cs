@@ -2,7 +2,7 @@
 using Models.Order;
 using Models.Product;
 
-namespace WebApplication.Interfaces
+namespace Logic.Interfaces
 {
     public interface IShoppingCartService
     {

@@ -1,15 +1,16 @@
 ﻿using DataProvider.Data;
 using DataProvider.Interfaces;
 using DataProvider.Repository;
+using Logic.Interfaces;
+using Logic.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using WebApplication.Interfaces;
 using WebApplication.Interfaces.FiltersContracts;
 using WebApplication.Interfaces.SortContracts;
-using WebApplication.Services;
 using WebApplication.Services.Filters;
 using WebApplication.Services.SortServices;
+
 
 namespace WebApplication.Extensions
 {

@@ -2,7 +2,7 @@
 using System.Linq;
 using Models.Product;
 
-namespace WebApplication.Services
+namespace Logic.Services
 {
     public class RamSearchService
     {

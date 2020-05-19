@@ -1,12 +1,12 @@
 using System;
 using System.Threading.Tasks;
+using Logic.Services;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Models.User;
-using WebApplication.Services;
 
 namespace WebApplication
 {

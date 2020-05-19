@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Models.User;
 
-namespace WebApplication.Services
+namespace Logic.Services
 {
     public class RoleInitializer
     {

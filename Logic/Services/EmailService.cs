@@ -1,9 +1,9 @@
-﻿using MimeKit;
+﻿using System.Threading.Tasks;
+using Logic.Interfaces;
 using MailKit.Net.Smtp;
-using System.Threading.Tasks;
-using WebApplication.Interfaces;
+using MimeKit;
 
-namespace WebApplication.Services
+namespace Logic.Services
 {
     public class EmailService : IEmailService
     {

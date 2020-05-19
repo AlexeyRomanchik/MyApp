@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Logic.Interfaces;
 using Models.Order;
 using Models.Product;
-using WebApplication.Interfaces;
 
-namespace WebApplication.Services
+namespace Logic.Services
 {
     public class ShoppingCartService : IShoppingCartService
     {

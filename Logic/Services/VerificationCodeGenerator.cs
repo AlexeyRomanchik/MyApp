@@ -1,7 +1,7 @@
 ﻿using System;
-using WebApplication.Interfaces;
+using Logic.Interfaces;
 
-namespace WebApplication.Services
+namespace Logic.Services
 {
     public class VerificationCodeGenerator : IVerificationCodeGenerator
     {

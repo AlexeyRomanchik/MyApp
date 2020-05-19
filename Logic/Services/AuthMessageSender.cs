@@ -3,7 +3,7 @@ using Twilio;
 using Twilio.Rest.Api.V2010.Account;
 using Twilio.Types;
 
-namespace WebApplication.Services
+namespace Logic.Services
 {
     public class AuthMessageSender
     {
@@ -18,7 +18,7 @@ namespace WebApplication.Services
 
             return MessageResource.CreateAsync(
                 to: new PhoneNumber(number),
-                from: new PhoneNumber("+15013563107"),
+                @from: new PhoneNumber("+15013563107"),
                 body: message);
         }
     }

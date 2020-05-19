@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Linq;
 using DataProvider.Interfaces;
+using Logic.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Models.Order;
 using WebApplication.Extensions;
-using WebApplication.Interfaces;
 using WebApplication.ViewModels;
 
 namespace WebApplication.Controllers

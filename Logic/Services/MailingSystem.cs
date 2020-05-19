@@ -1,8 +1,8 @@
 ﻿using System.Text;
+using Logic.Interfaces;
 using Models.Order;
-using WebApplication.Interfaces;
 
-namespace WebApplication.Services
+namespace Logic.Services
 {
     public class MailingSystem : IMailingSystem
     {

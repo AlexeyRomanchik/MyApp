@@ -1,9 +1,9 @@
 ﻿using System;
 using System.IO;
+using Logic.Interfaces;
 using Microsoft.AspNetCore.Http;
-using WebApplication.Interfaces;
 
-namespace WebApplication.Services
+namespace Logic.Services
 {
     public class FileService : IFileService
     {

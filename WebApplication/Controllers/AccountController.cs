@@ -5,14 +5,14 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using DataProvider.Data;
 using DataProvider.Interfaces;
+using Logic.Interfaces;
+using Logic.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Models.Authentication;
 using Models.User;
-using WebApplication.Interfaces;
-using WebApplication.Services;
 using WebApplication.ViewModels;
 
 namespace WebApplication.Controllers

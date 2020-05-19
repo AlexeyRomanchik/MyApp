@@ -1,9 +1,9 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
+using Logic.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Models.User;
-using WebApplication.Interfaces;
 using WebApplication.ViewModels;
 
 namespace WebApplication.Controllers

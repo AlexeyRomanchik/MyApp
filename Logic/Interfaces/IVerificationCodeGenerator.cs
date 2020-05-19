@@ -1,4 +1,4 @@
-﻿namespace WebApplication.Interfaces
+﻿namespace Logic.Interfaces
 {
     public interface IVerificationCodeGenerator
     {
