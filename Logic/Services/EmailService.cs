@@ -26,5 +26,6 @@ namespace Logic.Services
 
             await client.DisconnectAsync(true);
         }
+
     }
 }

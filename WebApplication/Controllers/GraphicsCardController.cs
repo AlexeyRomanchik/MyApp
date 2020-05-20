@@ -39,6 +39,7 @@ namespace WebApplication.Controllers
             _graphicsCardSortService = sortServiceWrapper.GraphicsCardSortService;
         }
 
+        [ResponseCache(Duration = 300)]
         public IActionResult Index(int page = 1, string name = null,
             SortState sortState = SortState.DateAddedDesc,
             string manufacturer = BaseFilterViewModel.AllManufacturers)

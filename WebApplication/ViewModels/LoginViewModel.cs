@@ -6,12 +6,14 @@ namespace WebApplication.ViewModels
 {
     public class LoginViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "Поле Email обязательное")]
         [Display(Name = "Email")]
+        [EmailAddress(ErrorMessage = "Некорректный формат адреса почты")]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Поле пароля обязательное")]
         [DataType(DataType.Password)]
+        [MinLength(8, ErrorMessage = "Пароль должен быть не менее 8 символов")]
         [Display(Name = "Пароль")]
         public string Password { get; set; }
 

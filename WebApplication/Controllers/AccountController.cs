@@ -39,12 +39,15 @@ namespace WebApplication.Controllers
             _userManager = userManager;
             _appDbContext = appDbContext;
             _emailService = emailService;
-            _userRepository = repositoryWrapper.UserRepository;
-            _repositoryWrapper = repositoryWrapper;
+            if (repositoryWrapper != null)
+            {
+                _userRepository = repositoryWrapper.UserRepository;
+                _repositoryWrapper = repositoryWrapper;
+            }
             _fileService = fileService;
             _webHostEnvironment = webHostEnvironment;
             _verificationCodeGenerator = verificationCodeGenerator;
-            _verificationCodeRepository = _repositoryWrapper.VerificationCodeRepository;
+            if (_repositoryWrapper != null) _verificationCodeRepository = _repositoryWrapper.VerificationCodeRepository;
             _authMessageSender = new AuthMessageSender();
         }
 
@@ -431,10 +434,11 @@ namespace WebApplication.Controllers
         {
             if (ModelState.IsValid)
             {
+                //Действия по авторизации
                 var user = await _userManager.FindByNameAsync(model.Email);
                 if (user != null)
                 {
-                    // проверяем, подтвержден ли email
+                    // 
                     if (!await _userManager.IsEmailConfirmedAsync(user))
                     {
                         ModelState.AddModelError(string.Empty, "Вы не подтвердили свой email");
@@ -452,6 +456,8 @@ namespace WebApplication.Controllers
                     ModelState.AddModelError("", "Неправильный логин и (или) пароль");
                 }
             }
+
+            model.ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
             return View(model);
         }
